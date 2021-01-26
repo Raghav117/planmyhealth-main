@@ -29,9 +29,9 @@ class Doctorlist {
 
   Doctorlist.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    if (json['userdata'] != null) {
+    if (json['doctors'] != null) {
       userdata = new List<Userdata>();
-      json['userdata'].forEach((v) {
+      json['doctors'].forEach((v) {
         userdata.add(new Userdata.fromJson(v));
       });
     }

@@ -119,6 +119,7 @@ class ApiHelper {
     Response response = await dio.get("http://3.15.233.253:5000/orders");
 
     if (response.statusCode == 200) {
+      print(response.data);
       PatientList orderList = PatientList.fromJson(response.data);
       return orderList;
     } else {
