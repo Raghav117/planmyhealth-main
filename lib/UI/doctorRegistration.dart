@@ -9,6 +9,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:plan_my_health/UI/Home.dart';
 import 'package:plan_my_health/model/image-capture.dart';
 import 'package:plan_my_health/model/selectCityList.dart';
+import 'package:location/location.dart';
 
 class DoctorRegistration extends StatefulWidget {
   @override
@@ -104,13 +105,21 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     'Not Specified',
   ];
 
+  bool check = false;
+
   @override
   void initState() {
     super.initState();
     images.add("Add Image");
-
+    getLocation();
     _experiencecontroller.text =
         "0"; // Setting the initial value for the field.
+  }
+
+  Location location = Location();
+  LocationData locationData;
+  getLocation() async {
+    locationData = await location.getLocation();
   }
 
   @override
@@ -290,6 +299,107 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               ],
             ),
             SizedBox(height: height * 0.04),
+            Text(
+              "Services",
+              style: TextStyle(
+                color: Colors.green,
+                // fontWeight: FontWeight.w600,
+                fontSize: 17,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    Checkbox(
+                        value: check,
+                        onChanged: (value) {
+                          setState(() {
+                            check = value;
+                          });
+                        }),
+                    Text("Call")
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                        value: check,
+                        onChanged: (value) {
+                          setState(() {
+                            check = value;
+                          });
+                        }),
+                    Text("Vedio Call")
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                        value: check,
+                        onChanged: (value) {
+                          setState(() {
+                            check = value;
+                          });
+                        }),
+                    Text("Chat")
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    Checkbox(
+                        value: check,
+                        onChanged: (value) {
+                          setState(() {
+                            check = value;
+                          });
+                        }),
+                    Text("At Clinic")
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                        value: check,
+                        onChanged: (value) {
+                          setState(() {
+                            check = value;
+                          });
+                        }),
+                    Text("Medical Camps")
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    Checkbox(
+                        value: check,
+                        onChanged: (value) {
+                          setState(() {
+                            check = value;
+                          });
+                        }),
+                    Text("Wellness Sessions")
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 83.0, right: 90),
               child: Row(
@@ -306,7 +416,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
                     child: TextFormField(
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
