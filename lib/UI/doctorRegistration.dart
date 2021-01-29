@@ -107,6 +107,12 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
 
   bool check = false;
 
+  bool vedio = false;
+  bool medical = false;
+  bool clinic = false;
+  bool wellness = false;
+  bool chat = false;
+
   @override
   void initState() {
     super.initState();
@@ -325,10 +331,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             Row(
               children: [
                 Checkbox(
-                    value: check,
+                    value: vedio,
                     onChanged: (value) {
                       setState(() {
-                        check = value;
+                        vedio = value;
                       });
                     }),
                 Text("Vedio Call")
@@ -337,10 +343,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             Row(
               children: [
                 Checkbox(
-                    value: check,
+                    value: chat,
                     onChanged: (value) {
                       setState(() {
-                        check = value;
+                        chat = value;
                       });
                     }),
                 Text("Chat")
@@ -349,10 +355,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             Row(
               children: [
                 Checkbox(
-                    value: check,
+                    value: clinic,
                     onChanged: (value) {
                       setState(() {
-                        check = value;
+                        clinic = value;
                       });
                     }),
                 Text("At Clinic")
@@ -361,10 +367,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             Row(
               children: [
                 Checkbox(
-                    value: check,
+                    value: medical,
                     onChanged: (value) {
                       setState(() {
-                        check = value;
+                        medical = value;
                       });
                     }),
                 Text("Medical Camps")
@@ -373,10 +379,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             Row(
               children: [
                 Checkbox(
-                    value: check,
+                    value: wellness,
                     onChanged: (value) {
                       setState(() {
-                        check = value;
+                        wellness = value;
                       });
                     }),
                 Text("Wellness Sessions")
