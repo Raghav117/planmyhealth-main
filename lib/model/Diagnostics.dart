@@ -35,8 +35,8 @@ class Diagnosticslist {
   String testResults;
   String detailedDescription;
   String diseaseListForWhichTheseTestIsConducted;
-  Null minAge;
-  Null maxAge;
+  String minAge;
+  String maxAge;
   String needDocPrescriptionFlag;
   String testType;
 
@@ -72,8 +72,8 @@ class Diagnosticslist {
     detailedDescription = json['detailedDescription '];
     diseaseListForWhichTheseTestIsConducted =
         json['diseaseListForWhichTheseTestIsConducted'];
-    minAge = json['minAge'];
-    maxAge = json['maxAge'];
+    minAge = json['minAge'].toString();
+    maxAge = json['maxAge'].toString();
     needDocPrescriptionFlag = json['needDocPrescriptionFlag'];
     testType = json['testType'];
   }

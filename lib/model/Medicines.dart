@@ -27,7 +27,7 @@ class Medicinelist {
   String drugName;
   String composition;
   String manufacturer;
-  double price;
+  String price;
   String packing;
   String prescription;
   String introduction;
@@ -87,7 +87,7 @@ class Medicinelist {
     drugName = json['drugName'];
     composition = json['composition'];
     manufacturer = json['manufacturer'];
-    price = json['price'];
+    price = json['price'].toString();
     packing = json['packing'];
     prescription = json['prescription'];
     introduction = json['introduction'];

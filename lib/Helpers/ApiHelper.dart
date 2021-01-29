@@ -167,12 +167,16 @@ class ApiHelper {
 
   Future<List<Diagnosticslist>> getDiagnosticslist() async {
     Response response = await dio.get("http://3.15.233.253:5000/diagnostics");
+    print(response.data);
 
     print("---------------------" + response.statusCode.toString());
     if (response.statusCode == 200) {
-      Diagnostics diagnostics = Diagnostics.fromJson(response.data);
-      print("---------------------" + diagnostics.diagnosticslist[0].name);
-      return diagnostics.diagnosticslist;
+      List diagnosticslist = new List<Diagnosticslist>();
+      for (int i = 0; i < response.data.length; ++i) {
+        diagnosticslist.add(new Diagnosticslist.fromJson(response.data[i]));
+      }
+      print("---------------------" + diagnosticslist[0].name);
+      return diagnosticslist;
     } else {
       print(response.data);
     }

@@ -171,7 +171,7 @@ class _PrescriptionState extends State<Prescription> {
                       children: [
                         Row(children: [
                           Text(
-                            "Name: " + widget.name,
+                            "Name: " + widget.name.toString(),
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                           ),
@@ -179,9 +179,9 @@ class _PrescriptionState extends State<Prescription> {
                         SizedBox(height: 5),
                         Row(children: [
                           Text("Gender: " +
-                              widget.gender +
+                              widget.gender.toString() +
                               "           Age: " +
-                              widget.age +
+                              widget.age.toString() +
                               " years old"),
                         ]),
                       ],
@@ -275,31 +275,36 @@ class _PrescriptionState extends State<Prescription> {
                                           itemCount: selectedDiseaseList.length,
                                           itemBuilder: (context, index) {
                                             // print(selectTestList.toString());
-                                            return Container(
-                                                child: Column(children: [
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Icon(Icons.pages),
-                                                        Text(
-                                                            selectedDiseaseList[
-                                                                    index]
-                                                                .name,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 20)),
-                                                      ],
-                                                    ),
-                                                    Icon(Icons.delete, size: 22)
-                                                  ]),
-                                              SizedBox(height: 8),
-                                            ]));
+                                            return SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Container(
+                                                  child: Column(children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(Icons.pages),
+                                                          Text(
+                                                              selectedDiseaseList[
+                                                                      index]
+                                                                  .name,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      20)),
+                                                        ],
+                                                      ),
+                                                      Icon(Icons.delete,
+                                                          size: 22)
+                                                    ]),
+                                                SizedBox(height: 8),
+                                              ])),
+                                            );
                                           })),
 
                               // Container(
@@ -1571,106 +1576,113 @@ class _PrescriptionState extends State<Prescription> {
                 //   },
                 // ),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      decoration: BoxDecoration(
-                          // color: AppColors.EDITTEXT_BG_COLOR,
-                          // border: Border.all(
-                          //     color: AppColors.EDITTEXT_BORDER_COLOR,
-                          //     width: 1.0),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: DropdownButtonFormField(
-                        autovalidateMode: AutovalidateMode.disabled,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        // height: 60,
+                        // width: MediaQuery.of(context).size.width/2,
+                        decoration: BoxDecoration(
+                            // color: AppColors.EDITTEXT_BG_COLOR,
+                            // border: Border.all(
+                            //     color: AppColors.EDITTEXT_BORDER_COLOR,
+                            //     width: 1.0),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: DropdownButtonFormField(
+                          autovalidateMode: AutovalidateMode.disabled,
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0)),
+                            enabledBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.grey, width: 1.0)),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0),
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0)),
+                            labelText: "Taken Time",
+                            hintText: "Taken Time",
+                            // labelStyle:
                           ),
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 1.0)),
-                          labelText: "Taken Time",
-                          hintText: "Taken Time",
-                        ),
-                        elevation: 2,
-                        icon: Icon(Icons.arrow_drop_down),
-                        value: timeSelected,
-                        onChanged: (value) {
-                          setState(() {});
-                          timeSelected = value;
-                        },
-                        items: <String>[
-                          'One time in a day',
-                          'Two  time in a day',
-                          'Three time in a day',
-                          'Four time in a day'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,
-                                style: TextStyle(color: Colors.black)),
-                          );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return "Taken Time is required";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width / 2 - 20,
-                      decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(4)),
-                      child: DropdownButtonFormField(
-                        autovalidateMode: AutovalidateMode.disabled,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 1.0)),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0),
+                          elevation: 2,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
                           ),
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 1.0)),
-                          labelText: "Taken Quantity ",
-                          hintText: "Taken Quantity",
+                          value: timeSelected,
+                          onChanged: (value) {
+                            setState(() {});
+                            timeSelected = value;
+                          },
+                          items: <String>[
+                            'One time in a day',
+                            'Two  time in a day',
+                            'Three time in a day',
+                            'Four time in a day'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12)),
+                            );
+                          }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Taken Time is required";
+                            }
+                            return null;
+                          },
                         ),
-                        elevation: 2,
-                        icon: Icon(Icons.arrow_drop_down),
-                        value: quntitySelected,
-                        onChanged: (value) {
-                          setState(() {});
-                          quntitySelected = value;
-                        },
-                        items: <String>['Half', 'One', 'Two']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,
-                                style: TextStyle(color: Colors.black)),
-                          );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return "Taken Quantity is required";
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                      Container(
+                        height: 60,
+                        // width: MediaQuery.of(context).size.width / 2 - 20,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4)),
+                        child: DropdownButtonFormField(
+                          autovalidateMode: AutovalidateMode.disabled,
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0)),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0)),
+                            labelText: "Taken Quantity ",
+                            hintText: "Taken Quantity",
+                          ),
+                          elevation: 2,
+                          icon: Icon(Icons.arrow_drop_down),
+                          value: quntitySelected,
+                          onChanged: (value) {
+                            setState(() {});
+                            quntitySelected = value;
+                          },
+                          items: <String>['Half', 'One', 'Two']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                  style: TextStyle(color: Colors.black)),
+                            );
+                          }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Taken Quantity is required";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20),
                 Container(

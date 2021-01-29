@@ -166,22 +166,23 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            height: 200,
-          ),
-          RaisedButton(
-            onPressed: () {
-              print("yeah");
-              signin();
-            },
-            child: Text("YEha"),
-          ),
-          // Splash(),
-        ],
-      ),
-    );
+    return Splash();
+    // Scaffold(
+    //   body: ListView(
+    //     children: [
+    //       SizedBox(
+    //         height: 200,
+    //       ),
+    //       RaisedButton(
+    //         onPressed: () {
+    //           print("yeah");
+    //           signin();
+    //         },
+    //         child: Text("YEha"),
+    //       ),
+    //       // Splash(),
+    //     ],
+    //   ),
+    // );
   }
 }
