@@ -311,90 +311,75 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               height: 20,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                        value: check,
-                        onChanged: (value) {
-                          setState(() {
-                            check = value;
-                          });
-                        }),
-                    Text("Call")
-                  ],
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        value: check,
-                        onChanged: (value) {
-                          setState(() {
-                            check = value;
-                          });
-                        }),
-                    Text("Vedio Call")
-                  ],
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        value: check,
-                        onChanged: (value) {
-                          setState(() {
-                            check = value;
-                          });
-                        }),
-                    Text("Chat")
-                  ],
-                ),
+                Checkbox(
+                    value: check,
+                    onChanged: (value) {
+                      setState(() {
+                        check = value;
+                      });
+                    }),
+                Text("Call")
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                        value: check,
-                        onChanged: (value) {
-                          setState(() {
-                            check = value;
-                          });
-                        }),
-                    Text("At Clinic")
-                  ],
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        value: check,
-                        onChanged: (value) {
-                          setState(() {
-                            check = value;
-                          });
-                        }),
-                    Text("Medical Camps")
-                  ],
-                ),
+                Checkbox(
+                    value: check,
+                    onChanged: (value) {
+                      setState(() {
+                        check = value;
+                      });
+                    }),
+                Text("Vedio Call")
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                        value: check,
-                        onChanged: (value) {
-                          setState(() {
-                            check = value;
-                          });
-                        }),
-                    Text("Wellness Sessions")
-                  ],
-                ),
+                Checkbox(
+                    value: check,
+                    onChanged: (value) {
+                      setState(() {
+                        check = value;
+                      });
+                    }),
+                Text("Chat")
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                    value: check,
+                    onChanged: (value) {
+                      setState(() {
+                        check = value;
+                      });
+                    }),
+                Text("At Clinic")
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                    value: check,
+                    onChanged: (value) {
+                      setState(() {
+                        check = value;
+                      });
+                    }),
+                Text("Medical Camps")
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                    value: check,
+                    onChanged: (value) {
+                      setState(() {
+                        check = value;
+                      });
+                    }),
+                Text("Wellness Sessions")
               ],
             ),
             SizedBox(

@@ -165,49 +165,49 @@ class _UserListScreenState extends State<UserListScreen>
                     fit: BoxFit.fill,
                     image: NetworkImage(
                         "https://i1.wp.com/www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-2.jpg")))),
-        // title: Row(
-        //   children: [
-        //     Text(
-        //       user.name.toString(),
-        //       style: TextStyle(
-        //         fontSize: 20,
-        //       ),
-        //     ),
-        //     SizedBox(width: 2),
-        //   ],
-        // ),
-        // subtitle: Padding(
-        //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-        //   child: Text(
-        //     user.mobile.toString(),
-        //     maxLines: 1,
-        //     overflow: TextOverflow.ellipsis,
-        //     softWrap: false,
-        //     style: TextStyle(
-        //         color: Colors.black,
-        //         fontFamily: "HelveticaNeueMedium",
-        //         fontSize: 14),
-        //   ),
-        // ),
-        // trailing: Column(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   crossAxisAlignment: CrossAxisAlignment.end,
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: [
-        //     Text(
-        //       " [ " + user.gender + " ]",
-        //       style: TextStyle(
-        //         color: Colors.green,
-        //         fontWeight: FontWeight.w800,
-        //         fontSize: 18,
-        //       ),
-        //     ),
-        //     SizedBox(height: 10),
-        //     Container(
-        //         child: Text(user.age.toString() + " Years",
-        //             style: TextStyle(color: Colors.black))),
-        //   ],
-        // ),
+        title: Row(
+          children: [
+            Text(
+              user.name.toString(),
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(width: 2),
+          ],
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+          child: Text(
+            user.mobile.toString(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: "HelveticaNeueMedium",
+                fontSize: 14),
+          ),
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              " [ " + user.gender.toString() + " ]",
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.w800,
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+                child: Text(user.age.toString() + " Years",
+                    style: TextStyle(color: Colors.black))),
+          ],
+        ),
       );
 
   String url(String phone) {
