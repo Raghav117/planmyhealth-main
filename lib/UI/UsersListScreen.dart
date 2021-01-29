@@ -84,6 +84,7 @@ class _UserListScreenState extends State<UserListScreen>
 
   Future<List<Doctorlist>> getuserlist() async {
     await apiHelper.getOderList().then((userlist) {
+      days.clear();
       userlist.doctorlist.forEach((element) {
         days.add(element);
       });
@@ -142,7 +143,9 @@ class _UserListScreenState extends State<UserListScreen>
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return _tile(data[index].userdata[0]);
+          if (data[index].userdata.length > 0)
+            return _tile(data[index].userdata[0]);
+          return Container();
         });
   }
 

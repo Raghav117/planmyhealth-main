@@ -29,9 +29,10 @@ class Doctorlist {
 
   Doctorlist.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    if (json['doctors'] != null) {
-      userdata = new List<Userdata>();
-      json['doctors'].forEach((v) {
+    print(json['userdata'].length);
+    userdata = new List<Userdata>();
+    if (json['userdata'].length > 0) {
+      json['userdata'].forEach((v) {
         userdata.add(new Userdata.fromJson(v));
       });
     }
@@ -57,7 +58,7 @@ class Userdata {
   int age;
   int mobile;
   String password;
-  DateOfJoining dateOfJoining;
+  String dateOfJoining;
   String employeeTag;
   int employeeId;
   String groupId;
@@ -97,9 +98,7 @@ class Userdata {
     age = json['age'];
     mobile = json['mobile'];
     password = json['password'];
-    dateOfJoining = json['dateOfJoining'] != null
-        ? new DateOfJoining.fromJson(json['dateOfJoining'])
-        : null;
+    dateOfJoining = json['dateOfJoining'].toString();
     employeeTag = json['employeeTag'];
     employeeId = json['employeeId'];
     groupId = json['groupId'];
@@ -122,7 +121,7 @@ class Userdata {
     data['mobile'] = this.mobile;
     data['password'] = this.password;
     if (this.dateOfJoining != null) {
-      data['dateOfJoining'] = this.dateOfJoining.toJson();
+      data['dateOfJoining'] = this.dateOfJoining;
     }
     data['employeeTag'] = this.employeeTag;
     data['employeeId'] = this.employeeId;
