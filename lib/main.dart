@@ -10,7 +10,7 @@ import 'UI/signupverify.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // Firebase.initializeApp();
+  Firebase.initializeApp();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Flutter Demo',
@@ -40,64 +40,66 @@ class _MyAppState extends State<MyApp> {
 
   bool dialogloading;
 
-  FirebaseAuth _auth;
-
   @override
   void initState() {
-    // dialogloading = false;
-    // loading = true;
-    // _auth = FirebaseAuth.instance;
-    // print(_auth);
-    // login();
+    // signin();
     super.initState();
   }
 
+  signin() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    print(auth.currentUser);
+    auth.verifyPhoneNumber(
+      phoneNumber: "+919012220988",
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await auth.signInWithCredential(credential);
+        showDialog(
+            context: context,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: Container(
+                height: 200,
+                width: 300,
+                child: Text("Authentication Successful"),
+              ),
+            ));
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        if (e.code == 'invalid-phone-number') {
+          print('The provided phone number is not valid.');
+        }
+        showDialog(
+            context: context,
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: Container(
+                height: 200,
+                width: 300,
+                child: Text("Authentication Failed"),
+              ),
+            ));
+      },
+      codeSent: (String verificationId, int resendToken) async {
+        // Update the UI - wait for the user to enter the SMS code
+        smsOTPDialog(context).whenComplete(() async {
+          String smsCode = smsOTP;
+
+          // Create a PhoneAuthCredential with the code
+          PhoneAuthCredential phoneAuthCredential =
+              PhoneAuthProvider.credential(
+                  verificationId: verificationId, smsCode: smsCode);
+
+          // Sign the user in (or link) with the credential
+          await auth.signInWithCredential(phoneAuthCredential);
+        });
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
+
   //! ********************************************************  Login Method   ********************************************************
-
-  login() async {
-    String email = await _auth.currentUser.email;
-
-    if (email != null) {
-    } else {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
-//! ********************************************************  For Verify Phone   ********************************************************
-
-  Future<void> verifyPhone() async {
-    final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
-      setState(() {
-        loading = false;
-      });
-      this.verificationId = verId;
-      smsOTPDialog(context);
-    };
-
-    try {
-      await _auth.verifyPhoneNumber(
-          phoneNumber: this.phoneNo, // PHONE NUMBER TO SEND OTP
-          codeAutoRetrievalTimeout: (String verId) {
-            //Starts the phone number verification process for the given phone number.
-            //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
-            this.verificationId = verId;
-          },
-          codeSent:
-              smsOTPSent, // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
-          timeout: const Duration(seconds: 20),
-          verificationCompleted: (AuthCredential phoneAuthCredential) {},
-          verificationFailed: (var exceptio) {
-            setState(() {
-              print(exceptio.message);
-              error = "Error Occured";
-              loading = false;
-            });
-          });
-    } catch (e) {
-      handleError(e);
-    }
-  }
 
   //! ********************************************************  For Sms Diolog Box   ********************************************************
 
@@ -147,8 +149,8 @@ class _MyAppState extends State<MyApp> {
                           } else {
                             setState(() {
                               dialogloading = true;
+                              Navigator.pop(context);
                             });
-                            signIn();
                           }
                         })
                   ],
@@ -158,52 +160,28 @@ class _MyAppState extends State<MyApp> {
                 );
         });
   }
-//! ********************************************************  For Sign in   ********************************************************
-
-  signIn() async {
-    try {
-      final AuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: smsOTP,
-      );
-      var authResult = await _auth.signInWithCredential(credential);
-      var user = authResult.user;
-      var currentUser = await _auth.currentUser;
-      assert(user.uid == currentUser.uid);
-    } catch (e) {
-      handleError(e);
-    }
-  }
-
-//! ********************************************************  For Handle Error in Diolog Box   ********************************************************
-
-  handleError(var error) {
-    print(error);
-    switch (error.code) {
-      case 'ERROR_INVALID_VERIFICATION_CODE':
-        FocusScope.of(context).requestFocus(new FocusNode());
-        setState(() {
-          dialogloading = false;
-          errorMessage = 'Invalid Code';
-        });
-        Navigator.of(context).pop();
-        smsOTPDialog(context);
-        break;
-      default:
-        setState(() {
-          dialogloading = false;
-          errorMessage = error.message;
-        });
-
-        break;
-    }
-  }
 
   final _loginFormKey = GlobalKey<FormState>();
   // ApiHelper apiHelper = ApiHelper();
 
   @override
   Widget build(BuildContext context) {
-    return Splash();
+    return Scaffold(
+      body: ListView(
+        children: [
+          SizedBox(
+            height: 200,
+          ),
+          RaisedButton(
+            onPressed: () {
+              print("yeah");
+              signin();
+            },
+            child: Text("YEha"),
+          ),
+          // Splash(),
+        ],
+      ),
+    );
   }
 }

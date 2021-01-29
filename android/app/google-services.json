@@ -1,78 +1,33 @@
 {
   "project_info": {
-    "project_number": "575319648854",
-    "project_id": "planmyhealth-dc310",
-    "storage_bucket": "planmyhealth-dc310.appspot.com"
+    "project_number": "411703470205",
+    "project_id": "plan-my-health",
+    "storage_bucket": "plan-my-health.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:575319648854:android:62ad07da2d5cd95230e9f7",
-        "android_client_info": {
-          "package_name": "com.example.medico"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "575319648854-4rk4h78s6gano188ice0gp6ncn9195mo.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.medico",
-            "certificate_hash": "a0b57e12c4a649783ed8878bb73881e22093c828"
-          }
-        },
-        {
-          "client_id": "575319648854-gpgusof4afi9momo7ii291r6cf7r2em4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.medico",
-            "certificate_hash": "651f5bf07bb52d90333deb579e639dfa939e980c"
-          }
-        },
-        {
-          "client_id": "575319648854-qta1cc9rfo1oe8ut0m3d4dtp1esde9oo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDi6TsGaoefXk0AMHg2zO5zzHdxDvdYsHI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "575319648854-qta1cc9rfo1oe8ut0m3d4dtp1esde9oo.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:575319648854:android:b8fc4f3ac279c4c930e9f7",
+        "mobilesdk_app_id": "1:411703470205:android:dc23c46beb8bdefd93e914",
         "android_client_info": {
           "package_name": "com.example.plan_my_health"
         }
       },
       "oauth_client": [
         {
-          "client_id": "575319648854-qta1cc9rfo1oe8ut0m3d4dtp1esde9oo.apps.googleusercontent.com",
+          "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDi6TsGaoefXk0AMHg2zO5zzHdxDvdYsHI"
+          "current_key": "AIzaSyCj1HeXke4Rzfc0tOPpdSKFzbubSEbsQTo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "575319648854-qta1cc9rfo1oe8ut0m3d4dtp1esde9oo.apps.googleusercontent.com",
+              "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
