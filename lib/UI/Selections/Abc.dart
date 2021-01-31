@@ -278,6 +278,15 @@ class _AbcState extends State<Abc> {
                 ),
               ),
               showContainer ? container() : SizedBox(),
+              SizedBox(
+                height: 30,
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    hintText: "For how many days",
+                    border: OutlineInputBorder()),
+              ),
               Spacer(),
               GestureDetector(
                 onTap: () {

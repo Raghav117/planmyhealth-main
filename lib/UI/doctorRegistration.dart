@@ -725,9 +725,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             selectedendTime != null) {
           loading = true;
           setState(() {});
-          // var response = await http.post(
-          //     "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}");
-          // print(response.body);
+          var response = await http.post(
+              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=[check,asfas]&latitude=${locationData.latitude}&longitude=${locationData.longitude}");
+          print(response.body);
           loading = false;
           setState(() {});
           Navigator.of(context)

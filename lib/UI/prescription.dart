@@ -46,6 +46,7 @@ class _PrescriptionState extends State<Prescription> {
   List<Map<String, String>> dia = [];
   List<Map<String, String>> spe = [];
   List<Medicinelist> medicinelist = [];
+  DateTime followupdate;
   List<String> findings = [
     "finding 1",
     "finding 1",
@@ -610,60 +611,101 @@ class _PrescriptionState extends State<Prescription> {
                                               SizedBox(height: 8),
                                             ]));
                                           })),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Findings",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  GestureDetector(
-                                      // onTap: () {
-                                      //   Navigator.push(
-                                      //       context,
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) => Abc()));
-                                      // },
-                                      // onTap: () {
-                                      //   addMedicines(context);
-                                      // },
-                                      onTap: () async {
-                                        colors = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Findings(
-                                              findings: findings,
-                                            ),
-                                          ),
-                                        );
+                              //! ************  Findings *****************
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Text(
+                              //       "Findings",
+                              //       style: TextStyle(
+                              //           fontSize: 20,
+                              //           color: Colors.black,
+                              //           fontWeight: FontWeight.bold),
+                              //     ),
+                              //     GestureDetector(
+                              //         // onTap: () {
+                              //         //   Navigator.push(
+                              //         //       context,
+                              //         //       MaterialPageRoute(
+                              //         //           builder: (context) => Abc()));
+                              //         // },
+                              //         // onTap: () {
+                              //         //   addMedicines(context);
+                              //         // },
+                              //         onTap: () async {
+                              //           colors = await Navigator.push(
+                              //             context,
+                              //             MaterialPageRoute(
+                              //               builder: (context) => Findings(
+                              //                 findings: findings,
+                              //               ),
+                              //             ),
+                              //           );
 
-                                        setState(() {});
-                                      },
-                                      child: Icon(Icons.add, size: 30))
-                                ],
+                              //           setState(() {});
+                              //         },
+                              //         child: Icon(Icons.add, size: 30))
+                              //   ],
+                              // ),
+                              // colors.indexOf(true) == -1
+                              //     ? Container(
+                              //         color: Colors.white,
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.all(8.0),
+                              //           child: Text("Not Selected"),
+                              //         ),
+                              //       )
+                              //     : Container(
+                              //         width: double.infinity,
+                              //         constraints: BoxConstraints(
+                              //             minHeight: 100, maxHeight: 200),
+                              //         child: ListView.builder(
+                              //           itemCount: colors.length,
+                              //           itemBuilder: (context, index) {
+                              //             return colors[index] == true
+                              //                 ? Text(findings[index],
+                              //                     style: TextStyle(
+                              //                       fontSize: 20,
+                              //                     ))
+                              //                 : Container();
+                              //           },
+                              //         ),
+                              //       ),
+
+                              Text("Follow Up Date",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(
+                                height: 20,
                               ),
-                              Container(
-                                width: double.infinity,
-                                constraints: BoxConstraints(
-                                    minHeight: 100, maxHeight: 300),
-                                child: colors.indexOf(true) == -1
-                                    ? Container()
-                                    : ListView.builder(
-                                        itemCount: colors.length,
-                                        itemBuilder: (context, index) {
-                                          return colors[index] == true
-                                              ? Text(findings[index],
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                  ))
-                                              : Container();
-                                        },
-                                      ),
+                              InkWell(
+                                onTap: () async {
+                                  followupdate = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime.now(),
+                                    initialDate: DateTime.now(),
+                                    lastDate: DateTime(2025),
+                                  );
+                                  setState(() {});
+                                },
+                                child: followupdate == null
+                                    ? Container(
+                                        child: Icon(Icons.add),
+                                      )
+                                    : Text(followupdate.toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                               ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+
                               Text(
                                 "Need to Hospitalise",
                                 style: TextStyle(
