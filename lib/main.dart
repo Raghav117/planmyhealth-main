@@ -166,7 +166,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Prescription();
+    return Splash();
     // Scaffold(
     //   body: ListView(
     //     children: [
