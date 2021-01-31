@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+
 import '../global/global.dart';
 
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
@@ -45,6 +47,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   List<City> selectCity = [];
   List images = List();
   File _imageFile;
+  File _signatureimageFile;
   List<Asset> multiimages = List<Asset>();
   String _error = 'No Error Dectected';
 
@@ -611,6 +614,32 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               child: Image.file(_imageFile),
                             )),
                   SizedBox(height: height * 0.04),
+                  InkWell(
+                    onTap: () {
+                      _onAddSignatureClick();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 28.0),
+                      child: Text(
+                        "Upload Signature Picture: ",
+                        style: TextStyle(
+                          color: Colors.green,
+                          // fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 148.0),
+                      child: _signatureimageFile == null
+                          ? Container()
+                          : Container(
+                              height: 300,
+                              width: 300,
+                              child: Image.file(_signatureimageFile),
+                            )),
+                  SizedBox(height: height * 0.04),
                   Padding(
                     padding: const EdgeInsets.only(right: 28.0),
                     child: FlatButton(
@@ -725,9 +754,41 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             selectedendTime != null) {
           loading = true;
           setState(() {});
-          var response = await http.post(
-              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=[check,asfas]&latitude=${locationData.latitude}&longitude=${locationData.longitude}");
-          print(response.body);
+          String url =
+              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=[check,asfas]&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
+          var request = http.MultipartRequest('POST', Uri.parse(url));
+          if (_imageFile != null) {
+            request.files.add(http.MultipartFile(
+              'profilepicture',
+              _imageFile.readAsBytes().asStream(),
+              _imageFile.lengthSync(),
+              filename: "profilepicture.jpg",
+            ));
+          }
+          if (_signatureimageFile != null) {
+            request.files.add(http.MultipartFile(
+              'imagesignature',
+              _signatureimageFile.readAsBytes().asStream(),
+              _signatureimageFile.lengthSync(),
+              filename: "imagesignature.jpg",
+            ));
+          }
+          multiimages.forEach((element) async {
+            String filePath =
+                await FlutterAbsolutePath.getAbsolutePath(element.identifier);
+            request.files.add(http.MultipartFile(
+              'document',
+              File(filePath).readAsBytes().asStream(),
+              File(filePath).lengthSync(),
+              filename: "document.jpg",
+            ));
+          });
+          var res = await request.send();
+          print(res.statusCode);
+          print(res);
+
+          // var response = await http.post("");
+          // print(response.body);
           loading = false;
           setState(() {});
           Navigator.of(context)
@@ -762,6 +823,12 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
 
   _onAddImageClick() async {
     _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {});
+  }
+
+  _onAddSignatureClick() async {
+    _signatureimageFile =
+        await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {});
   }
 

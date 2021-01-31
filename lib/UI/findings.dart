@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:plan_my_health/model/findings.dart';
 
 class Findings extends StatefulWidget {
-  final List<String> findings;
+  final List<Finding> findings;
 
   const Findings({Key key, this.findings}) : super(key: key);
 
@@ -10,7 +11,7 @@ class Findings extends StatefulWidget {
 }
 
 class _FindingsState extends State<Findings> {
-  final List<String> findings;
+  final List<Finding> findings;
   List<bool> colors = [];
 
   _FindingsState(this.findings);
@@ -42,7 +43,7 @@ class _FindingsState extends State<Findings> {
               tileColor:
                   colors[index] == false ? Colors.transparent : Colors.yellow,
               title: Text(
-                findings[index],
+                findings[index].name,
                 style: TextStyle(fontSize: 20),
               ),
             ),

@@ -9,7 +9,7 @@ import 'package:plan_my_health/Helpers/Medicine.dart';
 import 'package:plan_my_health/UI/SelectWallness.dart';
 import 'package:plan_my_health/UI/Selections/Abc.dart';
 import 'package:plan_my_health/UI/Selections/SeLectDisese.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:plan_my_health/UI/Selections/SelectTest.dart';
 import 'package:plan_my_health/UI/findings.dart';
 import 'package:plan_my_health/UI/viewPdf.dart';
@@ -21,6 +21,7 @@ import 'package:plan_my_health/model/SelectTestList.dart';
 import 'package:plan_my_health/model/SelectedDisease.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:plan_my_health/model/Wellness.dart';
+import 'package:plan_my_health/model/findings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -47,26 +48,7 @@ class _PrescriptionState extends State<Prescription> {
   List<Map<String, String>> spe = [];
   List<Medicinelist> medicinelist = [];
   DateTime followupdate;
-  List<String> findings = [
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-    "finding 1",
-  ];
+  List<Finding> findings = [];
   var isSelected = false;
   var mycolor = Colors.green;
 
@@ -99,7 +81,17 @@ class _PrescriptionState extends State<Prescription> {
     getDiagnosis();
     getSpecialities();
     getShared();
+    getFindings();
     medicineSerchController = TextEditingController();
+  }
+
+  void getFindings() async {
+    var response = await http.get("http://3.15.233.253:5000/findings");
+    print(response.body);
+    var data = jsonDecode(response.body);
+    data["findinglist"].forEach((element) {
+      findings.add(Finding.fromJson(element));
+    });
   }
 
   void getSpecialities() {
@@ -611,99 +603,106 @@ class _PrescriptionState extends State<Prescription> {
                                               SizedBox(height: 8),
                                             ]));
                                           })),
+
+                              SizedBox(
+                                height: 30,
+                              ),
                               //! ************  Findings *****************
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     Text(
-                              //       "Findings",
-                              //       style: TextStyle(
-                              //           fontSize: 20,
-                              //           color: Colors.black,
-                              //           fontWeight: FontWeight.bold),
-                              //     ),
-                              //     GestureDetector(
-                              //         // onTap: () {
-                              //         //   Navigator.push(
-                              //         //       context,
-                              //         //       MaterialPageRoute(
-                              //         //           builder: (context) => Abc()));
-                              //         // },
-                              //         // onTap: () {
-                              //         //   addMedicines(context);
-                              //         // },
-                              //         onTap: () async {
-                              //           colors = await Navigator.push(
-                              //             context,
-                              //             MaterialPageRoute(
-                              //               builder: (context) => Findings(
-                              //                 findings: findings,
-                              //               ),
-                              //             ),
-                              //           );
-
-                              //           setState(() {});
-                              //         },
-                              //         child: Icon(Icons.add, size: 30))
-                              //   ],
-                              // ),
-                              // colors.indexOf(true) == -1
-                              //     ? Container(
-                              //         color: Colors.white,
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.all(8.0),
-                              //           child: Text("Not Selected"),
-                              //         ),
-                              //       )
-                              //     : Container(
-                              //         width: double.infinity,
-                              //         constraints: BoxConstraints(
-                              //             minHeight: 100, maxHeight: 200),
-                              //         child: ListView.builder(
-                              //           itemCount: colors.length,
-                              //           itemBuilder: (context, index) {
-                              //             return colors[index] == true
-                              //                 ? Text(findings[index],
-                              //                     style: TextStyle(
-                              //                       fontSize: 20,
-                              //                     ))
-                              //                 : Container();
-                              //           },
-                              //         ),
-                              //       ),
-
-                              Text("Follow Up Date",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold)),
-                              SizedBox(
-                                height: 20,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Findings",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  GestureDetector(
+                                      // onTap: () {
+                                      //   Navigator.push(
+                                      //       context,
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) => Abc()));
+                                      // },
+                                      // onTap: () {
+                                      //   addMedicines(context);
+                                      // },
+                                      onTap: () async {
+                                        var response = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Findings(
+                                              findings: findings,
+                                            ),
+                                          ),
+                                        );
+                                        if (response != null) colors = response;
+                                        // print(response);
+                                        setState(() {});
+                                      },
+                                      child: Icon(Icons.add, size: 30))
+                                ],
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  followupdate = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime.now(),
-                                    initialDate: DateTime.now(),
-                                    lastDate: DateTime(2025),
-                                  );
-                                  setState(() {});
-                                },
-                                child: followupdate == null
-                                    ? Container(
-                                        child: Icon(Icons.add),
-                                      )
-                                    : Text(followupdate.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                              colors.indexOf(true) == -1
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("Not Selected"),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: double.infinity,
+                                      constraints: BoxConstraints(
+                                          minHeight: 100, maxHeight: 200),
+                                      child: ListView.builder(
+                                        itemCount: colors.length,
+                                        itemBuilder: (context, index) {
+                                          return colors[index] == true
+                                              ? Text(findings[index].name,
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                  ))
+                                              : Container();
+                                        },
+                                      ),
+                                    ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Follow Up Date",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold)),
+                                  InkWell(
+                                    onTap: () async {
+                                      followupdate = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime.now(),
+                                        initialDate: DateTime.now(),
+                                        lastDate: DateTime(2025),
+                                      );
+                                      setState(() {});
+                                    },
+                                    child: followupdate == null
+                                        ? Container(
+                                            child: Icon(Icons.add),
+                                          )
+                                        : Text(followupdate.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                  ),
+                                ],
                               ),
                               SizedBox(
-                                height: 20,
-                              ),
-                              SizedBox(
-                                height: 20,
+                                height: 50,
                               ),
 
                               Text(
