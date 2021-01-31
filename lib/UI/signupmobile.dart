@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/UI/VerifyNumber.dart';
 import 'package:plan_my_health/UI/signupverify.dart';
+import '../global/global.dart';
 
 class SignUpMobileNumber extends StatefulWidget {
   SignUpMobileNumber({Key key}) : super(key: key);
@@ -15,13 +16,10 @@ class _SignUpMobileNumberState extends State<SignUpMobileNumber> {
   final _loginFormKey = GlobalKey<FormState>();
   // ApiHelper apiHelper = ApiHelper();
   bool _isloading = false;
-  TextEditingController _mobileController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    _mobileController = TextEditingController();
   }
 
   @override
@@ -97,7 +95,7 @@ class _SignUpMobileNumberState extends State<SignUpMobileNumber> {
                           Container(
                             width: MediaQuery.of(context).size.width / 1.2,
                             child: TextFormField(
-                              controller: _mobileController,
+                              controller: mobileController,
                               keyboardType: TextInputType.number,
                               maxLength: 10,
                               style: TextStyle(
@@ -133,7 +131,7 @@ class _SignUpMobileNumberState extends State<SignUpMobileNumber> {
                         Navigator.of(context).pushReplacement(
                             MaterialPageRoute(builder: (context) {
                           return SignUpVerifyNumber(
-                            number: _mobileController.text,
+                            number: mobileController.text,
                           );
                         }));
                         // apiHelper.mobileLogin(context, _mobileController.text);

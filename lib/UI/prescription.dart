@@ -11,6 +11,7 @@ import 'package:plan_my_health/UI/Selections/Abc.dart';
 import 'package:plan_my_health/UI/Selections/SeLectDisese.dart';
 
 import 'package:plan_my_health/UI/Selections/SelectTest.dart';
+import 'package:plan_my_health/UI/findings.dart';
 import 'package:plan_my_health/UI/viewPdf.dart';
 import 'package:plan_my_health/model/Diagnosis.dart';
 import 'package:plan_my_health/model/Diagnostics.dart';
@@ -45,6 +46,26 @@ class _PrescriptionState extends State<Prescription> {
   List<Map<String, String>> dia = [];
   List<Map<String, String>> spe = [];
   List<Medicinelist> medicinelist = [];
+  List<String> findings = [
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+    "finding 1",
+  ];
   var isSelected = false;
   var mycolor = Colors.green;
 
@@ -58,6 +79,7 @@ class _PrescriptionState extends State<Prescription> {
 
   //------------------------
   List<SelectMedicineList> selectMedicineList = [];
+  List<bool> colors = [];
 
   List<SelectTestList> selectTestList = [];
   List<SelectedDisease> selectedDiseaseList = [];
@@ -518,6 +540,7 @@ class _PrescriptionState extends State<Prescription> {
                                       child: Icon(Icons.add, size: 30))
                                 ],
                               ),
+
                               Container(
                                   margin:
                                       const EdgeInsets.only(top: 5, bottom: 10),
@@ -587,6 +610,60 @@ class _PrescriptionState extends State<Prescription> {
                                               SizedBox(height: 8),
                                             ]));
                                           })),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Findings",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  GestureDetector(
+                                      // onTap: () {
+                                      //   Navigator.push(
+                                      //       context,
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) => Abc()));
+                                      // },
+                                      // onTap: () {
+                                      //   addMedicines(context);
+                                      // },
+                                      onTap: () async {
+                                        colors = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Findings(
+                                              findings: findings,
+                                            ),
+                                          ),
+                                        );
+
+                                        setState(() {});
+                                      },
+                                      child: Icon(Icons.add, size: 30))
+                                ],
+                              ),
+                              Container(
+                                width: double.infinity,
+                                constraints: BoxConstraints(
+                                    minHeight: 100, maxHeight: 300),
+                                child: colors.indexOf(true) == -1
+                                    ? Container()
+                                    : ListView.builder(
+                                        itemCount: colors.length,
+                                        itemBuilder: (context, index) {
+                                          return colors[index] == true
+                                              ? Text(findings[index],
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                  ))
+                                              : Container();
+                                        },
+                                      ),
+                              ),
                               Text(
                                 "Need to Hospitalise",
                                 style: TextStyle(

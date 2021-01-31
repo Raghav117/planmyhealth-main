@@ -1,4 +1,5 @@
 import 'dart:io';
+import '../global/global.dart';
 
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:plan_my_health/UI/Home.dart';
 import 'package:plan_my_health/model/image-capture.dart';
 import 'package:plan_my_health/model/selectCityList.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 class DoctorRegistration extends StatefulWidget {
   @override
@@ -30,19 +32,19 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   final _cityController = TextEditingController();
   final _experiencecontroller = TextEditingController();
 
-  var _selectedcategory;
-  var _selectedpractice;
-  var _selectedexperience;
-  var _selectedqual;
-  var _selectedcity;
-  var _selectedgender;
-  String cityName;
+  String _selectedcategory = "Doctor";
+  String _selectedpractice = "Allopathy";
+  var _selectedexperience = "";
+  String _selectedqual = "BAMS";
+  String _selectedcity = "";
+  String _selectedgender = "Male";
+  String cityName = "";
   TimeOfDay selectedStartTime = TimeOfDay.now();
   TimeOfDay selectedendTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
   List<City> selectCity = [];
   List images = List();
-  Future<File> _imageFile;
+  File _imageFile;
   List<Asset> multiimages = List<Asset>();
   String _error = 'No Error Dectected';
 
@@ -113,6 +115,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   bool wellness = false;
   bool chat = false;
 
+  bool loading = false;
+
   @override
   void initState() {
     super.initState();
@@ -134,271 +138,37 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: height * 0.1),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "Doctor Registration",
-                style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 32,
-                ),
-              ),
-            ),
-            SizedBox(height: height * 0.04),
-            doctorName(),
-            SizedBox(height: height * 0.04),
-            email(),
-            SizedBox(height: height * 0.04),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "Date of Birth: ",
-                style: TextStyle(
-                  color: Colors.green,
-                  // fontWeight: FontWeight.w600,
-                  fontSize: 17,
-                ),
-              ),
-            ),
-            RaisedButton(
-              color: Colors.white,
-              onPressed: () {
-                _selectDate(context);
-              },
-              child: Text(
-                " " + selectedDate.toString().substring(0, 10),
-              ),
-            ),
-            SizedBox(height: height * 0.04),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 300,
-                  child: DropdownButton(
-                    items: _Gender.map((value) => DropdownMenuItem(
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green),
-                          ),
-                          value: value,
-                        )).toList(),
-                    onChanged: (selectedgen) {
-                      setState(() {
-                        _selectedgender = selectedgen;
-                      });
-                    },
-                    value: _selectedgender,
-                    hint: Text(
-                      "Select Gender",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    elevation: 5,
-                    isExpanded: false,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: height * 0.04),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 300,
-                  child: DropdownButton(
-                    items: _DoctorCategory.map((value) => DropdownMenuItem(
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green),
-                          ),
-                          value: value,
-                        )).toList(),
-                    onChanged: (selectedCategory) {
-                      setState(() {
-                        _selectedcategory = selectedCategory;
-                      });
-                    },
-                    value: _selectedcategory,
-                    hint: Text(
-                      "Select Category",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    elevation: 5,
-                    isExpanded: false,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: height * 0.04),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 300,
-                  child: DropdownButton(
-                    items: _PracticeType.map((value) => DropdownMenuItem(
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green),
-                          ),
-                          value: value,
-                        )).toList(),
-                    onChanged: (selectedtype) {
-                      setState(() {
-                        _selectedpractice = selectedtype;
-                      });
-                    },
-                    value: _selectedpractice,
-                    hint: Text(
-                      "Select Practice",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    elevation: 5,
-                    isExpanded: false,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: height * 0.04),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 300,
-                  child: DropdownButton(
-                    items: _Qualification.map((value) => DropdownMenuItem(
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green),
-                          ),
-                          value: value,
-                        )).toList(),
-                    onChanged: (selectedQ) {
-                      setState(() {
-                        _selectedqual = selectedQ;
-                      });
-                    },
-                    value: _selectedqual,
-                    hint: Text(
-                      "Select Qualification",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    elevation: 5,
-                    isExpanded: false,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: height * 0.04),
-            Text(
-              "Services",
-              style: TextStyle(
-                color: Colors.green,
-                // fontWeight: FontWeight.w600,
-                fontSize: 17,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Checkbox(
-                    value: check,
-                    onChanged: (value) {
-                      setState(() {
-                        check = value;
-                      });
-                    }),
-                Text("Call")
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                    value: vedio,
-                    onChanged: (value) {
-                      setState(() {
-                        vedio = value;
-                      });
-                    }),
-                Text("Vedio Call")
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                    value: chat,
-                    onChanged: (value) {
-                      setState(() {
-                        chat = value;
-                      });
-                    }),
-                Text("Chat")
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                    value: clinic,
-                    onChanged: (value) {
-                      setState(() {
-                        clinic = value;
-                      });
-                    }),
-                Text("At Clinic")
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                    value: medical,
-                    onChanged: (value) {
-                      setState(() {
-                        medical = value;
-                      });
-                    }),
-                Text("Medical Camps")
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                    value: wellness,
-                    onChanged: (value) {
-                      setState(() {
-                        wellness = value;
-                      });
-                    }),
-                Text("Wellness Sessions")
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 83.0, right: 90),
-              child: Row(
+      body: loading == true
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              child: Column(
                 children: <Widget>[
+                  SizedBox(height: height * 0.1),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "Years of experience: ",
+                      "Doctor Registration",
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 32,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: height * 0.04),
+                  doctorName(),
+                  SizedBox(height: height * 0.04),
+                  email(),
+                  SizedBox(height: height * 0.04),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Date of Birth: ",
                       style: TextStyle(
                         color: Colors.green,
                         // fontWeight: FontWeight.w600,
@@ -406,229 +176,488 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: TextFormField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(8.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
-                      controller: _experiencecontroller,
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: false,
-                        signed: true,
-                      ),
-                      inputFormatters: <TextInputFormatter>[
-                        WhitelistingTextInputFormatter.digitsOnly
-                      ],
+                  RaisedButton(
+                    color: Colors.white,
+                    onPressed: () {
+                      _selectDate(context);
+                    },
+                    child: Text(
+                      " " + selectedDate.toString().substring(0, 10),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    height: 38.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                width: 0.5,
-                              ),
-                            ),
-                          ),
-                          child: InkWell(
-                            child: Icon(
-                              Icons.arrow_drop_up,
-                              size: 18.0,
-                            ),
-                            onTap: () {
-                              int currentValue =
-                                  int.parse(_experiencecontroller.text);
-                              setState(() {
-                                currentValue++;
-                                _experiencecontroller.text = (currentValue)
-                                    .toString(); // incrementing value
-                              });
-                            },
-                          ),
-                        ),
-                        InkWell(
-                          child: Icon(
-                            Icons.arrow_drop_down,
-                            size: 18.0,
-                          ),
-                          onTap: () {
-                            int currentValue =
-                                int.parse(_experiencecontroller.text);
+                  SizedBox(height: height * 0.04),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 300,
+                        child: DropdownButton(
+                          items: _Gender.map((value) => DropdownMenuItem(
+                                child: Text(
+                                  value,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green),
+                                ),
+                                value: value,
+                              )).toList(),
+                          onChanged: (selectedgen) {
                             setState(() {
-                              print("Setting state");
-                              currentValue--;
-                              _experiencecontroller.text =
-                                  (currentValue > 0 ? currentValue : 0)
-                                      .toString(); // decrementing value
+                              _selectedgender = selectedgen;
+                              print(_selectedgender);
                             });
                           },
+                          value: _selectedgender,
+                          hint: Text(
+                            "Select Gender",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          elevation: 5,
+                          isExpanded: false,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height * 0.04),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 300,
+                        child: DropdownButton(
+                          items:
+                              _DoctorCategory.map((value) => DropdownMenuItem(
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.green),
+                                    ),
+                                    value: value,
+                                  )).toList(),
+                          onChanged: (selectedCategory) {
+                            setState(() {
+                              print(_selectedcategory);
+                              _selectedcategory = selectedCategory;
+                            });
+                          },
+                          value: _selectedcategory,
+                          hint: Text(
+                            "Select Category",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          elevation: 5,
+                          isExpanded: false,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height * 0.04),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 300,
+                        child: DropdownButton(
+                          items: _PracticeType.map((value) => DropdownMenuItem(
+                                child: Text(
+                                  value,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green),
+                                ),
+                                value: value,
+                              )).toList(),
+                          onChanged: (selectedtype) {
+                            setState(() {
+                              _selectedpractice = selectedtype;
+                              print(_selectedpractice);
+                            });
+                          },
+                          value: _selectedpractice,
+                          hint: Text(
+                            "Select Practice",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          elevation: 5,
+                          isExpanded: false,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height * 0.04),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 300,
+                        child: DropdownButton(
+                          items: _Qualification.map((value) => DropdownMenuItem(
+                                child: Text(
+                                  value,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green),
+                                ),
+                                value: value,
+                              )).toList(),
+                          onChanged: (selectedQ) {
+                            setState(() {
+                              _selectedqual = selectedQ;
+                              print(_selectedqual);
+                            });
+                          },
+                          value: _selectedqual,
+                          hint: Text(
+                            "Select Qualification",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          elevation: 5,
+                          isExpanded: false,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height * 0.04),
+                  Text(
+                    "Services",
+                    style: TextStyle(
+                      color: Colors.green,
+                      // fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: check,
+                          onChanged: (value) {
+                            setState(() {
+                              check = value;
+                            });
+                          }),
+                      Text("Call")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: vedio,
+                          onChanged: (value) {
+                            setState(() {
+                              vedio = value;
+                            });
+                          }),
+                      Text("Vedio Call")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: chat,
+                          onChanged: (value) {
+                            setState(() {
+                              chat = value;
+                            });
+                          }),
+                      Text("Chat")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: clinic,
+                          onChanged: (value) {
+                            setState(() {
+                              clinic = value;
+                            });
+                          }),
+                      Text("At Clinic")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: medical,
+                          onChanged: (value) {
+                            setState(() {
+                              medical = value;
+                            });
+                          }),
+                      Text("Medical Camps")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: wellness,
+                          onChanged: (value) {
+                            setState(() {
+                              wellness = value;
+                            });
+                          }),
+                      Text("Wellness Sessions")
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Years of experience: ",
+                            style: TextStyle(
+                              color: Colors.green,
+                              // fontWeight: FontWeight.w600,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(8.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                            controller: _experiencecontroller,
+                            keyboardType: TextInputType.numberWithOptions(
+                              decimal: false,
+                              signed: true,
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 10),
+                          height: 38.0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      width: 0.5,
+                                    ),
+                                  ),
+                                ),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.arrow_drop_up,
+                                    size: 18.0,
+                                  ),
+                                  onTap: () {
+                                    int currentValue =
+                                        int.parse(_experiencecontroller.text);
+                                    setState(() {
+                                      currentValue++;
+                                      _experiencecontroller.text =
+                                          (currentValue)
+                                              .toString(); // incrementing value
+                                    });
+                                  },
+                                ),
+                              ),
+                              InkWell(
+                                child: Icon(
+                                  Icons.arrow_drop_down,
+                                  size: 18.0,
+                                ),
+                                onTap: () {
+                                  int currentValue =
+                                      int.parse(_experiencecontroller.text);
+                                  setState(() {
+                                    print("Setting state");
+                                    currentValue--;
+                                    _experiencecontroller.text =
+                                        (currentValue > 0 ? currentValue : 0)
+                                            .toString(); // decrementing value
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(height: height * 0.04),
+                  clinicName(),
+                  SizedBox(height: height * 0.04),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 52.0, right: 52.0),
+                    child: Card(
+                      // ignore: missing_required_param
+                      child: AutoCompleteTextField<City>(
+                        controller: _cityController,
+                        clearOnSubmit: false,
+                        suggestions: City.getCity(),
+                        style: TextStyle(color: Colors.green, fontSize: 16.0),
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+                          hintText: "Search City",
+                          hintStyle: TextStyle(color: Colors.green),
+                        ),
+                        itemFilter: (item, query) {
+                          return item.name
+                              .toLowerCase()
+                              .startsWith(query.toLowerCase());
+                        },
+                        itemSorter: (a, b) {
+                          return a.name.compareTo(b.name);
+                        },
+                        itemSubmitted: (item) {
+                          _cityController.text = item.name;
+                        },
+                        itemBuilder: (context, item) {
+                          // ui for the autocomplete row
+                          return row(item);
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: height * 0.06),
+                  address(),
+                  SizedBox(height: height * 0.04),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Working Hours: ",
+                      style: TextStyle(
+                        color: Colors.green,
+                        // fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  Row(children: [
+                    SizedBox(width: width * 0.2),
+                    RaisedButton(
+                      color: Colors.white,
+                      onPressed: () {
+                        _startTime(context);
+                      },
+                      child: Text("From: " +
+                          selectedStartTime.toString().substring(10, 15)),
+                    ),
+                    SizedBox(width: width * 0.1),
+                    RaisedButton(
+                      color: Colors.white,
+                      onPressed: () {
+                        _endTime(context);
+                      },
+                      child: Text("To: " +
+                          selectedendTime.toString().substring(10, 15)),
+                    ),
+                  ]),
+                  SizedBox(height: height * 0.04),
+                  regNum(),
+                  SizedBox(height: height * 0.04),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 28.0),
+                  //   child: Text(
+                  //     "Upload Signature: ",
+                  //     style: TextStyle(
+                  //       color: Colors.green,
+                  //       // fontWeight: FontWeight.w600,
+                  //       fontSize: 17,
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 148.0),
+                  //   child: buildImageGridView(),
+                  // ),
+                  // SizedBox(height: height * 0.04),
+
+                  InkWell(
+                    onTap: () {
+                      _onAddImageClick();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 28.0),
+                      child: Text(
+                        "Upload Profile Picture: ",
+                        style: TextStyle(
+                          color: Colors.green,
+                          // fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 148.0),
+                      child: _imageFile == null
+                          ? Container()
+                          : Container(
+                              height: 300,
+                              width: 300,
+                              child: Image.file(_imageFile),
+                            )),
+                  SizedBox(height: height * 0.04),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 28.0),
+                    child: FlatButton(
+                      onPressed: () => loadAssets(),
+                      child: Text(
+                        "Upload Certificates ",
+                        style: TextStyle(
+                          color: Colors.green,
+                          decoration: TextDecoration.underline,
+
+                          // fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                  ),
+                  buildGridView(),
+                  SizedBox(height: height * 0.02),
+                  saveButton(context),
+                  SizedBox(height: height * 0.07),
                 ],
               ),
             ),
-            SizedBox(height: height * 0.04),
-            clinicName(),
-            SizedBox(height: height * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(left: 52.0, right: 52.0),
-              child: Card(
-                // ignore: missing_required_param
-                child: AutoCompleteTextField<City>(
-                  controller: _cityController,
-                  clearOnSubmit: false,
-                  suggestions: City.getCity(),
-                  style: TextStyle(color: Colors.green, fontSize: 16.0),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
-                    hintText: "Search City",
-                    hintStyle: TextStyle(color: Colors.green),
-                  ),
-                  itemFilter: (item, query) {
-                    return item.name
-                        .toLowerCase()
-                        .startsWith(query.toLowerCase());
-                  },
-                  itemSorter: (a, b) {
-                    return a.name.compareTo(b.name);
-                  },
-                  itemSubmitted: (item) {
-                    _cityController.text = item.name;
-                  },
-                  itemBuilder: (context, item) {
-                    // ui for the autocomplete row
-                    return row(item);
-                  },
-                ),
-              ),
-            ),
-            SizedBox(height: height * 0.06),
-            address(),
-            SizedBox(height: height * 0.04),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "Working Hours: ",
-                style: TextStyle(
-                  color: Colors.green,
-                  // fontWeight: FontWeight.w600,
-                  fontSize: 17,
-                ),
-              ),
-            ),
-            SizedBox(height: height * 0.02),
-            Row(children: [
-              SizedBox(width: width * 0.2),
-              RaisedButton(
-                color: Colors.white,
-                onPressed: () {
-                  _startTime(context);
-                },
-                child: Text(
-                    "From: " + selectedStartTime.toString().substring(10, 15)),
-              ),
-              SizedBox(width: width * 0.1),
-              RaisedButton(
-                color: Colors.white,
-                onPressed: () {
-                  _endTime(context);
-                },
-                child:
-                    Text("To: " + selectedendTime.toString().substring(10, 15)),
-              ),
-            ]),
-            SizedBox(height: height * 0.04),
-            regNum(),
-            SizedBox(height: height * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(right: 28.0),
-              child: Text(
-                "Upload Signature: ",
-                style: TextStyle(
-                  color: Colors.green,
-                  // fontWeight: FontWeight.w600,
-                  fontSize: 17,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 148.0),
-              child: buildImageGridView(),
-            ),
-            SizedBox(height: height * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(right: 28.0),
-              child: Text(
-                "Upload Profile Picture: ",
-                style: TextStyle(
-                  color: Colors.green,
-                  // fontWeight: FontWeight.w600,
-                  fontSize: 17,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 148.0),
-              child: buildImageGridView(),
-            ),
-            SizedBox(height: height * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(right: 28.0),
-              child: FlatButton(
-                onPressed: () => loadAssets(),
-                child: Text(
-                  "Upload Certificates ",
-                  style: TextStyle(
-                    color: Colors.green,
-                    decoration: TextDecoration.underline,
-
-                    // fontWeight: FontWeight.w600,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-            ),
-            buildGridView(),
-            SizedBox(height: height * 0.02),
-            saveButton(context),
-            SizedBox(height: height * 0.07),
-          ],
-        ),
-      ),
     );
   }
 
   Widget buildGridView() {
-    return Padding(
-      padding: const EdgeInsets.all(18.0),
-      child: Card(
-        elevation: 3.0,
-        child: GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          children: List.generate(multiimages.length, (index) {
-            Asset asset = multiimages[index];
-            return AssetThumb(
-              asset: asset,
-              width: 300,
-              height: 300,
-            );
-          }),
-        ),
-      ),
-    );
+    return multiimages.length == 0
+        ? Container()
+        : Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Card(
+              elevation: 3.0,
+              child: GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                children: List.generate(multiimages.length, (index) {
+                  Asset asset = multiimages[index];
+                  return AssetThumb(
+                    asset: asset,
+                    width: 300,
+                    height: 300,
+                  );
+                }),
+              ),
+            ),
+          );
   }
 
   Future<void> loadAssets() async {
@@ -676,13 +705,50 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       });
   }
 
+//!  ---------------  Save Button  *********************************
   Widget saveButton(context) {
     return OutlineButton(
-      onPressed: () {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) {
-          return Home();
-        }));
+      onPressed: () async {
+        if (_experiencecontroller.text.length != 0 &&
+            _cityController.text.length != 0 &&
+            _regNumController.text.length != 0 &&
+            _clinicController.text.length != 0 &&
+            _nameController.text.length != 0 &&
+            _addressController.text.length != 0 &&
+            _emailController.text.length != 0 &&
+            _selectedcategory.length != 0 &&
+            _selectedpractice.length != 0 &&
+            _selectedqual.length != 0 &&
+            _selectedgender.length != 0 &&
+            selectedDate != null &&
+            selectedStartTime != null &&
+            selectedendTime != null) {
+          loading = true;
+          setState(() {});
+          // var response = await http.post(
+          //     "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}");
+          // print(response.body);
+          loading = false;
+          setState(() {});
+          Navigator.of(context)
+              .pushReplacement(MaterialPageRoute(builder: (context) {
+            return Home();
+          }));
+        } else {
+          showDialog(
+              context: context,
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                child: Container(
+                  height: 200,
+                  width: 300,
+                  child: Center(
+                    child: Text("All Fields are Cumpulsory"),
+                  ),
+                ),
+              ));
+        }
       },
       borderSide: BorderSide(color: Colors.green),
       shape: new RoundedRectangleBorder(
@@ -694,76 +760,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     );
   }
 
-  Widget buildImageGridView() {
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 3,
-      childAspectRatio: 1,
-      children: List.generate(images.length, (index) {
-        if (images[index] is ImageUploadModel) {
-          ImageUploadModel uploadModel = images[index];
-          return Card(
-            clipBehavior: Clip.antiAlias,
-            child: Stack(
-              children: <Widget>[
-                Image.file(
-                  uploadModel.imageFile,
-                  width: 300,
-                  height: 300,
-                ),
-                Positioned(
-                  right: 5,
-                  top: 5,
-                  child: InkWell(
-                    child: Icon(
-                      Icons.remove_circle,
-                      size: 20,
-                      color: Colors.red,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        images.replaceRange(index, index + 2, ['Add Image']);
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        } else {
-          return Card(
-            child: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                _onAddImageClick(index);
-              },
-            ),
-          );
-        }
-      }),
-    );
-  }
-
-  Future _onAddImageClick(int index) async {
-    setState(() {
-      _imageFile = ImagePicker.pickImage(source: ImageSource.gallery);
-      getFileImage(index);
-    });
-  }
-
-  void getFileImage(int index) async {
-//    var dir = await path_provider.getTemporaryDirectory();
-
-    _imageFile.then((file) async {
-      setState(() {
-        ImageUploadModel imageUpload = new ImageUploadModel();
-        imageUpload.isUploaded = false;
-        imageUpload.uploading = false;
-        imageUpload.imageFile = file;
-        imageUpload.imageUrl = '';
-        images.replaceRange(index, index + 1, [imageUpload]);
-      });
-    });
+  _onAddImageClick() async {
+    _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {});
   }
 
   Future<Null> _startTime(BuildContext context) async {
