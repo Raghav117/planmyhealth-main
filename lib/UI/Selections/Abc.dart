@@ -22,7 +22,7 @@ class _AbcState extends State<Abc> {
   static List<Medicinelist> users = new List<Medicinelist>();
   final TextEditingController serchController = TextEditingController();
   List<SelectMedicineList> selectMedicineList = [];
-  String timeSelected, quntitySelected, withSelected;
+  String timeSelected, quntitySelected, withSelected, daysselected;
 
   String medname, medid;
   bool loading = true, showContainer = false;
@@ -281,11 +281,52 @@ class _AbcState extends State<Abc> {
               SizedBox(
                 height: 30,
               ),
-              TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+              Container(
+                height: 60,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(4)),
+                child: DropdownButtonFormField(
+                  autovalidateMode: AutovalidateMode.disabled,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+                    labelText: "For how many days",
                     hintText: "For how many days",
-                    border: OutlineInputBorder()),
+                  ),
+                  elevation: 2,
+                  icon: Icon(Icons.arrow_drop_down),
+                  value: daysselected,
+                  onChanged: (value) {
+                    daysselected = value;
+                    setState(() {});
+                  },
+                  items: <String>[
+                    '1 day',
+                    '2 days',
+                    '3 days',
+                    '4 days',
+                    '5 days',
+                    '6 days',
+                    '1 week',
+                    '15 days',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value, style: TextStyle(color: Colors.black)),
+                    );
+                  }).toList(),
+                  validator: (value) {
+                    if (value == null) {
+                      return "Taken With is required";
+                    }
+                    return null;
+                  },
+                ),
               ),
               Spacer(),
               GestureDetector(
@@ -307,6 +348,7 @@ class _AbcState extends State<Abc> {
                   selectMedicine.time = timeSelected.toString();
                   selectMedicine.qut = quntitySelected.toString();
                   selectMedicine.withtake = withSelected.toString();
+                  selectMedicine.days = daysselected.toString();
                   selectMedicineList.add(selectMedicine);
 
                   // Navigator.pop(context, selectMedicineList)
@@ -410,6 +452,11 @@ class _AbcState extends State<Abc> {
                             ),
                           )
                         ],
+                      ),
+                      Text(
+                        selectMedicineList[index].days.toString(),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       )
                     ]));
               }),

@@ -255,6 +255,8 @@ class _PrescriptionState extends State<Prescription> {
                                             ),
                                           ),
                                         );
+                                        print(response);
+                                        setState(() {});
                                         if (response != null)
                                           suspectedColors = response;
                                         // print(response);
@@ -263,60 +265,32 @@ class _PrescriptionState extends State<Prescription> {
                                       child: Icon(Icons.add, size: 30))
                                 ],
                               ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: 5, bottom: 10),
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: Color(
-                                        0xFFDDDDDD), //                   <--- border color
-                                    width: 0.8,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFF0000000F),
-                                      blurRadius: 25.0, // soften the shadow
-                                      spreadRadius: 5.0, //extend the shadow
-                                      offset: Offset(
-                                        15.0, // Move to right 10  horizontally
-                                        15.0, // Move to bottom 10 Vertically
+                              suspectedColors.indexOf(true) == -1
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("Not Selected"),
                                       ),
                                     )
-                                  ],
-                                ),
-                                child: suspectedColors.indexOf(true) == -1
-                                    ? Container(
-                                        color: Colors.white,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text("Not Selected"),
-                                        ),
-                                      )
-                                    : Container(
-                                        width: double.infinity,
-                                        constraints: BoxConstraints(
-                                            minHeight: 100, maxHeight: 200),
-                                        child: ListView.builder(
-                                          itemCount: colors.length,
-                                          itemBuilder: (context, index) {
-                                            return suspectedColors[index] ==
-                                                    true
-                                                ? Text(
-                                                    suspectedDisease[index]
-                                                        .diagnosisName,
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                    ))
-                                                : Container();
-                                          },
-                                        ),
+                                  : Container(
+                                      width: double.infinity,
+                                      constraints: BoxConstraints(
+                                          minHeight: 100, maxHeight: 200),
+                                      child: ListView.builder(
+                                        itemCount: suspectedColors.length,
+                                        itemBuilder: (context, index) {
+                                          return suspectedColors[index] == true
+                                              ? Text(
+                                                  suspectedDisease[index]
+                                                      .diagnosisName,
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                  ))
+                                              : Container();
+                                        },
                                       ),
-                              ),
+                                    ),
 
                               SizedBox(height: 12),
                               Row(

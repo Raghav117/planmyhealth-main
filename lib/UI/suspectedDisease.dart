@@ -47,6 +47,7 @@ class _SuspectedDiseasesState extends State<SuspectedDiseases> {
                 suspectedDisease[index].diagnosisName,
                 style: TextStyle(fontSize: 20),
               ),
+              subtitle: Text(suspectedDisease[index].symptoms),
             ),
           )),
           InkWell(

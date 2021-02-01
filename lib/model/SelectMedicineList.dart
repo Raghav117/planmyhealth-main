@@ -4,6 +4,7 @@ class SelectMedicineList {
   String time;
   String qut;
   String withtake;
+  String days;
 
   SelectMedicineList({this.id, this.name, this.time, this.qut, this.withtake});
 
