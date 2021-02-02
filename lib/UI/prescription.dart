@@ -81,6 +81,8 @@ class _PrescriptionState extends State<Prescription> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    followupdate = DateTime.now().add(Duration(days: 3));
     getMedicines();
     getDiagnosis();
     getSpecialities();
@@ -231,7 +233,82 @@ class _PrescriptionState extends State<Prescription> {
                               //       fontWeight: FontWeight.bold),
                               // ),
                               SizedBox(height: 8),
-
+                              //! ************  Findings *****************
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Findings",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  GestureDetector(
+                                      // onTap: () {
+                                      //   Navigator.push(
+                                      //       context,
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) => Abc()));
+                                      // },
+                                      // onTap: () {
+                                      //   addMedicines(context);
+                                      // },
+                                      onTap: () async {
+                                        var response = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Findings(
+                                              findings: findings,
+                                            ),
+                                          ),
+                                        );
+                                        if (response != null) colors = response;
+                                        // print(response);
+                                        setState(() {});
+                                      },
+                                      child: Icon(Icons.add, size: 30))
+                                ],
+                              ),
+                              colors.indexOf(true) == -1
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("Not Selected"),
+                                      ),
+                                    )
+                                  : Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      // width: double.infinity,
+                                      // constraints: BoxConstraints(
+                                      //     minHeight: 100, maxHeight: 200),
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: colors.length,
+                                        itemBuilder: (context, index) {
+                                          return colors[index] == true
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child:
+                                                      Text(findings[index].name,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 15,
+                                                          )),
+                                                )
+                                              : Container();
+                                        },
+                                      ),
+                                    ),
+                              SizedBox(
+                                height: 30,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -273,20 +350,31 @@ class _PrescriptionState extends State<Prescription> {
                                         child: Text("Not Selected"),
                                       ),
                                     )
-                                  : Container(
-                                      width: double.infinity,
-                                      constraints: BoxConstraints(
-                                          minHeight: 100, maxHeight: 200),
+                                  : Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      // width: double.infinity,
+                                      // color: Colors.green,
+                                      // constraints: BoxConstraints(
+                                      // minHeight: 100, maxHeight: 200),
                                       child: ListView.builder(
+                                        shrinkWrap: true,
                                         itemCount: suspectedColors.length,
                                         itemBuilder: (context, index) {
                                           return suspectedColors[index] == true
-                                              ? Text(
-                                                  suspectedDisease[index]
-                                                      .diagnosisName,
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                  ))
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      suspectedDisease[index]
+                                                          .diagnosisName,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                      )),
+                                                )
                                               : Container();
                                         },
                                       ),
@@ -325,7 +413,7 @@ class _PrescriptionState extends State<Prescription> {
                                           ),
                                         );
 
-                                        // setState(() {});
+                                        setState(() {});
                                         print("send back data" +
                                             selectMedicineList.length //
                                                 .toString());
@@ -377,56 +465,66 @@ class _PrescriptionState extends State<Prescription> {
                                           itemBuilder: (context, index) {
                                             print(
                                                 selectMedicineList.toString());
-                                            return Container(
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          selectMedicineList[
-                                                                  index]
-                                                              .name
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontSize: 20)),
-                                                      Icon(Icons.delete,
-                                                          size: 22)
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 8),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        selectMedicineList[
-                                                                    index]
-                                                                .time
-                                                                .toString() +
-                                                            "," +
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                  child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
                                                             selectMedicineList[
                                                                     index]
-                                                                .qut
-                                                                .toString() +
-                                                            " tablet with " +
-                                                            selectMedicineList[
-                                                                    index]
-                                                                .withtake
+                                                                .name
                                                                 .toString(),
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                ]));
+                                                            style:
+                                                                TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    fontSize:
+                                                                        15)),
+                                                        Icon(Icons.delete,
+                                                            size: 15)
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          selectMedicineList[
+                                                                      index]
+                                                                  .time
+                                                                  .toString() +
+                                                              "," +
+                                                              selectMedicineList[
+                                                                      index]
+                                                                  .qut
+                                                                  .toString() +
+                                                              " tablet with " +
+                                                              selectMedicineList[
+                                                                      index]
+                                                                  .withtake
+                                                                  .toString() +
+                                                              " for " +
+                                                              selectMedicineList[
+                                                                      index]
+                                                                  .days,
+                                                          style: TextStyle(
+                                                            fontSize: 12,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ])),
+                                            );
                                           })),
                               SizedBox(height: 10),
                               Row(
@@ -499,101 +597,43 @@ class _PrescriptionState extends State<Prescription> {
                                           itemCount: selectTestList.length,
                                           itemBuilder: (context, index) {
                                             // print(selectTestList.toString());
-                                            return Container(
-                                                child: Column(children: [
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Icon(Icons.pages),
-                                                        Text(
-                                                            selectTestList[
-                                                                    index]
-                                                                .name,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 20)),
-                                                      ],
-                                                    ),
-                                                    Icon(Icons.delete, size: 22)
-                                                  ]),
-                                              SizedBox(height: 8),
-                                            ]));
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                  child: Column(children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(Icons.pages),
+                                                          Text(
+                                                              selectTestList[
+                                                                      index]
+                                                                  .name,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      15)),
+                                                        ],
+                                                      ),
+                                                      Icon(Icons.delete,
+                                                          size: 15)
+                                                    ]),
+                                                SizedBox(height: 8),
+                                              ])),
+                                            );
                                           })),
 
                               SizedBox(
                                 height: 30,
                               ),
-                              //! ************  Findings *****************
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Findings",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  GestureDetector(
-                                      // onTap: () {
-                                      //   Navigator.push(
-                                      //       context,
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) => Abc()));
-                                      // },
-                                      // onTap: () {
-                                      //   addMedicines(context);
-                                      // },
-                                      onTap: () async {
-                                        var response = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Findings(
-                                              findings: findings,
-                                            ),
-                                          ),
-                                        );
-                                        if (response != null) colors = response;
-                                        // print(response);
-                                        setState(() {});
-                                      },
-                                      child: Icon(Icons.add, size: 30))
-                                ],
-                              ),
-                              colors.indexOf(true) == -1
-                                  ? Container(
-                                      color: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Not Selected"),
-                                      ),
-                                    )
-                                  : Container(
-                                      width: double.infinity,
-                                      constraints: BoxConstraints(
-                                          minHeight: 100, maxHeight: 200),
-                                      child: ListView.builder(
-                                        itemCount: colors.length,
-                                        itemBuilder: (context, index) {
-                                          return colors[index] == true
-                                              ? Text(findings[index].name,
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                  ))
-                                              : Container();
-                                        },
-                                      ),
-                                    ),
-                              SizedBox(
-                                height: 30,
-                              ),
+
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -603,25 +643,29 @@ class _PrescriptionState extends State<Prescription> {
                                           fontSize: 20,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold)),
-                                  InkWell(
-                                    onTap: () async {
-                                      followupdate = await showDatePicker(
-                                        context: context,
-                                        firstDate: DateTime.now(),
-                                        initialDate: DateTime.now(),
-                                        lastDate: DateTime(2025),
-                                      );
-                                      setState(() {});
-                                    },
-                                    child: followupdate == null
-                                        ? Container(
-                                            child: Icon(Icons.add),
-                                          )
-                                        : Text(followupdate.toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
                                 ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    followupdate = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime.now(),
+                                      initialDate: DateTime.now(),
+                                      lastDate: DateTime(2025),
+                                    );
+                                    setState(() {});
+                                  },
+                                  child: followupdate == null
+                                      ? Container(
+                                          child: Icon(Icons.add),
+                                        )
+                                      : Text(followupdate.toString(),
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold)),
+                                ),
                               ),
                               SizedBox(
                                 height: 50,
@@ -853,36 +897,42 @@ class _PrescriptionState extends State<Prescription> {
                                           itemCount: selectwellnesslist.length,
                                           itemBuilder: (context, index) {
                                             print(selectTestList.toString());
-                                            return Container(
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Icon(Icons.pages),
-                                                              Text(
-                                                                  selectwellnesslist[
-                                                                          index]
-                                                                      .wellnessname,
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          20)),
-                                                            ],
-                                                          ),
-                                                          Icon(Icons.delete,
-                                                              size: 22)
-                                                        ]),
-                                                    SizedBox(height: 8),
-                                                  ]),
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Icon(Icons
+                                                                    .pages),
+                                                                Text(
+                                                                    selectwellnesslist[
+                                                                            index]
+                                                                        .wellnessname,
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            15)),
+                                                              ],
+                                                            ),
+                                                            Icon(Icons.delete,
+                                                                size: 15)
+                                                          ]),
+                                                      SizedBox(height: 8),
+                                                    ]),
+                                              ),
                                             );
                                           })),
                               Text(

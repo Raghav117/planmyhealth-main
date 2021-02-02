@@ -40,12 +40,20 @@ class _FindingsState extends State<Findings> {
                   colors[index] = !colors[index];
                 });
               },
-              tileColor:
-                  colors[index] == false ? Colors.transparent : Colors.yellow,
+              // tileColor:
               title: Text(
                 findings[index].name,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: colors[index] == false ? Colors.black : Colors.blue,
+                ),
               ),
+              leading: colors[index] == false
+                  ? Icon(Icons.check_box_outline_blank)
+                  : Icon(
+                      Icons.check_box,
+                      color: Colors.blue,
+                    ),
             ),
           )),
           InkWell(
@@ -53,7 +61,15 @@ class _FindingsState extends State<Findings> {
               Navigator.pop(context, colors);
             },
             child: Container(
-              child: Text("Done"),
+              height: 50,
+              width: 180,
+              decoration: BoxDecoration(
+                  color: Colors.blue, borderRadius: BorderRadius.circular(30)),
+              child: Center(
+                  child: Text(
+                "Done",
+                style: TextStyle(color: Colors.white),
+              )),
             ),
           )
         ],

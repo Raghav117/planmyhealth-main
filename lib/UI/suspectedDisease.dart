@@ -41,13 +41,20 @@ class _SuspectedDiseasesState extends State<SuspectedDiseases> {
                   colors[index] = !colors[index];
                 });
               },
-              tileColor:
-                  colors[index] == false ? Colors.transparent : Colors.yellow,
               title: Text(
                 suspectedDisease[index].diagnosisName,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: colors[index] == false ? Colors.black : Colors.blue,
+                ),
               ),
               subtitle: Text(suspectedDisease[index].symptoms),
+              leading: colors[index] == false
+                  ? Icon(Icons.check_box_outline_blank)
+                  : Icon(
+                      Icons.check_box,
+                      color: Colors.blue,
+                    ),
             ),
           )),
           InkWell(
@@ -55,7 +62,15 @@ class _SuspectedDiseasesState extends State<SuspectedDiseases> {
               Navigator.pop(context, colors);
             },
             child: Container(
-              child: Text("Done"),
+              height: 50,
+              width: 180,
+              decoration: BoxDecoration(
+                  color: Colors.blue, borderRadius: BorderRadius.circular(30)),
+              child: Center(
+                  child: Text(
+                "Done",
+                style: TextStyle(color: Colors.white),
+              )),
             ),
           )
         ],

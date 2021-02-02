@@ -427,37 +427,34 @@ class _AbcState extends State<Abc> {
                             child: Text(
                                 selectMedicineList[index].name.toString(),
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 20)),
+                                    fontWeight: FontWeight.w700, fontSize: 15)),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.delete, size: 22),
+                            child: Icon(Icons.delete, size: 18),
                           )
                         ],
                       ),
                       SizedBox(height: 8),
                       Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
+                          Container(
+                            height: 50,
                             child: Text(
                               selectMedicineList[index].time.toString() +
                                   "," +
                                   selectMedicineList[index].qut.toString() +
                                   " tablet with " +
-                                  selectMedicineList[index].withtake.toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
+                                  selectMedicineList[index]
+                                      .withtake
+                                      .toString() +
+                                  " for " +
+                                  selectMedicineList[index].days.toString(),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           )
                         ],
                       ),
-                      Text(
-                        selectMedicineList[index].days.toString(),
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      )
                     ]));
               }),
         ));
