@@ -969,32 +969,6 @@ class _PrescriptionState extends State<Prescription> {
                                         borderSide: BorderSide(
                                             color: Colors.black, width: 1.0)),
                                   )),
-                              // TextFormField(
-                              //     controller: remarkController,
-                              //     decoration: InputDecoration(
-                              //       fillColor: Colors.black,
-                              //       focusedBorder: OutlineInputBorder(
-                              //           borderSide: BorderSide(
-                              //               color: Colors.grey, width: 1.0)),
-                              //       enabledBorder: OutlineInputBorder(
-                              //         borderSide: BorderSide(
-                              //             color: Colors.black, width: 1.0),
-                              //       ),
-                              //       border: OutlineInputBorder(
-                              //           borderSide: BorderSide(
-                              //               color: Colors.black, width: 1.0)),
-                              //       labelText: "Write Remark",
-                              //       hintText: 'Type here...',
-                              //       hintStyle: TextStyle(
-                              //           letterSpacing: 0.4,
-                              //           fontFamily: "HelveticaNeueMedium",
-                              //           fontSize: 14,
-                              //           color: Colors.grey),
-                              //       suffixIcon: Container(
-                              //         padding: const EdgeInsets.fromLTRB(
-                              //             20, 12, 20, 12),
-                              //       ),
-                              //     )),
                               SizedBox(height: 20),
                               GestureDetector(
                                 onTap: () {
@@ -1019,9 +993,6 @@ class _PrescriptionState extends State<Prescription> {
                                           "hello remark",
                                           selectedDiseaseList)
                                       .then((value) {
-                                    print("-------------------------");
-                                    print(value);
-                                    print("-------------------------");
                                     String url = "http://3.15.233.253/" +
                                         value.replaceAll("/var/www/html/", "");
 
