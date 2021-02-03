@@ -235,31 +235,17 @@ class ApiHelper {
       String remark,
       List<SelectedDisease> selectedDiseaseList) async {
     try {
-      print("Iam in");
-      print("Dr Id" + drid);
-      print("Iam in");
-      print("Before encodeing json________________________________");
       String test = json.encode(selectMedicineList).toString();
-      print(test);
-      print("After encodeing json__________________________________");
+
       String test2 = json.encode(test).toString();
-      print(json.encode(selectedDiseaseList));
 
-      print("After replace \ with " "");
-
-      print(test2.replaceAll("\\", ""));
-      print("selected diagnosis ............................................");
-      print(json.encode(selectedDiseaseList));
-//Instance levelz
-
-      //----new
       dio.options.contentType = Headers.formUrlEncodedContentType;
 //or works once
       Response response =
           await dio.post("http://3.15.233.253:5000/doctors/preceptionupdate",
               data: {
-                "doctorid": "5fc7d1b6999df38f1bc95367",
-                "doctorname": "Dr Smit thakker",
+                "doctorid": id,
+                "doctorname": name,
                 "medicine": json.encode(selectMedicineList),
                 "test": json.encode(selectTestList),
                 "hospitalised": hospitalise.toString(),

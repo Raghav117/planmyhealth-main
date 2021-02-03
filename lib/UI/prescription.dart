@@ -14,6 +14,7 @@ import 'package:plan_my_health/UI/Selections/SelectTest.dart';
 import 'package:plan_my_health/UI/findings.dart';
 import 'package:plan_my_health/UI/suspectedDisease.dart';
 import 'package:plan_my_health/UI/viewPdf.dart';
+import 'package:plan_my_health/global/global.dart';
 import 'package:plan_my_health/model/Diagnosis.dart';
 import 'package:plan_my_health/model/Diagnostics.dart';
 import 'package:plan_my_health/model/Medicines.dart';
@@ -971,20 +972,26 @@ class _PrescriptionState extends State<Prescription> {
                                   )),
                               SizedBox(height: 20),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   print("sp-----------------" +
                                       specialitiesSelected.toString());
-
+                                  var response = await http.post(
+                                      "http://3.15.233.253:5000/checkdoctorexist",
+                                      body: {
+                                        "mobilenumber": mobileController.text
+                                      });
+                                  var data = jsonDecode(response.body);
+                                  print(data["data"]["_id"]);
                                   var prescription = apiHelper
                                       .sendPrescription(
-                                          widget.pid,
-                                          widget.name,
-                                          widget.gender,
+                                          data["data"]["_id"],
+                                          data["data"]["name"],
+                                          data["data"]["gender"],
                                           widget.age,
                                           814,
                                           "abc123",
                                           id,
-                                          name,
+                                          name.toString(),
                                           selectMedicineList,
                                           selectTestList,
                                           hospitalise,
@@ -992,80 +999,82 @@ class _PrescriptionState extends State<Prescription> {
                                           selectwellnesslist,
                                           "hello remark",
                                           selectedDiseaseList)
-                                      .then((value) {
-                                    String url = "http://3.15.233.253/" +
-                                        value.replaceAll("/var/www/html/", "");
+                                      .then(
+                                    (value) {
+                                      print(value);
+                                      // String url = "http://3.15.233.253/" +
+                                      //     value.replaceAll("/var/www/html/", "");
 
-                                    String domain =
-                                        "https://www.planmyhealth.in/" +
-                                            value.replaceAll(
-                                                "/var/www/html/", "");
+                                      // String domain =
+                                      //     "https://www.planmyhealth.in/" +
+                                      //         value.replaceAll(
+                                      //             "/var/www/html/", "");
 
-                                    String message = "Hello " +
-                                        widget.name +
-                                        "your prescription genreted by Dr. " +
-                                        name +
-                                        " \n Plese view your digital prescription by open below Link. \n *Link:* " +
-                                        url +
-                                        "\n\n *with domain* " +
-                                        domain;
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        // return object of type Dialog
-                                        return AlertDialog(
-                                          title:
-                                              new Text("Successfully Complete"),
-                                          content: new Text("patient " +
-                                              widget.name +
-                                              "'s prescription is ready to send as pdf On whatsApp"),
-                                          actions: <Widget>[
-                                            // usually buttons at the bottom of the dialog
-                                            Row(
-                                              children: [
-                                                new FlatButton(
-                                                  onPressed: () {
-                                                    launch(
-                                                        "https://wa.me/+91 " +
-                                                            widget.mobile +
-                                                            "/?text=" +
-                                                            message +
-                                                            "");
-                                                  },
-                                                  child: new Text(
-                                                      "Send on Whatsapp"),
-                                                ),
-                                                SizedBox(width: 80),
-                                                new FlatButton(
-                                                    child: new Text(
-                                                        "View and Send"),
-                                                    onPressed: () =>
+                                      // String message = "Hello " +
+                                      //     widget.name +
+                                      //     "your prescription genreted by Dr. " +
+                                      //     name +
+                                      //     " \n Plese view your digital prescription by open below Link. \n *Link:* " +
+                                      //     url +
+                                      //     "\n\n *with domain* " +
+                                      //     domain;
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (BuildContext context) {
+                                      //     // return object of type Dialog
+                                      //     return AlertDialog(
+                                      //       title:
+                                      //           new Text("Successfully Complete"),
+                                      //       content: new Text("patient " +
+                                      //           widget.name +
+                                      //           "'s prescription is ready to send as pdf On whatsApp"),
+                                      //       actions: <Widget>[
+                                      //         // usually buttons at the bottom of the dialog
+                                      //         Row(
+                                      //           children: [
+                                      //             new FlatButton(
+                                      //               onPressed: () {
+                                      //                 launch(
+                                      //                     "https://wa.me/+91 " +
+                                      //                         widget.mobile +
+                                      //                         "/?text=" +
+                                      //                         message +
+                                      //                         "");
+                                      //               },
+                                      //               child: new Text(
+                                      //                   "Send on Whatsapp"),
+                                      //             ),
+                                      //             SizedBox(width: 80),
+                                      //             new FlatButton(
+                                      //                 child: new Text(
+                                      //                     "View and Send"),
+                                      //                 onPressed: () =>
 
-                                                        // Navigator.push(
-                                                        //     this.context,
-                                                        //     MaterialPageRoute(
-                                                        //         builder:
-                                                        //             (context) =>
-                                                        //                 MyWebView(
-                                                        //                   title:
-                                                        //                       "Prescription",
-                                                        //                   selectedUrl: url,
-                                                        //                 )))
-                                                        _launchURL(url)),
-                                              ],
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    );
+                                      //                     // Navigator.push(
+                                      //                     //     this.context,
+                                      //                     //     MaterialPageRoute(
+                                      //                     //         builder:
+                                      //                     //             (context) =>
+                                      //                     //                 MyWebView(
+                                      //                     //                   title:
+                                      //                     //                       "Prescription",
+                                      //                     //                   selectedUrl: url,
+                                      //                     //                 )))
+                                      //                     _launchURL(url)),
+                                      //           ],
+                                      //         )
+                                      //       ],
+                                      //     );
+                                    },
+                                  );
 
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (context) => MyWebView(
-                                    //       title: "Existing clients",
-                                    //       selectedUrl: '$url'),
-                                    // );
-                                  });
+                                  // showDialog(
+                                  //   context: context,
+                                  //   builder: (context) => MyWebView(
+                                  //       title: "Existing clients",
+                                  //       selectedUrl: '$url'),
+                                  // );
+                                  // });
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
