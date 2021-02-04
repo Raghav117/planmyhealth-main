@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/UI/Home.dart';
 import 'package:plan_my_health/UI/VerifyNumber.dart';
+import 'package:plan_my_health/UI/findings.dart';
 import 'package:plan_my_health/model/Diagnosis.dart';
 import 'package:plan_my_health/model/Diagnostics.dart';
 import 'package:plan_my_health/model/LoginData.dart';
@@ -17,6 +18,7 @@ import 'package:plan_my_health/model/SelectWellnessList.dart';
 import 'package:plan_my_health/model/SelectedDisease.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:plan_my_health/model/Wellness.dart';
+import 'package:plan_my_health/model/findings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiHelper {
@@ -233,6 +235,8 @@ class ApiHelper {
       String specialitiesSelected,
       List<Wellnesslist> selectWellnessList,
       String remark,
+      List<Finding> findings,
+      DateTime followupdata,
       List<SelectedDisease> selectedDiseaseList) async {
     try {
       String test = json.encode(selectMedicineList).toString();
@@ -254,6 +258,8 @@ class ApiHelper {
                 "remark": remark.toString(),
                 "userid": "aaaaacdcd",
                 "diagnosis": json.encode(selectedDiseaseList),
+                "followupdate": followupdata.toString(),
+                "findings": findings
               },
               options: Options(
                 headers: {

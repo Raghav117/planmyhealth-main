@@ -12,6 +12,7 @@ import 'package:plan_my_health/UI/Selections/SeLectDisese.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_my_health/UI/Selections/SelectTest.dart';
 import 'package:plan_my_health/UI/findings.dart';
+import 'package:plan_my_health/UI/pdfOpener.dart';
 import 'package:plan_my_health/UI/suspectedDisease.dart';
 import 'package:plan_my_health/UI/viewPdf.dart';
 import 'package:plan_my_health/global/global.dart';
@@ -973,6 +974,14 @@ class _PrescriptionState extends State<Prescription> {
                               SizedBox(height: 20),
                               GestureDetector(
                                 onTap: () async {
+                                  String url;
+                                  List<Finding> find = [];
+                                  colors.forEach((element) {
+                                    if (element == true) {
+                                      find.add(
+                                          findings[colors.indexOf(element)]);
+                                    }
+                                  });
                                   print("sp-----------------" +
                                       specialitiesSelected.toString());
                                   var response = await http.post(
@@ -998,12 +1007,16 @@ class _PrescriptionState extends State<Prescription> {
                                           specialitiesSelected,
                                           selectwellnesslist,
                                           "hello remark",
+                                          find,
+                                          followupdate,
                                           selectedDiseaseList)
                                       .then(
                                     (value) {
                                       print(value);
-                                      // String url = "http://3.15.233.253/" +
-                                      //     value.replaceAll("/var/www/html/", "");
+                                      url = "http://3.15.233.253/" +
+                                          value.replaceAll(
+                                              "/var/www/html/", "");
+                                      print(url);
 
                                       // String domain =
                                       //     "https://www.planmyhealth.in/" +
@@ -1064,17 +1077,16 @@ class _PrescriptionState extends State<Prescription> {
                                       //           ],
                                       //         )
                                       //       ],
-                                      //     );
+
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PdfOpener(
+                                              url: url,
+                                            ),
+                                          )); //     );
                                     },
                                   );
-
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (context) => MyWebView(
-                                  //       title: "Existing clients",
-                                  //       selectedUrl: '$url'),
-                                  // );
-                                  // });
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
