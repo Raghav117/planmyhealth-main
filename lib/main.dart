@@ -13,7 +13,7 @@ void main() {
   Firebase.initializeApp();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'Flutter Demo',
+    title: 'Plan My Health',
     home: MyApp(),
   ));
 }
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     FirebaseAuth auth = FirebaseAuth.instance;
     print(auth.currentUser);
     auth.verifyPhoneNumber(
-      phoneNumber: "+919012220988",
+      phoneNumber: "919012220988",
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential);
         showDialog(
@@ -167,7 +167,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Splash();
-    // Scaffold(
+    // return Scaffold(
     //   body: ListView(
     //     children: [
     //       SizedBox(
