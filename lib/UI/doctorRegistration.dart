@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 
@@ -21,6 +22,24 @@ class DoctorRegistration extends StatefulWidget {
 }
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
+  checkDoctorExists() async {
+    var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
+        body: {"mobilenumber": mobileController.text});
+    bool exists = jsonDecode(response.body)["status"];
+    print(exists);
+    if (exists == true) {
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return Home();
+        },
+      ));
+    }
+    loading = false;
+    setState(() {});
+  }
+
+  bool loading = true;
+
   final _nameformKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _clinicformKey = GlobalKey<FormState>();
@@ -118,11 +137,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   bool wellness = false;
   bool chat = false;
 
-  bool loading = false;
-
   @override
   void initState() {
     super.initState();
+    loading = true;
+    checkDoctorExists();
+    setState(() {});
+
     images.add("Add Image");
     getLocation();
     _experiencecontroller.text =
