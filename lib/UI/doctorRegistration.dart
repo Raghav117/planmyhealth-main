@@ -140,8 +140,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   @override
   void initState() {
     super.initState();
-    loading = true;
-    checkDoctorExists();
+    loading = false;
+    // checkDoctorExists();
     setState(() {});
 
     images.add("Add Image");
