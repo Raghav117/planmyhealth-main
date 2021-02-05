@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
     auth = FirebaseAuth.instance;
     // navigate();
     loading = false;
+    setState(() {});
   }
 
   navigate() async {
