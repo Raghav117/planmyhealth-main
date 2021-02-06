@@ -15,6 +15,7 @@ import 'package:plan_my_health/model/image-capture.dart';
 import 'package:plan_my_health/model/selectCityList.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:plan_my_health/model/doctor.dart';
 
 class DoctorRegistration extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     bool exists = jsonDecode(response.body)["status"];
     print(exists);
     if (exists == true) {
+      data = Data.fromJson(jsonDecode(response.body)["data"]);
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
           return Home();
@@ -140,8 +142,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   @override
   void initState() {
     super.initState();
-    loading = false;
-    // checkDoctorExists();
+    loading = true;
+    checkDoctorExists();
     setState(() {});
 
     images.add("Add Image");

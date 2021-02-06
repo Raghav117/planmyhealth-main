@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plan_my_health/UI/PatentList.dart';
 import 'package:plan_my_health/UI/UsersListScreen.dart';
 import 'package:plan_my_health/UI/prescription.dart';
+import 'package:plan_my_health/UI/editProfile.dart';
 import 'package:plan_my_health/components/NavBarCustom.dart';
 
 class Home extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomeState extends State<Home> {
     ParientList(),
     UserListScreen(),
     Prescription(),
-    Center(child: Text("Find Bet")),
+    EditProfile(),
   ];
 
   @override
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
             "Madical",
             "Search",
             "Booking",
-            "Message",
+            "Profile",
           ],
           onChange: (val) {
             setState(() {
