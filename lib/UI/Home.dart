@@ -4,6 +4,7 @@ import 'package:plan_my_health/UI/UsersListScreen.dart';
 import 'package:plan_my_health/UI/prescription.dart';
 import 'package:plan_my_health/UI/editProfile.dart';
 import 'package:plan_my_health/components/NavBarCustom.dart';
+import 'search.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -16,8 +17,8 @@ class _HomeState extends State<Home> {
   int _selectedItem = 0;
   final Tab = [
     ParientList(),
+    Search(),
     UserListScreen(),
-    Prescription(),
     EditProfile(),
   ];
 

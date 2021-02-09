@@ -137,27 +137,25 @@ class _UserListScreenState extends State<UserListScreen>
     );
   }
 
-  ListView _jobsListView(data) {
-    print("---------------------");
-    print("length of get users list" + data.length.toString());
+  ListView _jobsListView(List<Doctorlist> data) {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
           if (data[index].userdata.length > 0)
-            return _tile(data[index].userdata[0]);
+            return _tile(data[index].userdata[0], data[index].sId);
           return Container();
         });
   }
 
-  ListTile _tile(dynamic user) => ListTile(
+  ListTile _tile(Userdata user, String sId) => ListTile(
         tileColor: Colors.green.shade50,
         // onTap: () async => await launch(url("+91 " + user.mobile.toString())),
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      PatientDetails(number: user.mobile.toString())));
+                  builder: (context) => PatientDetails(
+                      number: user.mobile.toString(), sId: sId)));
         },
         leading: Container(
             width: 54,

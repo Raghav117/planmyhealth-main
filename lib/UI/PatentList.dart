@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/UI/PatientDetails.dart';
+import 'package:plan_my_health/global/global.dart';
 import 'package:plan_my_health/model/Patient.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,6 +14,13 @@ class ParientList extends StatefulWidget {
 }
 
 class _ParientListState extends State<ParientList> {
+  bool online = false;
+  bool chat = false;
+  bool home_visit = false;
+  bool video = false;
+  bool center = false;
+  bool call = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +33,9 @@ class _ParientListState extends State<ParientList> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
               child: Text(
-                "Welcome to My Plan Health",
+                "Welcome to My Plan Health," + data.name,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     color: Colors.white,
                     fontWeight: FontWeight.w700),
               ),
@@ -131,6 +139,99 @@ class _ParientListState extends State<ParientList> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  Spacer(),
+                  Text(
+                    "Ofline",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Switch(
+                        value: online,
+                        onChanged: (value) {
+                          setState(() {
+                            online = value;
+                          });
+                        }),
+                  ),
+                  Text(
+                    "Online",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                ],
+              ),
+              online == false
+                  ? Container()
+                  : Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(child: Text("Chat")),
+                            Checkbox(
+                                value: chat,
+                                onChanged: (value) {
+                                  setState(() {
+                                    chat = value;
+                                  });
+                                })
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(child: Text("Home Visit")),
+                            Checkbox(
+                                value: home_visit,
+                                onChanged: (value) {
+                                  setState(() {
+                                    home_visit = value;
+                                  });
+                                })
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(child: Text("Video Call")),
+                            Checkbox(
+                                value: video,
+                                onChanged: (value) {
+                                  setState(() {
+                                    video = value;
+                                  });
+                                })
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(child: Text("At Center")),
+                            Checkbox(
+                                value: center,
+                                onChanged: (value) {
+                                  setState(() {
+                                    center = value;
+                                  });
+                                })
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(child: Text("Call")),
+                            Checkbox(
+                                value: call,
+                                onChanged: (value) {
+                                  setState(() {
+                                    call = value;
+                                  });
+                                })
+                          ],
+                        ),
+                      ],
+                    )
             ],
           ),
         ])),

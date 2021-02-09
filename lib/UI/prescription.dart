@@ -47,7 +47,9 @@ class Prescription extends StatefulWidget {
 class _PrescriptionState extends State<Prescription> {
 //  GlobalKey<AutoCompleteTextFieldState<Medicinelist>> key = new GlobalKey();
   ApiHelper apiHelper = ApiHelper();
-  TextEditingController medicineSerchController, remarkController;
+  TextEditingController medicineSerchController,
+      remarkController = TextEditingController();
+
   List<Map<String, String>> dia = [];
   List<Map<String, String>> spe = [];
   List<Medicinelist> medicinelist = [];
@@ -975,11 +977,19 @@ class _PrescriptionState extends State<Prescription> {
                               GestureDetector(
                                 onTap: () async {
                                   String url;
-                                  List<Finding> find = [];
+                                  List<String> find = [];
+                                  List<String> diagnosis = [];
+                                  int index = -1;
                                   colors.forEach((element) {
                                     if (element == true) {
-                                      find.add(
-                                          findings[colors.indexOf(element)]);
+                                      find.add(findings[++index].name);
+                                    }
+                                  });
+                                  index = -1;
+                                  suspectedColors.forEach((element) {
+                                    if (element == true) {
+                                      diagnosis.add(
+                                          suspectedDisease[++index].symptoms);
                                     }
                                   });
                                   print("sp-----------------" +
@@ -993,90 +1003,30 @@ class _PrescriptionState extends State<Prescription> {
                                   print(data["data"]["_id"]);
                                   var prescription = apiHelper
                                       .sendPrescription(
-                                          data["data"]["_id"],
-                                          data["data"]["name"],
-                                          data["data"]["gender"],
-                                          widget.age,
+                                          data["data"]["_id"].toString(),
+                                          data["data"]["name"].toString(),
+                                          data["data"]["gender"].toString(),
+                                          widget.age.toString(),
                                           814,
                                           "abc123",
-                                          id,
-                                          name.toString(),
+                                          widget.pid.toString(),
+                                          widget.name.toString(),
                                           selectMedicineList,
                                           selectTestList,
                                           hospitalise,
-                                          specialitiesSelected,
+                                          specialitiesSelected.toString(),
                                           selectwellnesslist,
-                                          "hello remark",
+                                          remarkController.text,
                                           find,
                                           followupdate,
-                                          selectedDiseaseList)
-                                      .then(
-                                    (value) {
-                                      print(value);
+                                          diagnosis)
+                                      .then((value) {
+                                    print(value);
+                                    if (value != null) {
                                       url = "http://3.15.233.253/" +
                                           value.replaceAll(
                                               "/var/www/html/", "");
                                       print(url);
-
-                                      // String domain =
-                                      //     "https://www.planmyhealth.in/" +
-                                      //         value.replaceAll(
-                                      //             "/var/www/html/", "");
-
-                                      // String message = "Hello " +
-                                      //     widget.name +
-                                      //     "your prescription genreted by Dr. " +
-                                      //     name +
-                                      //     " \n Plese view your digital prescription by open below Link. \n *Link:* " +
-                                      //     url +
-                                      //     "\n\n *with domain* " +
-                                      //     domain;
-                                      // showDialog(
-                                      //   context: context,
-                                      //   builder: (BuildContext context) {
-                                      //     // return object of type Dialog
-                                      //     return AlertDialog(
-                                      //       title:
-                                      //           new Text("Successfully Complete"),
-                                      //       content: new Text("patient " +
-                                      //           widget.name +
-                                      //           "'s prescription is ready to send as pdf On whatsApp"),
-                                      //       actions: <Widget>[
-                                      //         // usually buttons at the bottom of the dialog
-                                      //         Row(
-                                      //           children: [
-                                      //             new FlatButton(
-                                      //               onPressed: () {
-                                      //                 launch(
-                                      //                     "https://wa.me/+91 " +
-                                      //                         widget.mobile +
-                                      //                         "/?text=" +
-                                      //                         message +
-                                      //                         "");
-                                      //               },
-                                      //               child: new Text(
-                                      //                   "Send on Whatsapp"),
-                                      //             ),
-                                      //             SizedBox(width: 80),
-                                      //             new FlatButton(
-                                      //                 child: new Text(
-                                      //                     "View and Send"),
-                                      //                 onPressed: () =>
-
-                                      //                     // Navigator.push(
-                                      //                     //     this.context,
-                                      //                     //     MaterialPageRoute(
-                                      //                     //         builder:
-                                      //                     //             (context) =>
-                                      //                     //                 MyWebView(
-                                      //                     //                   title:
-                                      //                     //                       "Prescription",
-                                      //                     //                   selectedUrl: url,
-                                      //                     //                 )))
-                                      //                     _launchURL(url)),
-                                      //           ],
-                                      //         )
-                                      //       ],
 
                                       Navigator.push(
                                           context,
@@ -1085,8 +1035,10 @@ class _PrescriptionState extends State<Prescription> {
                                               url: url,
                                             ),
                                           )); //     );
-                                    },
-                                  );
+                                    } else {
+                                      print("Error");
+                                    }
+                                  });
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

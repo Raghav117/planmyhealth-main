@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientDetails extends StatefulWidget {
-  PatientDetails({Key key, this.number}) : super(key: key);
-  final String number;
+  PatientDetails({Key key, this.number, this.sId}) : super(key: key);
+  final String number, sId;
 
   ApiHelper apiHelper = ApiHelper();
   @override
@@ -65,7 +65,7 @@ class _PatientDetailsState extends State<PatientDetails>
                             name: patient.name,
                             age: patient.age.toString(),
                             gender: patient.gender,
-                            pid: patient.sId,
+                            pid: widget.sId,
                             mobile: patient.mobile.toString())));
               },
             ),

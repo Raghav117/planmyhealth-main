@@ -235,9 +235,9 @@ class ApiHelper {
       String specialitiesSelected,
       List<Wellnesslist> selectWellnessList,
       String remark,
-      List<Finding> findings,
+      List<String> findings,
       DateTime followupdata,
-      List<SelectedDisease> selectedDiseaseList) async {
+      List<String> diagnosis) async {
     try {
       String test = json.encode(selectMedicineList).toString();
 
@@ -256,8 +256,8 @@ class ApiHelper {
                 "specialist": specialitiesSelected.toString(),
                 "wellness": json.encode(selectWellnessList),
                 "remark": remark.toString(),
-                "userid": "aaaaacdcd",
-                "diagnosis": json.encode(selectedDiseaseList),
+                "userid": drid,
+                "diagnosis": diagnosis,
                 "followupdate": followupdata.toString(),
                 "findings": findings
               },

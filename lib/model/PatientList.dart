@@ -33,7 +33,7 @@ class Doctorlist {
     userdata = new List<Userdata>();
     if (json['userdata'].length > 0) {
       json['userdata'].forEach((v) {
-        userdata.add(new Userdata.fromJson(v));
+        userdata.add(new Userdata.fromJson(v, sId));
       });
     }
   }
@@ -88,8 +88,8 @@ class Userdata {
       this.activeFlag,
       this.activePlanId});
 
-  Userdata.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+  Userdata.fromJson(Map<String, dynamic> json, String sId) {
+    sId = sId;
     id = json['id'];
     name = json['name'];
     cityId = json['cityId'];
