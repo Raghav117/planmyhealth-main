@@ -50,6 +50,10 @@ class _MyAppState extends State<MyApp> {
     if (auth.currentUser != null) {
       print(auth.currentUser);
       mobileController.text = auth.currentUser.phoneNumber;
+      if (mobileController.text.length == 13) {
+        mobileController.text = mobileController.text.substring(3);
+        print(mobileController.text);
+      }
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) {
           return DoctorRegistration();
@@ -72,12 +76,12 @@ class _MyAppState extends State<MyApp> {
   FirebaseAuth auth;
 
   signin() async {
-    mobileController.text = "+91" + mobileController.text;
+    // mobileController.text = "+91" + mobileController.text;
     getUser();
     loading = true;
     setState(() {});
     auth.verifyPhoneNumber(
-      phoneNumber: mobileController.text,
+      phoneNumber: "+91" + mobileController.text,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential);
         showDialog(

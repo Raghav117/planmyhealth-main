@@ -29,7 +29,7 @@ class DoctorsCheckUp {
     doctorname = json['doctorname'];
     medicine = json['medicine'];
     test = json['test'];
-    diagnosis = json['diagnosis'];
+    diagnosis = json['diagnosis'].toString();
     hospitalised = json['hospitalised'];
     specialist = json['specialist'];
     wellness = json['wellness'];

@@ -25,7 +25,9 @@ class DoctorRegistration extends StatefulWidget {
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   checkDoctorExists() async {
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
-        body: {"mobilenumber": "+919936425632"}); //!  **************  To Do
+        body: {
+          "mobilenumber": mobileController.text
+        }); //!  **************  To Do
     bool exists = jsonDecode(response.body)["status"];
     print(exists);
     if (exists == true) {

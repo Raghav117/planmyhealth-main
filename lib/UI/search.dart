@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-
+import '../global/global.dart' as global;
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/UI/PatientDetails.dart';
@@ -109,8 +109,8 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
   }
 
   getPrescriptionData() async {
-    var response =
-        await http.get("http://3.15.233.253:5000/doctorprecriptionlist");
+    var response = await http.get(
+        "http://3.15.233.253:5000/doctorprecriptionlist?doctorid=${global.data.sId}");
     data = jsonDecode(response.body);
     print(data);
     data["doctorlist"].forEach((element) {
@@ -149,29 +149,9 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              :
-
-              // Container(
-              //   child: FutureBuilder<List<Doctorlist>>(
-              //     future: getuserlist(),
-              //     builder: (context, snapshot) {
-              //       if (snapshot.hasData) {
-              //         List<Doctorlist> data = snapshot.data;
-
-              //         return _jobsListView(data);
-              //       } else if (snapshot.hasError) {
-              //         return Text("${snapshot.error}");
-              //       }
-              //       return Center(
-              //         child: Container(
-              //             height: 40, width: 40, child: CircularProgressIndicator()),
-              //       );
-              //     },
-              //   ),
-              // ),
-              Column(
-                  children: doctorcheckup.map((e) {
-                  int index = doctorcheckup.indexOf(e);
+              : Column(
+                  children: userData.map((e) {
+                  int index = userData.indexOf(e);
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
@@ -198,7 +178,7 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                     child: Text("Name"),
                                   ),
                                   Expanded(
-                                    child: Text(userData[index].name),
+                                    child: Text(userData[0].name.toString()),
                                   ),
                                 ],
                               ),

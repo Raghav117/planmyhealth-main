@@ -978,7 +978,7 @@ class _PrescriptionState extends State<Prescription> {
                                 onTap: () async {
                                   String url;
                                   List<String> find = [];
-                                  List<String> diagnosis = [];
+                                  List<SuspectedDisease> diagnosis = [];
                                   int index = -1;
                                   colors.forEach((element) {
                                     if (element == true) {
@@ -988,8 +988,7 @@ class _PrescriptionState extends State<Prescription> {
                                   index = -1;
                                   suspectedColors.forEach((element) {
                                     if (element == true) {
-                                      diagnosis.add(
-                                          suspectedDisease[++index].symptoms);
+                                      diagnosis.add(suspectedDisease[++index]);
                                     }
                                   });
                                   print("sp-----------------" +
@@ -1001,6 +1000,8 @@ class _PrescriptionState extends State<Prescription> {
                                       });
                                   var data = jsonDecode(response.body);
                                   print(data["data"]["_id"]);
+                                  print(json.encode(suspectedDisease));
+                                  print(json.encode(selectMedicineList));
                                   var prescription = apiHelper
                                       .sendPrescription(
                                           data["data"]["_id"].toString(),
@@ -1019,7 +1020,7 @@ class _PrescriptionState extends State<Prescription> {
                                           remarkController.text,
                                           find,
                                           followupdate,
-                                          diagnosis)
+                                          suspectedDisease)
                                       .then((value) {
                                     print(value);
                                     if (value != null) {

@@ -27,9 +27,10 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   getDocumentsFiles() {
-    global.data.documentfiles.split(',').forEach((tag) {
-      documentsfiles.add(tag);
-    });
+    if (global.data.documentfiles != null)
+      global.data.documentfiles.split(',').forEach((tag) {
+        documentsfiles.add(tag);
+      });
 
     setState(() {});
   }
@@ -221,26 +222,26 @@ class _EditProfileState extends State<EditProfile> {
                             SizedBox(
                               height: 50,
                             ),
-                            // InkWell(
-                            //   onTap: () {
-                            //     show = !show;
-                            //     setState(() {});
-                            //   },
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //         color: Colors.green,
-                            //         borderRadius: BorderRadius.circular(20)),
-                            //     child: Padding(
-                            //       padding: const EdgeInsets.all(18.0),
-                            //       child: Text(
-                            //         "Prescription List",
-                            //         style: TextStyle(
-                            //             color: Colors.white,
-                            //             fontWeight: FontWeight.bold),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+                            //     // InkWell(
+                            //     //   onTap: () {
+                            //     //     show = !show;
+                            //     //     setState(() {});
+                            //     //   },
+                            //     //   child: Container(
+                            //     //     decoration: BoxDecoration(
+                            //     //         color: Colors.green,
+                            //     //         borderRadius: BorderRadius.circular(20)),
+                            //     //     child: Padding(
+                            //     //       padding: const EdgeInsets.all(18.0),
+                            //     //       child: Text(
+                            //     //         "Prescription List",
+                            //     //         style: TextStyle(
+                            //     //             color: Colors.white,
+                            //     //             fontWeight: FontWeight.bold),
+                            //     //       ),
+                            //     //     ),
+                            //     //   ),
+                            //     // ),
                             SizedBox(
                               height: 30,
                             ),
@@ -351,7 +352,8 @@ class _EditProfileState extends State<EditProfile> {
                               height: 300,
                               width: 300,
                               child: Image.network(
-                                "http://3.15.233.253/" + global.data.signature,
+                                "http://3.15.233.253/" +
+                                    global.data.signature.toString(),
                                 errorBuilder: (context, error, stackTrace) =>
                                     Icon(Icons.account_box_outlined),
                               ),
@@ -371,7 +373,9 @@ class _EditProfileState extends State<EditProfile> {
                       height: 400,
                       width: double.infinity,
                       child: ListView.builder(
-                        itemCount: documentsfiles.length - 1,
+                        itemCount: documentsfiles.length > 0
+                            ? documentsfiles.length - 1
+                            : 0,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             height: 300,

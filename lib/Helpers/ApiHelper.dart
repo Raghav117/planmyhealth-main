@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:plan_my_health/UI/Home.dart';
 import 'package:plan_my_health/UI/VerifyNumber.dart';
 import 'package:plan_my_health/UI/findings.dart';
+import 'package:plan_my_health/global/global.dart' as global;
 import 'package:plan_my_health/model/Diagnosis.dart';
 import 'package:plan_my_health/model/Diagnostics.dart';
 import 'package:plan_my_health/model/LoginData.dart';
@@ -19,6 +20,7 @@ import 'package:plan_my_health/model/SelectedDisease.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:plan_my_health/model/Wellness.dart';
 import 'package:plan_my_health/model/findings.dart';
+import 'package:plan_my_health/model/suspectedDisease.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiHelper {
@@ -118,7 +120,8 @@ class ApiHelper {
   }
 
   Future<PatientList> getOderList() async {
-    Response response = await dio.get("http://3.15.233.253:5000/orders");
+    Response response = await dio
+        .get("http://3.15.233.253:5000/orders?doctorid=${global.data.sId}");
 
     if (response.statusCode == 200) {
       print(response.data);
@@ -237,7 +240,7 @@ class ApiHelper {
       String remark,
       List<String> findings,
       DateTime followupdata,
-      List<String> diagnosis) async {
+      List<SuspectedDisease> suspecteddisease) async {
     try {
       String test = json.encode(selectMedicineList).toString();
 
@@ -257,7 +260,7 @@ class ApiHelper {
                 "wellness": json.encode(selectWellnessList),
                 "remark": remark.toString(),
                 "userid": drid,
-                "diagnosis": diagnosis,
+                "diagnosis": json.encode(suspecteddisease),
                 "followupdate": followupdata.toString(),
                 "findings": findings
               },
