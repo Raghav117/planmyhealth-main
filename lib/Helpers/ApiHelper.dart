@@ -238,7 +238,7 @@ class ApiHelper {
       String specialitiesSelected,
       List<Wellnesslist> selectWellnessList,
       String remark,
-      List<String> findings,
+      List<Finding> findings,
       DateTime followupdata,
       List<SuspectedDisease> suspecteddisease) async {
     try {
@@ -262,7 +262,7 @@ class ApiHelper {
                 "userid": drid,
                 "diagnosis": json.encode(suspecteddisease),
                 "followupdate": followupdata.toString(),
-                "findings": findings
+                "findings": json.encode(findings)
               },
               options: Options(
                 headers: {

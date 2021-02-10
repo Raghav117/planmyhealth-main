@@ -1,14 +1,16 @@
+import 'dart:convert';
+
 class DoctorsCheckUp {
   String doctorid;
   String doctorname;
   String medicine;
   String test;
-  String diagnosis;
+  var diagnosis;
   String hospitalised;
   String specialist;
   String wellness;
   String remark;
-  List<String> findings;
+  var findings;
   String followupdate;
 
   DoctorsCheckUp(
@@ -29,12 +31,12 @@ class DoctorsCheckUp {
     doctorname = json['doctorname'];
     medicine = json['medicine'];
     test = json['test'];
-    diagnosis = json['diagnosis'].toString();
+    // diagnosis = jsonDecode(json['diagnosis']);
     hospitalised = json['hospitalised'];
     specialist = json['specialist'];
     wellness = json['wellness'];
     remark = json['remark'];
-    findings = json['findings'].cast<String>();
+    findings = json['findings'];
     followupdate = json['followupdate'];
   }
 

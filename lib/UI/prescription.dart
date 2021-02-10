@@ -977,12 +977,12 @@ class _PrescriptionState extends State<Prescription> {
                               GestureDetector(
                                 onTap: () async {
                                   String url;
-                                  List<String> find = [];
+                                  List<Finding> find = [];
                                   List<SuspectedDisease> diagnosis = [];
                                   int index = -1;
                                   colors.forEach((element) {
                                     if (element == true) {
-                                      find.add(findings[++index].name);
+                                      find.add(findings[++index]);
                                     }
                                   });
                                   index = -1;

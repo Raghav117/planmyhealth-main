@@ -149,90 +149,93 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : Column(
-                  children: userData.map((e) {
-                  int index = userData.indexOf(e);
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PdfOpener(
-                            url: "http://3.15.233.253/" +
-                                data["doctorlist"][index]["pdffile"]
-                                    .replaceAll("/var/www/html/", ""),
-                          ),
-                        ));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.green, width: 3)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text("Name"),
-                                  ),
-                                  Expanded(
-                                    child: Text(userData[0].name.toString()),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text("Mobile Number"),
-                                  ),
-                                  Expanded(
-                                    child:
-                                        Text(userData[index].mobile.toString()),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text("Date"),
-                                  ),
-                                  Expanded(
-                                    child: Text(userData[index]
-                                        .dateOfJoining
-                                        .toString()),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text("Diagnosis"),
-                                  ),
-                                  Expanded(
-                                    child: Text(doctorcheckup[index]
-                                        .diagnosis
-                                        .toString()),
-                                  ),
-                                ],
-                              ),
-                            ],
+              : SingleChildScrollView(
+                  child: Column(
+                      children: userData.map((e) {
+                    int index = userData.indexOf(e);
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PdfOpener(
+                              url: "http://3.15.233.253/" +
+                                  data["doctorlist"][index]["pdffile"]
+                                      .replaceAll("/var/www/html/", ""),
+                            ),
+                          ));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border:
+                                  Border.all(color: Colors.green, width: 3)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text("Name"),
+                                    ),
+                                    Expanded(
+                                      child: Text(userData[0].name.toString()),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text("Mobile Number"),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                          userData[index].mobile.toString()),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text("Date"),
+                                    ),
+                                    Expanded(
+                                      child: Text(userData[index]
+                                          .dateOfJoining
+                                          .toString()),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text("Specialist"),
+                                    ),
+                                    Expanded(
+                                      child: Text(doctorcheckup[index]
+                                          .specialist
+                                          .toString()),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList())),
+                    );
+                  }).toList()),
+                )),
     );
   }
 
