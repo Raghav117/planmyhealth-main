@@ -1,6 +1,9 @@
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import '../UI/Home.dart';
+import '../main.dart';
 
 class PdfOpener extends StatefulWidget {
   final String url;
@@ -28,21 +31,54 @@ class _PdfOpenerState extends State<PdfOpener> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : Column(
-                  children: [
-                    Expanded(child: PDFViewer(document: doc)),
-                    RaisedButton(
-                      onPressed: () {
-                        Share.share('Doctor Prescription PDF \n${widget.url}');
-                      },
-                      color: Colors.green,
-                      child: Text("Share it"),
-                    )
-                  ],
-                )),
+      body: SafeArea(
+        child: Center(
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Column(
+                    children: [
+                      Container(
+                        color: Colors.green,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RaisedButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Home(),
+                                    ));
+                              },
+                              child: Text("Home"),
+                            ),
+                            RaisedButton(
+                              child: Text("Log Out"),
+                              onPressed: () {
+                                FirebaseAuth.instance.signOut();
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(
+                                  builder: (context) {
+                                    return MyApp();
+                                  },
+                                ));
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(child: PDFViewer(document: doc)),
+                      RaisedButton(
+                        onPressed: () {
+                          Share.share(
+                              'Doctor Prescription PDF \n${widget.url}');
+                        },
+                        color: Colors.green,
+                        child: Text("Share it"),
+                      )
+                    ],
+                  )),
+      ),
     );
   }
 }

@@ -94,7 +94,7 @@ class _AbcState extends State<Abc> {
                     onTap: () {
                       Navigator.pop(context, selectMedicineList);
                     },
-                    child: Text("close  "),
+                    child: Text("Save  "),
                   ),
                 ],
               ),

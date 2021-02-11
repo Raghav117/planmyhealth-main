@@ -23,6 +23,7 @@ class SelectMedicineList {
     data['time'] = this.time;
     data['qut'] = this.qut;
     data['withtake'] = this.withtake;
+    data['days'] = this.days;
     return data;
   }
 }

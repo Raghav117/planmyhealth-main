@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/Helpers/Medicine.dart';
@@ -29,6 +30,9 @@ import 'package:plan_my_health/model/suspectedDisease.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../main.dart';
+import 'Home.dart';
 
 class Prescription extends StatefulWidget {
   Prescription(
@@ -181,20 +185,56 @@ class _PrescriptionState extends State<Prescription> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.green,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
-                      child: Text(
-                        "Write Prescription",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                  Wrap(
+                    children: [
+                      Container(
+                        // height: 60,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.green,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
+                            child: Text(
+                              "Write Prescription",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        color: Colors.green,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RaisedButton(
+                              child: Text("Log Out"),
+                              onPressed: () {
+                                FirebaseAuth.instance.signOut();
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(
+                                  builder: (context) {
+                                    return MyApp();
+                                  },
+                                ));
+                              },
+                            ),
+                            RaisedButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Home(),
+                                    ));
+                              },
+                              child: Text("Home"),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
@@ -983,12 +1023,15 @@ class _PrescriptionState extends State<Prescription> {
                                   colors.forEach((element) {
                                     if (element == true) {
                                       find.add(findings[++index]);
-                                    }
+                                    } else
+                                      ++index;
                                   });
                                   index = -1;
                                   suspectedColors.forEach((element) {
                                     if (element == true) {
                                       diagnosis.add(suspectedDisease[++index]);
+                                    } else {
+                                      ++index;
                                     }
                                   });
                                   print("sp-----------------" +
@@ -1020,7 +1063,7 @@ class _PrescriptionState extends State<Prescription> {
                                           remarkController.text,
                                           find,
                                           followupdate,
-                                          suspectedDisease)
+                                          diagnosis)
                                       .then((value) {
                                     print(value);
                                     if (value != null) {

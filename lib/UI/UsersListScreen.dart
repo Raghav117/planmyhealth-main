@@ -102,17 +102,17 @@ class _UserListScreenState extends State<UserListScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
-        title: Text('Page title'),
-        actions: [
-          Icon(Icons.favorite),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
-        ],
-        backgroundColor: Colors.purple,
+        // leading: Icon(Icons.menu),
+        title: Text('Create Presciption'),
+        // actions: [
+        //   Icon(Icons.favorite),
+        //   // Padding(
+        //   //   padding: EdgeInsets.symmetric(horizontal: 16),
+        //   //   child: Icon(Icons.search),
+        //   // ),
+        //   // Icon(Icons.more_vert),
+        // ],
+        backgroundColor: Colors.green,
       ),
       body: SafeArea(
         child: Container(

@@ -243,7 +243,7 @@ class ApiHelper {
       List<SuspectedDisease> suspecteddisease) async {
     try {
       String test = json.encode(selectMedicineList).toString();
-
+      print(test);
       String test2 = json.encode(test).toString();
 
       dio.options.contentType = Headers.formUrlEncodedContentType;

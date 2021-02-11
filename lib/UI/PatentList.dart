@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/UI/PatientDetails.dart';
 import 'package:plan_my_health/global/global.dart';
 import 'package:plan_my_health/model/Patient.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../main.dart';
 
 class ParientList extends StatefulWidget {
   ParientList({Key key}) : super(key: key);
@@ -32,12 +34,29 @@ class _ParientListState extends State<ParientList> {
             color: Colors.green,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
-              child: Text(
-                "Welcome to My Plan Health," + data.name.toString(),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Welcome to My Plan Health," + data.name.toString(),
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  RaisedButton(
+                    child: Text("Log Out"),
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) {
+                          return MyApp();
+                        },
+                      ));
+                    },
+                  )
+                ],
               ),
             ),
           ),

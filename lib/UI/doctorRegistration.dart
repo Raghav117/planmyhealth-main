@@ -24,7 +24,7 @@ class DoctorRegistration extends StatefulWidget {
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   checkDoctorExists() async {
-    // mobileController.text = "90453629";
+    mobileController.text = "8356928929";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -804,7 +804,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           loading = true;
           setState(() {});
           String url =
-              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
+              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workingto=${selectedendTime}&workingfrom=${selectedStartTime}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
           var request = http.MultipartRequest('POST', Uri.parse(url));
           if (_imageFile != null) {
             request.files.add(http.MultipartFile(

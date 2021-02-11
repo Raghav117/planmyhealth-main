@@ -38,6 +38,12 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        // leading: Icon(Icons.menu),
+        centerTitle: true,
+        title: Text('Profile'),
+        backgroundColor: Colors.green,
+      ),
       body: loading == true
           ? Center(
               child: CircularProgressIndicator(),
