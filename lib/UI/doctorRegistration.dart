@@ -24,6 +24,7 @@ class DoctorRegistration extends StatefulWidget {
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   checkDoctorExists() async {
+    // mobileController.text = "90453629";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -140,6 +141,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   bool clinic = false;
   bool wellness = false;
   bool chat = false;
+  bool homevisit = false;
 
   @override
   void initState() {
@@ -358,18 +360,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    children: [
-                      Checkbox(
-                          value: check,
-                          onChanged: (value) {
-                            setState(() {
-                              check = value;
-                            });
-                          }),
-                      Text("Call")
-                    ],
-                  ),
+
                   Row(
                     children: [
                       Checkbox(
@@ -380,6 +371,18 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                             });
                           }),
                       Text("Vedio Call")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: check,
+                          onChanged: (value) {
+                            setState(() {
+                              check = value;
+                            });
+                          }),
+                      Text("Call")
                     ],
                   ),
                   Row(
@@ -428,6 +431,18 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                             });
                           }),
                       Text("Wellness Sessions")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: homevisit,
+                          onChanged: (value) {
+                            setState(() {
+                              homevisit = value;
+                            });
+                          }),
+                      Text("Home Visit")
                     ],
                   ),
                   SizedBox(
@@ -777,10 +792,19 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             selectedDate != null &&
             selectedStartTime != null &&
             selectedendTime != null) {
+          List<String> mode = [];
+          if (check == true) mode.add("Call");
+          if (vedio == true) mode.add("Vedio Call");
+          if (chat == true) mode.add("Chat");
+          if (clinic == true) mode.add("At Clinic");
+          if (homevisit == true) mode.add("Home Visit");
+          if (medical == true) mode.add("Medical Camps");
+          if (wellness == true) mode.add("Wellness Sessions");
+
           loading = true;
           setState(() {});
           String url =
-              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=[check,asfas]&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
+              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workinghour=${selectedendTime.hour - selectedStartTime.hour}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
           var request = http.MultipartRequest('POST', Uri.parse(url));
           if (_imageFile != null) {
             request.files.add(http.MultipartFile(
@@ -814,12 +838,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
 
           // var response = await http.post("");
           // print(response.body);
-          loading = false;
+          // loading = false;
           setState(() {});
-          Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (context) {
-            return Home();
-          }));
+          //!        TO   DO
+          checkDoctorExists();
+          // Navigator.of(context)
+          //     .pushReplacement(MaterialPageRoute(builder: (context) {
+          //   return Home();
+          // }));
         } else {
           showDialog(
               context: context,

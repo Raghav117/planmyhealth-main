@@ -141,7 +141,7 @@ class _AbcState extends State<Abc> {
                 children: [
                   Container(
                     height: 60,
-                    width: MediaQuery.of(context).size.width / 2 - 20,
+                    width: MediaQuery.of(context).size.width / 2 - 30,
                     decoration: BoxDecoration(
                         // color: AppColors.EDITTEXT_BG_COLOR,
                         // border: Border.all(
@@ -238,95 +238,110 @@ class _AbcState extends State<Abc> {
                 ],
               ),
               SizedBox(height: 20),
-              Container(
-                height: 60,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(4)),
-                child: DropdownButtonFormField(
-                  autovalidateMode: AutovalidateMode.disabled,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
+                    child: DropdownButtonFormField(
+                      autovalidateMode: AutovalidateMode.disabled,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1.0)),
+                        labelText: "Taken With ",
+                        hintText: "Taken With",
+                      ),
+                      elevation: 2,
+                      icon: Icon(Icons.arrow_drop_down),
+                      value: withSelected,
+                      onChanged: (value) {
+                        setState(() {});
+                        withSelected = value;
+                      },
+                      items: <String>['Water', 'Millk']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value,
+                              style: TextStyle(color: Colors.black)),
+                        );
+                      }).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return "Taken With is required";
+                        }
+                        return null;
+                      },
                     ),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-                    labelText: "Taken With ",
-                    hintText: "Taken With",
                   ),
-                  elevation: 2,
-                  icon: Icon(Icons.arrow_drop_down),
-                  value: withSelected,
-                  onChanged: (value) {
-                    setState(() {});
-                    withSelected = value;
-                  },
-                  items: <String>['Water', 'Millk']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value, style: TextStyle(color: Colors.black)),
-                    );
-                  }).toList(),
-                  validator: (value) {
-                    if (value == null) {
-                      return "Taken With is required";
-                    }
-                    return null;
-                  },
-                ),
+                  Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width / 2,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
+                    child: DropdownButtonFormField(
+                      autovalidateMode: AutovalidateMode.disabled,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1.0)),
+                        labelText: "For how many days",
+                        hintText: "For how many days",
+                      ),
+                      elevation: 2,
+                      icon: Icon(Icons.arrow_drop_down),
+                      value: daysselected,
+                      onChanged: (value) {
+                        daysselected = value;
+                        setState(() {});
+                      },
+                      items: <String>[
+                        '1 day',
+                        '2 days',
+                        '3 days',
+                        '4 days',
+                        '5 days',
+                        '6 days',
+                        '1 week',
+                        '15 days',
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value,
+                              style: TextStyle(color: Colors.black)),
+                        );
+                      }).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return "Taken With is required";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
               ),
               showContainer ? container() : SizedBox(),
               SizedBox(
                 height: 30,
-              ),
-              Container(
-                height: 60,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(4)),
-                child: DropdownButtonFormField(
-                  autovalidateMode: AutovalidateMode.disabled,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-                    labelText: "For how many days",
-                    hintText: "For how many days",
-                  ),
-                  elevation: 2,
-                  icon: Icon(Icons.arrow_drop_down),
-                  value: daysselected,
-                  onChanged: (value) {
-                    daysselected = value;
-                    setState(() {});
-                  },
-                  items: <String>[
-                    '1 day',
-                    '2 days',
-                    '3 days',
-                    '4 days',
-                    '5 days',
-                    '6 days',
-                    '1 week',
-                    '15 days',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value, style: TextStyle(color: Colors.black)),
-                    );
-                  }).toList(),
-                  validator: (value) {
-                    if (value == null) {
-                      return "Taken With is required";
-                    }
-                    return null;
-                  },
-                ),
               ),
               Spacer(),
               GestureDetector(

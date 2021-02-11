@@ -80,6 +80,18 @@ class _EditProfileState extends State<EditProfile> {
                                 )
                               ],
                             ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(child: Text("Date of Birth")),
+                                Expanded(
+                                  child: Text(global.data.dob.toString()),
+                                )
+                              ],
+                            ),
                             SizedBox(
                               height: 20,
                             ),
@@ -96,9 +108,98 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             Row(
                               children: [
+                                Expanded(child: Text("Specialization")),
+                                Expanded(
+                                  child: Text(
+                                      global.data.specialization.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            Row(
+                              children: [
                                 Expanded(child: Text("Practice")),
                                 Expanded(
                                   child: Text(global.data.practice.toString()),
+                                )
+                              ],
+                            ),
+
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Expanded(child: Text("Experience")),
+                            //     Expanded(
+                            //       child:
+                            //           Text(global.data.experience.toString()),
+                            //     )
+                            //   ],
+                            // ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(child: Text("Qualification")),
+                                Expanded(
+                                  child: Text(
+                                      global.data.qualification.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            SingleChildScrollView(
+                              child: Row(
+                                children: [
+                                  Expanded(child: Text("Mode of Services")),
+                                  Expanded(
+                                    child: Text(
+                                        global.data.modeofservices.toString()),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            Row(
+                              children: [
+                                Expanded(child: Text("Clinic Name")),
+                                Expanded(
+                                  child:
+                                      Text(global.data.clinicname.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(child: Text("City")),
+                                Expanded(
+                                  child: Text(global.data.cityId.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(child: Text("Address")),
+                                Expanded(
+                                  child: Text(global.data.address.toString()),
                                 )
                               ],
                             ),
@@ -119,99 +220,6 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             Row(
                               children: [
-                                Expanded(child: Text("Experience")),
-                                Expanded(
-                                  child:
-                                      Text(global.data.experience.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(child: Text("Address")),
-                                Expanded(
-                                  child: Text(global.data.address.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(child: Text("City")),
-                                Expanded(
-                                  child: Text(global.data.cityId.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(child: Text("Clinic Name")),
-                                Expanded(
-                                  child:
-                                      Text(global.data.clinicname.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(child: Text("Date of Birth")),
-                                Expanded(
-                                  child: Text(global.data.dob.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(child: Text("Mode of Services")),
-                                Expanded(
-                                  child: Text(
-                                      global.data.modeofservices.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(child: Text("Qualification")),
-                                Expanded(
-                                  child: Text(
-                                      global.data.qualification.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(child: Text("Specialization")),
-                                Expanded(
-                                  child: Text(
-                                      global.data.specialization.toString()),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
                                 Expanded(child: Text("Registration Number")),
                                 Expanded(
                                   child: Text(
@@ -220,8 +228,9 @@ class _EditProfileState extends State<EditProfile> {
                               ],
                             ),
                             SizedBox(
-                              height: 50,
+                              height: 20,
                             ),
+
                             //     // InkWell(
                             //     //   onTap: () {
                             //     //     show = !show;
