@@ -262,6 +262,7 @@ class ApiHelper {
                 "userid": drid,
                 "diagnosis": json.encode(suspecteddisease),
                 "followupdate": followupdata.toString(),
+                "doctorcheckdate": DateTime.now(),
                 "findings": json.encode(findings)
               },
               options: Options(

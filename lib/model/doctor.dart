@@ -25,6 +25,8 @@ class Data {
   String createdAt;
   String updatedAt;
   int iV;
+  String workingfrom;
+  String workingto;
 
   Data(
       {this.sId,
@@ -77,6 +79,8 @@ class Data {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    workingfrom = json['workingfrom'];
+    workingto = json['workingto'];
   }
 
   Map<String, dynamic> toJson() {

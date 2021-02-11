@@ -214,10 +214,23 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             Row(
                               children: [
-                                Expanded(child: Text("Working Hours")),
+                                Expanded(child: Text("Working From")),
                                 Expanded(
-                                  child:
-                                      Text(global.data.workinghour.toString()),
+                                    child: Text(global.data.workingfrom
+                                        .toString()
+                                        .replaceAll(RegExp(r'TimeOfDay'), "")))
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(child: Text("Working To")),
+                                Expanded(
+                                  child: Text(global.data.workingto
+                                      .toString()
+                                      .replaceAll(RegExp(r'TimeOfDay'), "")),
                                 )
                               ],
                             ),
