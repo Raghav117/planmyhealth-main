@@ -16,13 +16,6 @@ class ParientList extends StatefulWidget {
 }
 
 class _ParientListState extends State<ParientList> {
-  bool online = false;
-  bool chat = false;
-  bool home_visit = false;
-  bool video = false;
-  bool center = false;
-  bool call = false;
-  bool save = false;
   bool loading = false;
   List<String> options = [];
 
@@ -185,6 +178,7 @@ class _ParientListState extends State<ParientList> {
                             alignment: Alignment.topLeft,
                             child: Switch(
                               value: online,
+                              activeColor: Colors.green,
                               onChanged: (value) async {
                                 if (value == false) {
                                   setState(() {
@@ -217,110 +211,128 @@ class _ParientListState extends State<ParientList> {
                       ),
                       online == false
                           ? Container()
-                          : save == true
-                              ? RaisedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      save = !save;
-                                    });
-                                  },
-                                  child: Text("Options"),
-                                )
-                              : Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(child: Text("Chat")),
-                                        Checkbox(
-                                            value: chat,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                chat = value;
-                                              });
-                                            })
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(child: Text("Home Visit")),
-                                        Checkbox(
-                                            value: home_visit,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                home_visit = value;
-                                              });
-                                            })
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(child: Text("Video Call")),
-                                        Checkbox(
-                                            value: video,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                video = value;
-                                              });
-                                            })
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(child: Text("At Center")),
-                                        Checkbox(
-                                            value: center,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                center = value;
-                                              });
-                                            })
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(child: Text("Call")),
-                                        Checkbox(
-                                            value: call,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                call = value;
-                                              });
-                                            })
-                                      ],
-                                    ),
-                                    RaisedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          loading = true;
-                                        });
-                                        if (chat == true) options.add("chat");
-                                        if (home_visit == true)
-                                          options.add("Home Visit");
-                                        if (video == true)
-                                          options.add("Vedio Call");
-                                        if (center == true)
-                                          options.add("At Center");
-                                        if (call == true) options.add("Call");
+                          : Material(
+                              elevation: 20,
+                              color: Colors.transparent,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.green[400],
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(child: Text("Chat")),
+                                          Checkbox(
+                                              activeColor: Colors.purple[300],
+                                              value: chat,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  chat = value;
+                                                });
+                                              })
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(child: Text("Home Visit")),
+                                          Checkbox(
+                                              activeColor: Colors.purple[300],
+                                              value: home_visit,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  home_visit = value;
+                                                });
+                                              })
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(child: Text("Video Call")),
+                                          Checkbox(
+                                              activeColor: Colors.purple[300],
+                                              value: video,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  video = value;
+                                                });
+                                              })
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(child: Text("At Center")),
+                                          Checkbox(
+                                              activeColor: Colors.purple[300],
+                                              value: center,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  center = value;
+                                                });
+                                              })
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(child: Text("Call")),
+                                          Checkbox(
+                                              value: call,
+                                              activeColor: Colors.purple[300],
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  call = value;
+                                                });
+                                              })
+                                        ],
+                                      ),
+                                      RaisedButton(
+                                        elevation: 20,
+                                        color: Colors.green[400],
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        onPressed: () async {
+                                          setState(() {
+                                            loading = true;
+                                          });
 
-                                        var response = await http.post(
-                                            "http://3.15.233.253:5000/doctorstatusupdate",
-                                            body: {
-                                              "status": "Online",
-                                              "statusservices":
-                                                  options.toString(),
-                                              "mobilenumber":
-                                                  mobileController.text
-                                            });
-                                        print(response.body);
-                                        setState(() {
-                                          loading = false;
-                                          save = !save;
-                                        });
-                                      },
-                                      child: Text("Save"),
-                                    )
-                                  ],
-                                )
+                                          options.clear();
+                                          if (chat == true) options.add("chat");
+                                          if (home_visit == true)
+                                            options.add("Home Visit");
+                                          if (video == true)
+                                            options.add("Vedio Call");
+                                          if (center == true)
+                                            options.add("At Center");
+                                          if (call == true) options.add("Call");
+
+                                          var response = await http.post(
+                                              "http://3.15.233.253:5000/doctorstatusupdate",
+                                              body: {
+                                                "status": "Online",
+                                                "statusservices":
+                                                    options.toString(),
+                                                "mobilenumber":
+                                                    mobileController.text
+                                              });
+                                          print(response.body);
+                                          setState(() {
+                                            loading = false;
+                                            save = !save;
+                                          });
+                                        },
+                                        child: Text(
+                                          "Save",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
                     ],
                   ),
                 ),

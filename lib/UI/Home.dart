@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
   final Tab = [
     ParientList(),
     Search(),
-    UserListScreen(),
+    Prescription(),
     EditProfile(),
   ];
 
@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
           ],
           iconTitle: [
             "Madical",
-            "Search",
+            "Prescriptions",
             "Booking",
             "Profile",
           ],

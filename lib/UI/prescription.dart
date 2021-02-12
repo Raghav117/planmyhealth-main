@@ -358,7 +358,7 @@ class _PrescriptionState extends State<Prescription> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Select Suspected Disease",
+                                    "Suspected Disease",
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.black,
@@ -716,7 +716,7 @@ class _PrescriptionState extends State<Prescription> {
                               ),
 
                               Text(
-                                "Need to Hospitalise",
+                                "Hospitalization required ?",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
@@ -817,7 +817,7 @@ class _PrescriptionState extends State<Prescription> {
                               // ),
                               SizedBox(height: 12),
                               Text(
-                                "Select Specialities",
+                                "Specialist consultation",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
@@ -842,7 +842,7 @@ class _PrescriptionState extends State<Prescription> {
                                         borderSide: BorderSide(
                                             color: Colors.grey, width: 1.0)),
                                     labelText: "Specialities",
-                                    hintText: "Select Specialities",
+                                    hintText: "Specialist consultation",
                                   ),
                                   elevation: 2,
                                   icon: Icon(Icons.arrow_drop_down),
@@ -980,7 +980,7 @@ class _PrescriptionState extends State<Prescription> {
                                             );
                                           })),
                               Text(
-                                "Remark",
+                                "Special notes",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
