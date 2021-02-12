@@ -9,7 +9,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:usesCleartextTraffic="true"
-        android:label="plan_my_health"
+        android:label="Plan My Health Doctor App"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

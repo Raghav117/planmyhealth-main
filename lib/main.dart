@@ -298,8 +298,19 @@ class _MyAppState extends State<MyApp> {
     // return DoctorRegistration();
     return Scaffold(
         body: page == 0
-            ? Center(
-                child: Image.asset("assets/logo.png"),
+            ? Column(
+                children: [
+                  Spacer(),
+                  Center(
+                    child: Image.asset("assets/logo.jpeg"),
+                  ),
+                  Spacer(),
+                  Text(
+                    "Doctor and Health Professional Use only ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                ],
               )
             : loading == true
                 ? Container(
