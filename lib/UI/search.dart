@@ -180,7 +180,8 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                       child: Text("Name"),
                                     ),
                                     Expanded(
-                                      child: Text(userData[0].name.toString()),
+                                      child:
+                                          Text(userData[index].name.toString()),
                                     ),
                                   ],
                                 ),
@@ -219,12 +220,19 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Text("Specialist"),
+                                      child: Text("Diagnosis"),
                                     ),
                                     Expanded(
-                                      child: Text(doctorcheckup[index]
-                                          .specialist
-                                          .toString()),
+                                      child: Container(
+                                          child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: doctorcheckup[index]
+                                            .diagnosis
+                                            .map((e) =>
+                                                Text(e["diagnosis_name"]))
+                                            .toList(),
+                                      )),
                                     ),
                                   ],
                                 ),

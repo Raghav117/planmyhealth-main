@@ -5,7 +5,8 @@ class DoctorsCheckUp {
   String doctorname;
   String medicine;
   String test;
-  var diagnosis;
+  List diagnosis;
+  List diagnosisList;
   String hospitalised;
   String specialist;
   String wellness;
@@ -31,13 +32,15 @@ class DoctorsCheckUp {
     doctorname = json['doctorname'];
     medicine = json['medicine'];
     test = json['test'];
-    // diagnosis = jsonDecode(json['diagnosis']);
+    diagnosis = jsonDecode(json['diagnosis'].toString());
     hospitalised = json['hospitalised'];
     specialist = json['specialist'];
     wellness = json['wellness'];
     remark = json['remark'];
     findings = json['findings'];
     followupdate = json['followupdate'];
+    final regExp = new RegExp(r'(?:\[)?(\[[^\]]*?\](?:,?))(?:\])?');
+    // var input = json['diagnosis'];
   }
 
   Map<String, dynamic> toJson() {
