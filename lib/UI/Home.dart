@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
   final Tab = [
     ParientList(),
     Search(),
-    Prescription(),
+    UserListScreen(),
     EditProfile(),
   ];
 
