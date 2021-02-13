@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
@@ -207,30 +206,42 @@ class _PrescriptionState extends State<Prescription> {
                       Container(
                         color: Colors.green,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // mainAxisAlignment: MainAxisAlignment.s,
                           children: [
-                            RaisedButton(
-                              child: Text("Log Out"),
-                              onPressed: () {
-                                FirebaseAuth.instance.signOut();
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(
-                                  builder: (context) {
-                                    return MyApp();
-                                  },
-                                ));
-                              },
+                            Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Text("Log Out"),
+                                onPressed: () {
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(
+                                    builder: (context) {
+                                      return MyApp();
+                                    },
+                                  ));
+                                },
+                              ),
                             ),
-                            RaisedButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Home(),
-                                    ));
-                              },
-                              child: Text("Home"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Home(),
+                                      ));
+                                },
+                                child: Text("Home"),
+                              ),
                             ),
+                            Spacer(),
                           ],
                         ),
                       )
@@ -240,7 +251,7 @@ class _PrescriptionState extends State<Prescription> {
                     padding: const EdgeInsets.all(8),
                     width: MediaQuery.of(context).size.width,
                     height: 100,
-                    color: Colors.grey.shade600,
+                    color: Colors.grey,
                     child: Column(
                       children: [
                         Row(children: [
@@ -285,7 +296,7 @@ class _PrescriptionState extends State<Prescription> {
                                   Text(
                                     "Findings",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -360,7 +371,7 @@ class _PrescriptionState extends State<Prescription> {
                                   Text(
                                     "Suspected Disease",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -432,7 +443,7 @@ class _PrescriptionState extends State<Prescription> {
                                   Text(
                                     "Add Medicines",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -479,17 +490,17 @@ class _PrescriptionState extends State<Prescription> {
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Color(0xFF0000000F),
-                                        blurRadius: 25.0, // soften the shadow
-                                        spreadRadius: 5.0, //extend the shadow
-                                        offset: Offset(
-                                          15.0, // Move to right 10  horizontally
-                                          15.0, // Move to bottom 10 Vertically
-                                        ),
-                                      )
-                                    ],
+                                    // boxShadow: [
+                                    //   BoxShadow(
+                                    //     color: Color(0xFF0000000F),
+                                    //     blurRadius: 25.0, // soften the shadow
+                                    //     spreadRadius: 5.0, //extend the shadow
+                                    //     offset: Offset(
+                                    //       15.0, // Move to right 10  horizontally
+                                    //       15.0, // Move to bottom 10 Vertically
+                                    //     ),
+                                    //   )
+                                    // ],
                                   ),
                                   child: selectMedicineList.isEmpty
                                       ? Row(
@@ -578,7 +589,7 @@ class _PrescriptionState extends State<Prescription> {
                                   Text(
                                     "Select Test",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -684,7 +695,7 @@ class _PrescriptionState extends State<Prescription> {
                                 children: [
                                   Text("Follow Up Date",
                                       style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 18,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -718,7 +729,7 @@ class _PrescriptionState extends State<Prescription> {
                               Text(
                                 "Hospitalization required ?",
                                 style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -819,7 +830,7 @@ class _PrescriptionState extends State<Prescription> {
                               Text(
                                 "Specialist consultation",
                                 style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -876,7 +887,7 @@ class _PrescriptionState extends State<Prescription> {
                                   Text(
                                     "Wellness Tips",
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -982,7 +993,7 @@ class _PrescriptionState extends State<Prescription> {
                               Text(
                                 "Special notes",
                                 style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -1084,19 +1095,22 @@ class _PrescriptionState extends State<Prescription> {
                                     }
                                   });
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(6))),
-                                  alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Text(
-                                      "Save Prescription",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
+                                child: Center(
+                                  child: Container(
+                                    height: 60,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6))),
+                                    alignment: Alignment.center,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Text(
+                                        "Save Prescription",
+                                        style: TextStyle(
+                                            fontSize: 15, color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -84,17 +84,11 @@ class _AbcState extends State<Abc> {
             children: <Widget>[
               SizedBox(height: 40),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     " Add Medicines",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context, selectMedicineList);
-                    },
-                    child: Text("Save  "),
                   ),
                 ],
               ),
@@ -344,75 +338,100 @@ class _AbcState extends State<Abc> {
                 height: 30,
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    showContainer = true;
-                  });
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showContainer = true;
+                      });
 
-                  if (showContainer == true) {
-                    Abc(
-                      selectMedicineList: selectMedicineList,
-                    );
-                  } else {}
-                  SelectMedicineList selectMedicine = new SelectMedicineList();
+                      if (showContainer == true) {
+                        Abc(
+                          selectMedicineList: selectMedicineList,
+                        );
+                      } else {}
+                      SelectMedicineList selectMedicine =
+                          new SelectMedicineList();
 
-                  selectMedicine.id = medid.toString();
+                      selectMedicine.id = medid.toString();
 
-                  selectMedicine.name = serchController.text;
-                  selectMedicine.time = timeSelected.toString();
-                  selectMedicine.qut = quntitySelected.toString();
-                  selectMedicine.withtake = withSelected.toString();
-                  selectMedicine.days = daysselected.toString();
-                  selectMedicineList.add(selectMedicine);
+                      selectMedicine.name = serchController.text;
+                      selectMedicine.time = timeSelected.toString();
+                      selectMedicine.qut = quntitySelected.toString();
+                      selectMedicine.withtake = withSelected.toString();
+                      selectMedicine.days = daysselected.toString();
+                      selectMedicineList.add(selectMedicine);
 
-                  // Navigator.pop(context, selectMedicineList)
+                      // Navigator.pop(context, selectMedicineList)
 
-                  print(" ---------------------- ");
-                  print("medicines Name: " + serchController.text);
-                  print("medicines Name: " + medid);
-                  print("time: " + timeSelected.toString());
-                  print("quant: " + quntitySelected.toString());
-                  print("with: " + withSelected.toString());
+                      print(" ---------------------- ");
+                      print("medicines Name: " + serchController.text);
+                      print("medicines Name: " + medid);
+                      print("time: " + timeSelected.toString());
+                      print("quant: " + quntitySelected.toString());
+                      print("with: " + withSelected.toString());
 //--------old
-                  // selectMedicineList.add({
-                  //   "id": medid.toString(),
-                  //   "name": medicineSerchController.text.toString(),
-                  //   "time": timeSelected.toString(),
-                  //   "qut": quntitySelected.toString(),
-                  //   "with": withSelected.toString()
-                  // });
+                      // selectMedicineList.add({
+                      //   "id": medid.toString(),
+                      //   "name": medicineSerchController.text.toString(),
+                      //   "time": timeSelected.toString(),
+                      //   "qut": quntitySelected.toString(),
+                      //   "with": withSelected.toString()
+                      // });
 
-                  print("===================================");
-                  print(selectMedicineList[0]);
-                  print('value is--> ' + json.encode(selectMedicineList[0]));
+                      print("===================================");
+                      print(selectMedicineList[0]);
+                      print(
+                          'value is--> ' + json.encode(selectMedicineList[0]));
 
-                  // setState(() {
-                  //   Navigator.pushReplacement(
-                  //     context,
-                  //     PageRouteBuilder(
-                  //       transitionDuration: Duration.zero,
-                  //       pageBuilder: (_, __, ___) => Abc(
-                  //         selectMedicineList: selectMedicineList,
-                  //       ),
-                  //     ),
-                  //   );
-                  // });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.all(Radius.circular(6))),
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      "Add more Medicine",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                      // setState(() {
+                      //   Navigator.pushReplacement(
+                      //     context,
+                      //     PageRouteBuilder(
+                      //       transitionDuration: Duration.zero,
+                      //       pageBuilder: (_, __, ___) => Abc(
+                      //         selectMedicineList: selectMedicineList,
+                      //       ),
+                      //     ),
+                      //   );
+                      // });
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          "Add more Medicine",
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context, selectMedicineList);
+                    },
+                    child: Container(
+                        height: 50,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.all(Radius.circular(6))),
+                        alignment: Alignment.center,
+                        child: Center(
+                            child: Text(
+                          "Save",
+                          style: TextStyle(color: Colors.white),
+                        ))),
+                  ),
+                ],
               ),
             ],
           ),

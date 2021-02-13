@@ -48,6 +48,8 @@ class _ParientListState extends State<ParientList> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
                             child: Text("Log Out"),
                             onPressed: () {
                               FirebaseAuth.instance.signOut();

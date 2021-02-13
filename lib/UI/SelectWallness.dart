@@ -81,6 +81,8 @@ class _SelectWallnessState extends State<SelectWallness> {
               Navigator.pop(context, selectwellnesslist);
             },
             child: Container(
+              height: 50,
+              width: 125,
               decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.all(Radius.circular(6))),
@@ -88,12 +90,12 @@ class _SelectWallnessState extends State<SelectWallness> {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
-                  "Save Wellness",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  "Save ",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),
             ),
-          ),
+          )
         ])),
       ),
     );

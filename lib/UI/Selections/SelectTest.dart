@@ -80,6 +80,8 @@ class _SelectTestState extends State<SelectTest> {
               Navigator.pop(context, selectTestList);
             },
             child: Container(
+              height: 50,
+              width: 125,
               decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.all(Radius.circular(6))),
@@ -88,7 +90,7 @@ class _SelectTestState extends State<SelectTest> {
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   "Save Test",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),
             ),
