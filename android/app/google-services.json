@@ -14,6 +14,43 @@
       },
       "oauth_client": [
         {
+          "client_id": "411703470205-rq6jc82gf82nfk2jnij599eeil7kn4g6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.plan_my_health",
+            "certificate_hash": "67c03591347510ae8acce1e1beae621e03af1ed9"
+          }
+        },
+        {
+          "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj1HeXke4Rzfc0tOPpdSKFzbubSEbsQTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411703470205:android:ce5e66692b2820ca93e914",
+        "android_client_info": {
+          "package_name": "com.planmyhealth.doctor"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.plan_my_health">
+    package="com.planmyhealth.doctor">
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -9,7 +9,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:usesCleartextTraffic="true"
-        android:label="Plan My Health Doctor App"
+        android:label="Plan My Health Doctor"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
