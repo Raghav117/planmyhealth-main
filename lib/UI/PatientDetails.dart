@@ -5,7 +5,7 @@ import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/UI/prescription.dart';
 import 'package:plan_my_health/model/Patient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as launch;
 
 class PatientDetails extends StatefulWidget {
   PatientDetails({Key key, this.number, this.sId, this.city}) : super(key: key);
@@ -282,6 +282,30 @@ class _PatientDetailsState extends State<PatientDetails>
                             //   ],
                             // ),
 
+                            SizedBox(height: 8),
+                            GestureDetector(
+                              onTap: () async {
+                                await launch.launch(
+                                    "https://wa.me/+91${widget.number}?text=Hii");
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    "Whatsapp",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 8),
                             GestureDetector(
                               onTap: () => _showDialog(),
