@@ -23,8 +23,10 @@ class DoctorRegistration extends StatefulWidget {
 }
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
+  String selectCity = "Mumbai";
+
   checkDoctorExists() async {
-    // mobileController.text = "8356928929";
+    mobileController.text = "8356928929";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -55,26 +57,39 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   final _regNumController = TextEditingController();
   final _emailformKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _cityController = TextEditingController();
+  // final _cityController = TextEditingController();
   final _experiencecontroller = TextEditingController();
 
   String _selectedcategory = "Doctor";
   String _selectedpractice = "Allopathy";
   var _selectedexperience = "";
   String _selectedqual = "BAMS";
-  String _selectedcity = "";
+  // String _selectedcity = "";
   String _selectedgender = "Male";
-  String cityName = "";
+  // String cityName = "";
   TimeOfDay selectedStartTime = TimeOfDay.now();
   TimeOfDay selectedendTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
-  List<City> selectCity = [];
+  // List<City> selectCity = [];
   List images = List();
   File _imageFile;
   File _signatureimageFile;
   List<Asset> multiimages = List<Asset>();
   String _error = 'No Error Dectected';
-
+  List<String> city = <String>[
+    "Mumbai",
+    "thane",
+    "Navi Mumbai",
+    "Pune",
+    "Ahmedabad",
+    "Delhi",
+    "Bengluru",
+    "Kolkata",
+    "Indore",
+    "Chandigarh",
+    "Lucknow",
+    "Patna"
+  ];
   List<String> _DoctorCategory = <String>[
     'Doctor',
     'Clinic',
@@ -119,6 +134,22 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     'ANM',
     'GNM',
     'BPT',
+  ];
+
+  List<bool> qualtification = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
   ];
 
   List<String> _PracticeType = <String>[
@@ -348,6 +379,36 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                  Text("Qualifications",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  Column(
+                    children: _Qualification.map((e) {
+                      int index = _Qualification.indexOf(e);
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Expanded(child: Text(e)),
+                            Expanded(
+                              child: Checkbox(
+                                value: qualtification[index],
+                                onChanged: (value) {
+                                  setState(() {
+                                    qualtification[index] =
+                                        !qualtification[index];
+                                  });
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
                   SizedBox(height: height * 0.04),
                   Text(
                     "Services",
@@ -540,39 +601,24 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   SizedBox(height: height * 0.04),
                   clinicName(),
                   SizedBox(height: height * 0.04),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 52.0, right: 52.0),
-                    child: Card(
-                      // ignore: missing_required_param
-                      child: AutoCompleteTextField<City>(
-                        controller: _cityController,
-                        clearOnSubmit: false,
-                        suggestions: City.getCity(),
-                        style: TextStyle(color: Colors.green, fontSize: 16.0),
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
-                          hintText: "Search City",
-                          hintStyle: TextStyle(color: Colors.green),
-                        ),
-                        itemFilter: (item, query) {
-                          return item.name
-                              .toLowerCase()
-                              .startsWith(query.toLowerCase());
-                        },
-                        itemSorter: (a, b) {
-                          return a.name.compareTo(b.name);
-                        },
-                        itemSubmitted: (item) {
-                          _cityController.text = item.name;
-                        },
-                        itemBuilder: (context, item) {
-                          // ui for the autocomplete row
-                          return row(item);
-                        },
-                      ),
-                    ),
+                  Text(
+                    "Selecty City",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(height: height * 0.04),
+                  DropdownButton(
+                      value: selectCity,
+                      onChanged: (value) {
+                        setState(() {
+                          selectCity = value;
+                        });
+                      },
+                      items: city.map((e) {
+                        return DropdownMenuItem(
+                          child: Text(e),
+                          value: e,
+                        );
+                      }).toList()),
                   SizedBox(height: height * 0.06),
                   address(),
                   SizedBox(height: height * 0.04),
@@ -766,8 +812,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(1990, 8),
+        firstDate: DateTime(1890, 01),
         lastDate: DateTime(2101));
+
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
@@ -779,7 +826,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     return OutlineButton(
       onPressed: () async {
         if (_experiencecontroller.text.length != 0 &&
-            _cityController.text.length != 0 &&
             _regNumController.text.length != 0 &&
             _clinicController.text.length != 0 &&
             _nameController.text.length != 0 &&
@@ -804,7 +850,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           loading = true;
           setState(() {});
           String url =
-              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${_cityController.text}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
+              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
           var request = http.MultipartRequest('POST', Uri.parse(url));
           if (_imageFile != null) {
             request.files.add(http.MultipartFile(

@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  advance_pdf_viewer: ^1.2.2
   autocomplete_textfield: ^1.7.3
   cupertino_icons: ^1.0.0
   dio: ^3.0.10

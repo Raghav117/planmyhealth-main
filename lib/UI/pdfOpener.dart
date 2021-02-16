@@ -10,6 +10,7 @@ import 'package:share/share.dart';
 import '../UI/Home.dart';
 import '../main.dart';
 // import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
 class PdfOpener extends StatefulWidget {
   final String url;
@@ -21,15 +22,17 @@ class PdfOpener extends StatefulWidget {
 
 class _PdfOpenerState extends State<PdfOpener> {
   bool _isloading = true;
-
+  PDFDocument doc;
   @override
   void initState() {
     super.initState();
-    createFileOfPdfUrl(widget.url).then((f) {
-      setState(() {
-        remotePDFpath = f.path;
-      });
-    });
+    getPdf();
+  }
+
+  getPdf() async {
+    doc = await PDFDocument.fromURL(widget.url);
+    _isloading = false;
+    setState(() {});
   }
 
   String remotePDFpath = "";
@@ -103,12 +106,7 @@ class _PdfOpenerState extends State<PdfOpener> {
                           ],
                         ),
                       ),
-                      Expanded(
-                          child: PDF.network(
-                        widget.url,
-                        height: MediaQuery.of(context).size.height - 100,
-                        width: MediaQuery.of(context).size.width,
-                      )),
+                      Expanded(child: PDFViewer(document: doc)),
                       RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
