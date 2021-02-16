@@ -187,7 +187,7 @@ class _AbcState extends State<Abc> {
                   ),
                   Container(
                     height: 60,
-                    width: MediaQuery.of(context).size.width / 2 - 20,
+                    width: MediaQuery.of(context).size.width / 2,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(4)),
                     child: DropdownButtonFormField(
@@ -415,9 +415,11 @@ class _AbcState extends State<Abc> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context, selectMedicineList);
-                    },
+                    onTap: selectMedicineList.length > 0
+                        ? () {
+                            Navigator.pop(context, selectMedicineList);
+                          }
+                        : () {},
                     child: Container(
                         height: 50,
                         width: 100,

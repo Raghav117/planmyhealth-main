@@ -1087,8 +1087,9 @@ class _PrescriptionState extends State<Prescription> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => PdfOpener(
-                                              url: url,
-                                            ),
+                                                url: url,
+                                                name: widget.name,
+                                                mobile: widget.mobile),
                                           )); //     );
                                     } else {
                                       print("Error");
@@ -1106,11 +1107,11 @@ class _PrescriptionState extends State<Prescription> {
                                     alignment: Alignment.center,
                                     child: Padding(
                                       padding: const EdgeInsets.all(12.0),
-                                      child: Text(
-                                        "Save Prescription",
-                                        style: TextStyle(
-                                            fontSize: 15, color: Colors.white),
-                                      ),
+                                      child: Text("Save",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
                                     ),
                                   ),
                                 ),

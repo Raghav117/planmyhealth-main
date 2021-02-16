@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PatientDetails extends StatefulWidget {
-  PatientDetails({Key key, this.number, this.sId}) : super(key: key);
-  final String number, sId;
+  PatientDetails({Key key, this.number, this.sId, this.city}) : super(key: key);
+  final String number, sId, city;
 
   ApiHelper apiHelper = ApiHelper();
   @override
@@ -100,14 +100,17 @@ class _PatientDetailsState extends State<PatientDetails>
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        // color: Colors.green.shade300,
-                        padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
-                        child: Text("Back",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            )),
+                      InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          // color: Colors.green.shade300,
+                          padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
+                          child: Text("Back",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              )),
+                        ),
                       ),
                       Container(
                         color: Colors.green.shade300,
@@ -117,14 +120,13 @@ class _PatientDetailsState extends State<PatientDetails>
                             Row(
                               children: [
                                 Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(
-                                                "https://i1.wp.com/www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-2.jpg")))),
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.asset("assets/logo.jpeg"),
+                                ),
                                 SizedBox(width: 15),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -163,7 +165,7 @@ class _PatientDetailsState extends State<PatientDetails>
                               Icon(Icons.location_city),
                               SizedBox(width: 5),
                               Text(
-                                "Virat Nagar, Virar West Maharashtra ",
+                                widget.city.toString(),
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
@@ -177,17 +179,17 @@ class _PatientDetailsState extends State<PatientDetails>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 15),
-                            Text(
-                              "Problem: ",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w800),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              "Take the time to make some notes about your symptoms before you call or visit the doctor. Worrying about your symptoms is not a sign of weakness. Being honest about what you are experiencing doesn't mean that you are complaining. The doctor needs to know how you feel.",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
-                            ),
+                            // Text(
+                            //   "Problem: ",
+                            //   style: TextStyle(
+                            //       fontSize: 18, fontWeight: FontWeight.w800),
+                            // ),
+                            // SizedBox(height: 8),
+                            // Text(
+                            //   "Take the time to make some notes about your symptoms before you call or visit the doctor. Worrying about your symptoms is not a sign of weakness. Being honest about what you are experiencing doesn't mean that you are complaining. The doctor needs to know how you feel.",
+                            //   style: TextStyle(
+                            //       fontSize: 14, fontWeight: FontWeight.w400),
+                            // ),
                           ],
                         ),
                       ),
@@ -196,89 +198,90 @@ class _PatientDetailsState extends State<PatientDetails>
                           padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                           //   color: Colors.pink.shade300,
                           child: Column(children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    print("Phone call");
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6))),
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.phone),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              "Phone",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ],
-                                        )),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print("send email");
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6))),
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.email),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              "Email",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ],
-                                        )),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print("send Message");
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6))),
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.message),
-                                            SizedBox(width: 5),
-                                            Text(
-                                              "Message",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ],
-                                        )),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         print("Phone call");
+                            //       },
+                            //       child: Container(
+                            //         decoration: BoxDecoration(
+                            //             color: Colors.green,
+                            //             borderRadius: BorderRadius.all(
+                            //                 Radius.circular(6))),
+                            //         alignment: Alignment.center,
+                            //         child: Padding(
+                            //             padding: const EdgeInsets.all(12.0),
+                            //             child: Row(
+                            //               children: [
+                            //                 Icon(Icons.phone),
+                            //                 SizedBox(width: 5),
+                            //                 Text(
+                            //                   "Phone",
+                            //                   style: TextStyle(
+                            //                       fontSize: 20,
+                            //                       fontWeight: FontWeight.w600),
+                            //                 ),
+                            //               ],
+                            //             )),
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         print("send email");
+                            //       },
+                            //       child: Container(
+                            //         decoration: BoxDecoration(
+                            //             color: Colors.green,
+                            //             borderRadius: BorderRadius.all(
+                            //                 Radius.circular(6))),
+                            //         alignment: Alignment.center,
+                            //         child: Padding(
+                            //             padding: const EdgeInsets.all(12.0),
+                            //             child: Row(
+                            //               children: [
+                            //                 Icon(Icons.email),
+                            //                 SizedBox(width: 5),
+                            //                 Text(
+                            //                   "Email",
+                            //                   style: TextStyle(
+                            //                       fontSize: 20,
+                            //                       fontWeight: FontWeight.w600),
+                            //                 ),
+                            //               ],
+                            //             )),
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         print("send Message");
+                            //       },
+                            //       child: Container(
+                            //         decoration: BoxDecoration(
+                            //             color: Colors.green,
+                            //             borderRadius: BorderRadius.all(
+                            //                 Radius.circular(6))),
+                            //         alignment: Alignment.center,
+                            //         child: Padding(
+                            //             padding: const EdgeInsets.all(12.0),
+                            //             child: Row(
+                            //               children: [
+                            //                 Icon(Icons.message),
+                            //                 SizedBox(width: 5),
+                            //                 Text(
+                            //                   "Message",
+                            //                   style: TextStyle(
+                            //                       fontSize: 20,
+                            //                       fontWeight: FontWeight.w600),
+                            //                 ),
+                            //               ],
+                            //             )),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+
                             SizedBox(height: 8),
                             GestureDetector(
                               onTap: () => _showDialog(),
@@ -286,13 +289,14 @@ class _PatientDetailsState extends State<PatientDetails>
                                 decoration: BoxDecoration(
                                     color: Colors.green,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(6))),
+                                        BorderRadius.all(Radius.circular(20))),
                                 alignment: Alignment.center,
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Text(
-                                    "WhatsApp Video Call",
+                                    "Create Prescription",
                                     style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600),
                                   ),

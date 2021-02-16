@@ -26,7 +26,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
 
   checkDoctorExists() async {
-    mobileController.text = "8356928929";
+    mobileController.text = "8356928";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -313,72 +313,72 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       ),
                     ],
                   ),
-                  SizedBox(height: height * 0.04),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 300,
-                        child: DropdownButton(
-                          items: _PracticeType.map((value) => DropdownMenuItem(
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green),
-                                ),
-                                value: value,
-                              )).toList(),
-                          onChanged: (selectedtype) {
-                            setState(() {
-                              _selectedpractice = selectedtype;
-                              print(_selectedpractice);
-                            });
-                          },
-                          value: _selectedpractice,
-                          hint: Text(
-                            "Select Practice",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          elevation: 5,
-                          isExpanded: false,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: height * 0.04),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 300,
-                        child: DropdownButton(
-                          items: _Qualification.map((value) => DropdownMenuItem(
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green),
-                                ),
-                                value: value,
-                              )).toList(),
-                          onChanged: (selectedQ) {
-                            setState(() {
-                              _selectedqual = selectedQ;
-                              print(_selectedqual);
-                            });
-                          },
-                          value: _selectedqual,
-                          hint: Text(
-                            "Select Qualification",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          elevation: 5,
-                          isExpanded: false,
-                        ),
-                      ),
-                    ],
-                  ),
+                  // SizedBox(height: height * 0.04),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: <Widget>[
+                  //     Container(
+                  //       width: 300,
+                  //       child: DropdownButton(
+                  //         items: _PracticeType.map((value) => DropdownMenuItem(
+                  //               child: Text(
+                  //                 value,
+                  //                 style: TextStyle(
+                  //                     fontWeight: FontWeight.bold,
+                  //                     color: Colors.green),
+                  //               ),
+                  //               value: value,
+                  //             )).toList(),
+                  //         onChanged: (selectedtype) {
+                  //           setState(() {
+                  //             _selectedpractice = selectedtype;
+                  //             print(_selectedpractice);
+                  //           });
+                  //         },
+                  //         value: _selectedpractice,
+                  //         hint: Text(
+                  //           "Select Practice",
+                  //           style: TextStyle(color: Colors.green),
+                  //         ),
+                  //         elevation: 5,
+                  //         isExpanded: false,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: height * 0.04),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: <Widget>[
+                  //     Container(
+                  //       width: 300,
+                  //       child: DropdownButton(
+                  //         items: _Qualification.map((value) => DropdownMenuItem(
+                  //               child: Text(
+                  //                 value,
+                  //                 style: TextStyle(
+                  //                     fontWeight: FontWeight.bold,
+                  //                     color: Colors.green),
+                  //               ),
+                  //               value: value,
+                  //             )).toList(),
+                  //         onChanged: (selectedQ) {
+                  //           setState(() {
+                  //             _selectedqual = selectedQ;
+                  //             print(_selectedqual);
+                  //           });
+                  //         },
+                  //         value: _selectedqual,
+                  //         hint: Text(
+                  //           "Select Qualification",
+                  //           style: TextStyle(color: Colors.green),
+                  //         ),
+                  //         elevation: 5,
+                  //         isExpanded: false,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 100,
                   ),
@@ -825,7 +825,15 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   Widget saveButton(context) {
     return OutlineButton(
       onPressed: () async {
+        int i = -1;
+        String qualif = "";
+        while (++i < qualtification.length) {
+          if (qualtification[i] == true) {
+            qualif = qualif + _Qualification[i] + ",";
+          }
+        }
         if (_experiencecontroller.text.length != 0 &&
+            qualif.length > 0 &&
             _regNumController.text.length != 0 &&
             _clinicController.text.length != 0 &&
             _nameController.text.length != 0 &&
@@ -833,7 +841,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             _emailController.text.length != 0 &&
             _selectedcategory.length != 0 &&
             _selectedpractice.length != 0 &&
-            _selectedqual.length != 0 &&
+            // _selectedqual.length != 0 &&
             _selectedgender.length != 0 &&
             selectedDate != null &&
             selectedStartTime != null &&
@@ -850,7 +858,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           loading = true;
           setState(() {});
           String url =
-              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${_selectedqual}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
+              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
           var request = http.MultipartRequest('POST', Uri.parse(url));
           if (_imageFile != null) {
             request.files.add(http.MultipartFile(

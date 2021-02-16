@@ -155,17 +155,19 @@ class _UserListScreenState extends State<UserListScreen>
               context,
               MaterialPageRoute(
                   builder: (context) => PatientDetails(
-                      number: user.mobile.toString(), sId: sId)));
+                        number: user.mobile.toString(),
+                        sId: sId,
+                        city: user.cityId,
+                      )));
         },
         leading: Container(
-            width: 54,
-            height: 54,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        "https://i1.wp.com/www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-2.jpg")))),
+          width: 54,
+          height: 54,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Image.asset("assets/logo.jpeg"),
+        ),
         title: Row(
           children: [
             Text(

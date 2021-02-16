@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:url_launcher/url_launcher.dart' as launch;
+import '../global/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,11 @@ import '../main.dart';
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
 class PdfOpener extends StatefulWidget {
-  final String url;
+  final String url, name;
+  final String mobile;
 
-  const PdfOpener({Key key, this.url}) : super(key: key);
+  const PdfOpener({Key key, this.url, this.mobile, this.name})
+      : super(key: key);
   @override
   _PdfOpenerState createState() => _PdfOpenerState();
 }
@@ -110,9 +113,11 @@ class _PdfOpenerState extends State<PdfOpener> {
                       RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
-                        onPressed: () {
-                          Share.share(
-                              'Doctor Prescription PDF \n${widget.url}');
+                        onPressed: () async {
+                          await launch.launch(
+                              "https://wa.me/+91${widget.mobile}?text=Dear ${widget.name},\nPlease Download your Prescription Copy from here made by ${data.name.toUpperCase()} ${widget.url}");
+                          // Share.share(
+                          //     'Doctor Prescription PDF \n${widget.url}');
                         },
                         color: Colors.green,
                         child: Text("Share it"),
