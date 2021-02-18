@@ -25,6 +25,7 @@ class _ParientListState extends State<ParientList> {
   bool loading = true;
   Completer<GoogleMapController> _controller = Completer();
   List<String> options = [];
+  List<Marker> marker = [];
 
   @override
   Widget build(BuildContext context) {
@@ -351,6 +352,7 @@ class _ParientListState extends State<ParientList> {
                           width: double.infinity,
                           // color: Colors.green,
                           child: GoogleMap(
+                            // markers: marker.toSet(),
                             mapType: MapType.hybrid,
                             initialCameraPosition: position,
                             onMapCreated: (GoogleMapController controller) {
@@ -390,7 +392,12 @@ class _ParientListState extends State<ParientList> {
   @override
   void initState() {
     super.initState();
+    marker.add(Marker(
+        markerId: MarkerId("Location"),
+        position:
+            LatLng(double.parse(data.latitude), double.parse(data.longitude))));
     position = CameraPosition(
+        zoom: 16,
         target:
             LatLng(double.parse(data.latitude), double.parse(data.longitude)));
     setState(() {
