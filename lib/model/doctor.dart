@@ -9,7 +9,7 @@ class Data {
   String gender;
   String specialization;
   String practice;
-  String qualification;
+  var qualification;
   int experience;
   String clinicname;
   String cityId;
