@@ -11,6 +11,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'homewellnessrequest.dart';
+import 'form.dart' as form;
 
 class ParientList extends StatefulWidget {
   ParientList({Key key}) : super(key: key);
@@ -355,6 +357,25 @@ class _ParientListState extends State<ParientList> {
                               _controller.complete(controller);
                             },
                           ),
+                        ),
+
+                        RaisedButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeWellnessRequest(),
+                            ),
+                          ),
+                          child: Text("Home Wellness"),
+                        ),
+                        RaisedButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => form.Form(),
+                            ),
+                          ),
+                          child: Text("Home Wellness"),
                         ),
                       ],
                     ),

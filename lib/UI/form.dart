@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/model/Specialities.dart';
+import 'package:http/http.dart' as http;
+import '../global/global.dart';
 
 class Form extends StatefulWidget {
   @override
@@ -8,6 +10,9 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
+  TextEditingController subject = TextEditingController();
+  TextEditingController description = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,10 +70,11 @@ class _FormState extends State<Form> {
                               color: Colors.green, fontWeight: FontWeight.bold),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
+                          width: MediaQuery.of(context).size.width / 1.1,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
+                              controller: subject,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: "Subject",
@@ -82,11 +88,12 @@ class _FormState extends State<Form> {
                               color: Colors.green, fontWeight: FontWeight.bold),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
+                          width: MediaQuery.of(context).size.width / 1.1,
                           height: 200,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
+                              controller: description,
                               maxLines: 10,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
@@ -99,7 +106,40 @@ class _FormState extends State<Form> {
                           height: 50,
                         ),
                         MaterialButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            if (subject.text.length != 0 &&
+                                description.text.length != 0) {
+                              setState(() {
+                                loading = true;
+                              });
+                              if (special.length == 0) {
+                                special = spe[0]["name"];
+                              }
+                              var resonse = await http.post(
+                                  "http://3.15.233.253:5000/healtharticle",
+                                  body: {
+                                    "speciality": special,
+                                    "subject": subject.text,
+                                    "description": description.text,
+                                    "doctorid": data.sId
+                                  });
+                              setState(() {
+                                loading = false;
+                              });
+                              print(resonse.body);
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  child: Dialog(
+                                    child: Container(
+                                      height: 300,
+                                      child: Center(
+                                          child: Text(
+                                              "All Fields are Compulsory")),
+                                    ),
+                                  ));
+                            }
+                          },
                           color: Colors.green,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
