@@ -28,9 +28,12 @@ class _ParientListState extends State<ParientList> {
   List<String> options = [];
   List<Marker> marker = [];
 
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: SafeArea(
         child: loading == true
             ? Center(
@@ -43,11 +46,24 @@ class _ParientListState extends State<ParientList> {
                     width: MediaQuery.of(context).size.width,
                     color: Colors.green,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
+                      padding: const EdgeInsets.all(5.0),
                       child: Wrap(
                         alignment: WrapAlignment.center,
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.menu,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              if (scaffoldKey.currentState.isDrawerOpen) {
+                                scaffoldKey.currentState.openEndDrawer();
+                              } else {
+                                scaffoldKey.currentState.openDrawer();
+                              }
+                            },
+                          ),
                           Text(
                             "Welcome to My Plan Health," + data.name.toString(),
                             style: TextStyle(
@@ -348,13 +364,16 @@ class _ParientListState extends State<ParientList> {
                                   ),
                                 ),
                               ),
+                        SizedBox(
+                          height: 50,
+                        ),
                         Container(
                           height: MediaQuery.of(context).size.width,
                           width: double.infinity,
                           // color: Colors.green,
                           child: GoogleMap(
-                            // markers: marker.toSet(),
-                            mapType: MapType.hybrid,
+                            markers: marker.toSet(),
+                            mapType: MapType.normal,
                             initialCameraPosition: position,
                             onMapCreated: (GoogleMapController controller) {
                               _controller.complete(controller);
@@ -362,38 +381,78 @@ class _ParientListState extends State<ParientList> {
                           ),
                         ),
 
-                        RaisedButton(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeWellnessRequest(),
-                            ),
-                          ),
-                          child: Text("Home Wellness"),
-                        ),
-                        RaisedButton(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => form.Form(),
-                            ),
-                          ),
-                          child: Text("Health Article"),
-                        ),
-                        RaisedButton(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Account(),
-                            ),
-                          ),
-                          child: Text("Account"),
-                        ),
+                        // RaisedButton(
+                        //   onPressed: () => Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => HomeWellnessRequest(),
+                        //     ),
+                        //   ),
+                        //   child: Text("Home Wellness"),
+                        // ),
+                        // RaisedButton(
+                        //   onPressed: () => Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => form.Form(),
+                        //     ),
+                        //   ),
+                        //   child: Text("Health Article"),
+                        // ),
+                        // RaisedButton(
+                        //   onPressed: () => Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => Account(),
+                        //     ),
+                        //   ),
+                        //   child: Text("Account"),
+                        // ),
                       ],
                     ),
                   ),
                 ])),
               ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+              currentAccountPicture: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.network("http://3.15.233.253/" + data.picture)),
+              accountEmail: Text(data.email),
+              accountName: Text(data.name),
+              decoration: BoxDecoration(color: Colors.green),
+            ),
+            ListTile(
+              title: Text("Health Article"),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => form.Form(),
+                ),
+              ),
+            ),
+            ListTile(
+                title: Text("Home Wellness"),
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeWellnessRequest(),
+                      ),
+                    )),
+            ListTile(
+              title: Text("Account"),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Account(),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

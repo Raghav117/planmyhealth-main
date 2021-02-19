@@ -53,7 +53,7 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                           color: Colors.green, fontWeight: FontWeight.bold),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width / 1.2,
+                      width: MediaQuery.of(context).size.width / 1.15,
                       child: DropdownButtonFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -78,16 +78,13 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                         }).toList(),
                       ),
                     ),
-                    SizedBox(
-                      height: 50,
-                    ),
                     Text(
                       "Service Mode",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width / 1.2,
+                      width: MediaQuery.of(context).size.width / 1.15,
                       child: DropdownButtonFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -112,9 +109,6 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                         }).toList(),
                       ),
                     ),
-                    SizedBox(
-                      height: 50,
-                    ),
                     Text(
                       "Client Name",
                       style: TextStyle(
@@ -132,9 +126,6 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                               labelText: "Client Name"),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 50,
                     ),
                     Text(
                       "Mobile Number",
@@ -154,6 +145,9 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                               labelText: "Mobile Number"),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 50,
                     ),
                     MaterialButton(
                       onPressed: () async {

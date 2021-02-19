@@ -39,7 +39,7 @@ class _FormState extends State<Form> {
                               color: Colors.green, fontWeight: FontWeight.bold),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
+                          width: MediaQuery.of(context).size.width / 1.15,
                           child: DropdownButtonFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
