@@ -175,6 +175,15 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                           setState(() {
                             loading = false;
                           });
+                          showDialog(
+                              context: context,
+                              child: Dialog(
+                                child: Container(
+                                  height: 300,
+                                  child:
+                                      Center(child: Text("Successfully Done")),
+                                ),
+                              ));
                         } else {
                           showDialog(
                               context: context,

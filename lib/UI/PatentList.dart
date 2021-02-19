@@ -12,6 +12,7 @@ import '../main.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'homewellnessrequest.dart';
+import 'account.dart';
 import 'form.dart' as form;
 
 class ParientList extends StatefulWidget {
@@ -377,7 +378,16 @@ class _ParientListState extends State<ParientList> {
                               builder: (context) => form.Form(),
                             ),
                           ),
-                          child: Text("Home Wellness"),
+                          child: Text("Health Article"),
+                        ),
+                        RaisedButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Account(),
+                            ),
+                          ),
+                          child: Text("Account"),
                         ),
                       ],
                     ),

@@ -4,21 +4,23 @@ import 'package:plan_my_health/model/Specialities.dart';
 import 'package:http/http.dart' as http;
 import '../global/global.dart';
 
-class Form extends StatefulWidget {
+class Account extends StatefulWidget {
   @override
-  _FormState createState() => _FormState();
+  _AccountState createState() => _AccountState();
 }
 
-class _FormState extends State<Form> {
-  TextEditingController subject = TextEditingController();
-  TextEditingController description = TextEditingController();
+class _AccountState extends State<Account> {
+  TextEditingController aname = TextEditingController();
+  TextEditingController pin = TextEditingController();
+  TextEditingController an = TextEditingController();
+  TextEditingController code = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text("Health Article"),
+        title: Text("Account"),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -34,38 +36,7 @@ class _FormState extends State<Form> {
                           height: 50,
                         ),
                         Text(
-                          "Speciality",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey, width: 1.0)),
-                            ),
-                            value:
-                                special.length == 0 ? spe[0]["name"] : special,
-                            onChanged: (value) {
-                              setState(() {
-                                special = value;
-                              });
-                            },
-                            items: spe.map((type) {
-                              return DropdownMenuItem(
-                                value: type['name'],
-                                child: Text(
-                                  type['name'],
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        Text(
-                          "Subject",
+                          "Bank Account Name",
                           style: TextStyle(
                               color: Colors.green, fontWeight: FontWeight.bold),
                         ),
@@ -74,59 +45,96 @@ class _FormState extends State<Form> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
-                              controller: subject,
+                              controller: aname,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  hintText: "Subject",
-                                  labelText: "Subject"),
+                                  hintText: "Bank Account Name",
+                                  labelText: "Bank Account Name"),
                             ),
                           ),
                         ),
                         Text(
-                          "Description",
+                          "Account Number",
                           style: TextStyle(
                               color: Colors.green, fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
-                          height: 200,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
-                              controller: description,
-                              maxLines: 10,
+                              controller: an,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  hintText: "Description",
-                                  labelText: "Description"),
+                                  hintText: "Account Number",
+                                  labelText: "Account Number"),
                             ),
                           ),
                         ),
+                        Text(
+                          "IFSC Code",
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
                         Container(
-                          height: 50,
+                          width: MediaQuery.of(context).size.width / 1.1,
+                          // height: 200,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              controller: code,
+                              // maxLines: 10,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "IFSC Code",
+                                  labelText: "IFSC Code"),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "UPI PIN",
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              controller: pin,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Upi pin",
+                                  labelText: "Upi pin"),
+                            ),
+                          ),
                         ),
                         MaterialButton(
                           onPressed: () async {
-                            if (subject.text.length != 0 &&
-                                description.text.length != 0) {
+                            if (aname.text.length != 0 &&
+                                code.text.length != 0 &&
+                                pin.text.length != 0 &&
+                                an.text.length != 0) {
                               setState(() {
                                 loading = true;
                               });
                               if (special.length == 0) {
                                 special = spe[0]["name"];
                               }
-                              var resonse = await http.post(
-                                  "http://3.15.233.253:5000/healtharticle",
-                                  body: {
-                                    "speciality": special,
-                                    "subject": subject.text,
-                                    "description": description.text,
-                                    "doctorid": data.sId
-                                  });
+                              // var resonse = await http.post(
+                              //     "http://3.15.233.253:5000/healtharticle",
+                              //     body: {
+                              //       "speciality": special,
+                              //       "subject": subject.text,
+                              //       "description": description.text,
+                              //       "doctorid": data.sId
+                              //     });
                               setState(() {
                                 loading = false;
                               });
-                              print(resonse.body);
+                              // print(resonse.body);
                               showDialog(
                                   context: context,
                                   child: Dialog(
