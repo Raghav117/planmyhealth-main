@@ -120,21 +120,19 @@ class _AccountState extends State<Account> {
                               setState(() {
                                 loading = true;
                               });
-                              if (special.length == 0) {
-                                special = spe[0]["name"];
-                              }
-                              // var resonse = await http.post(
-                              //     "http://3.15.233.253:5000/healtharticle",
-                              //     body: {
-                              //       "speciality": special,
-                              //       "subject": subject.text,
-                              //       "description": description.text,
-                              //       "doctorid": data.sId
-                              //     });
+                              var resonse = await http.post(
+                                  "http://3.15.233.253:5000/doctorbankdetailsupdate",
+                                  body: {
+                                    "accountname": aname.text,
+                                    "ifsccode": code.text,
+                                    "upipin": pin.text,
+                                    "accountnumber": an.text,
+                                    "mobilenumber": data.mobile.toString()
+                                  });
                               setState(() {
                                 loading = false;
                               });
-                              // print(resonse.body);
+                              print(resonse.body);
                               showDialog(
                                   context: context,
                                   child: Dialog(

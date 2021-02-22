@@ -14,6 +14,8 @@
         android:usesCleartextTraffic="true"
         android:label="Plan My Health Doctor"
         android:icon="@mipmap/ic_launcher">
+    <!-- <application
+        android:name=".Application"> -->
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChfbb57VsD7N7LQK_L4Upl6Yma47jzIps"/>
     <uses-library android:name="com.google.android.maps"/>
         <activity
@@ -41,6 +43,10 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

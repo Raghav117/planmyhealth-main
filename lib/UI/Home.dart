@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/UI/PatentList.dart';
+import 'package:plan_my_health/UI/PatientDetails.dart';
 import 'package:plan_my_health/UI/UsersListScreen.dart';
 import 'package:plan_my_health/UI/prescription.dart';
 import 'package:plan_my_health/UI/editProfile.dart';
 import 'package:plan_my_health/components/NavBarCustom.dart';
 import 'search.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -21,6 +23,25 @@ class _HomeState extends State<Home> {
     UserListScreen(),
     EditProfile(),
   ];
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

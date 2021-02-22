@@ -286,7 +286,7 @@ class _PatientDetailsState extends State<PatientDetails>
                             GestureDetector(
                               onTap: () async {
                                 await launch.launch(
-                                    "https://wa.me/+91${widget.number}?text=Hii");
+                                    "https://wa.me/+91${widget.number}?text=Hello Sir,I am calling you");
                               },
                               child: Container(
                                 decoration: BoxDecoration(

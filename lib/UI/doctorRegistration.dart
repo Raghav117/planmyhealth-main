@@ -16,6 +16,7 @@ import 'package:plan_my_health/model/selectCityList.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_my_health/model/doctor.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DoctorRegistration extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
 
   checkDoctorExists() async {
-    mobileController.text = "8356928929";
+    // mobileController.text = "8356928929";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -177,6 +178,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   @override
   void initState() {
     super.initState();
+    getToken();
     loading = true;
     checkDoctorExists();
     setState(() {});

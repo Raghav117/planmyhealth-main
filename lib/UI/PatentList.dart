@@ -372,6 +372,8 @@ class _ParientListState extends State<ParientList> {
                           width: double.infinity,
                           // color: Colors.green,
                           child: GoogleMap(
+                            myLocationEnabled: true,
+                            myLocationButtonEnabled: true,
                             markers: marker.toSet(),
                             mapType: MapType.normal,
                             initialCameraPosition: position,
