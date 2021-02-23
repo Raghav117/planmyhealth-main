@@ -68,5 +68,11 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 String token;
 getToken() async {
   token = await _firebaseMessaging.getToken();
+  postDeviceToken();
   print(token);
+}
+
+postDeviceToken() async {
+  await http.post("http://3.15.233.253:5000/doctordeviceidupdate",
+      body: {"deviceid": token, "mobilenumber": data.mobile});
 }
