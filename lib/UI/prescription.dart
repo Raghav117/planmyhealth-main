@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
@@ -83,6 +83,8 @@ class _PrescriptionState extends State<Prescription> {
   //------------------
   String diagnosisSelected;
   String specialitiesSelected, timeSelected, quntitySelected, withSelected;
+
+  double rat = 5;
 
   @override
   void initState() {
@@ -990,6 +992,33 @@ class _PrescriptionState extends State<Prescription> {
                                               ),
                                             );
                                           })),
+
+                              Text(
+                                "Ratings",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 10),
+                              RatingBar.builder(
+                                initialRating: 5,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  color: Colors.blue,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  rat = rating;
+                                  print(rating);
+                                },
+                              ),
+                              SizedBox(height: 10),
                               Text(
                                 "Special notes",
                                 style: TextStyle(
@@ -1074,7 +1103,8 @@ class _PrescriptionState extends State<Prescription> {
                                           remarkController.text,
                                           find,
                                           followupdate,
-                                          diagnosis)
+                                          diagnosis,
+                                          rat)
                                       .then((value) {
                                     print(value);
                                     if (value != null) {

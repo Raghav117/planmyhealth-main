@@ -41,8 +41,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           return Home();
         },
       ));
-    }
-    loading = false;
+    } else
+      loading = false;
     setState(() {});
   }
 

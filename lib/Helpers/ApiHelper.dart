@@ -240,7 +240,8 @@ class ApiHelper {
       String remark,
       List<Finding> findings,
       DateTime followupdata,
-      List<SuspectedDisease> suspecteddisease) async {
+      List<SuspectedDisease> suspecteddisease,
+      double ratings) async {
     try {
       String test = json.encode(selectMedicineList).toString();
       print(test);
@@ -263,7 +264,8 @@ class ApiHelper {
                 "diagnosis": json.encode(suspecteddisease),
                 "followupdate": followupdata.toString(),
                 "doctorcheckdate": DateTime.now(),
-                "findings": json.encode(findings)
+                "findings": json.encode(findings),
+                "ratings": ratings
               },
               options: Options(
                 headers: {
