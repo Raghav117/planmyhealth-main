@@ -16,6 +16,7 @@ class Patient {
   String renewalFlag;
   String activeFlag;
   String activePlanId;
+  String height, weight;
 
   Patient(
       {this.sId,
@@ -54,6 +55,8 @@ class Patient {
     renewalFlag = json['renewalFlag'];
     activeFlag = json['activeFlag'];
     activePlanId = json['activePlanId'];
+    height = json['height'];
+    weight = json['weight'];
   }
 
   Map<String, dynamic> toJson() {

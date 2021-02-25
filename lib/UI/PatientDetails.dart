@@ -240,8 +240,10 @@ class _PatientDetailsState extends State<PatientDetails>
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => Search(
-                                              // patient: patient,
-                                              ),
+                                            previous: true,
+                                            patient: patient,
+                                            // patient: patient,
+                                          ),
                                         ));
                                   },
                                   child: Container(

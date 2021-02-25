@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:http/http.dart' as http;
+import 'package:plan_my_health/model/healtharticlelist.dart';
 import '../global/global.dart';
 
 class Form extends StatefulWidget {
@@ -12,6 +15,27 @@ class Form extends StatefulWidget {
 class _FormState extends State<Form> {
   TextEditingController subject = TextEditingController();
   TextEditingController description = TextEditingController();
+  List<Health> list = [];
+  getHealth() async {
+    var response = await http.post("http://3.15.233.253:5000/healtharticlelist",
+        body: {"doctorid": data.sId});
+    print(response);
+    var result = jsonDecode(response.body);
+    print(result["healtharticlelist"].length);
+    var element;
+    for (element in result["healtharticlelist"]) {
+      list.add(Health.fromJson(element));
+    }
+    print(list);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {});
+    getHealth();
+    getSpecialities();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +181,86 @@ class _FormState extends State<Form> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.width * 1.5,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: list.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                          color: Colors.green, width: 3)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text("Speciality"),
+                                            ),
+                                            Expanded(
+                                              child: Text(list[index]
+                                                  .speciality
+                                                  .toString()),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text("Subject"),
+                                            ),
+                                            Expanded(
+                                              child: Text(list[index]
+                                                  .subject
+                                                  .toString()),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text("Description"),
+                                            ),
+                                            Expanded(
+                                              child: Text(list[index]
+                                                  .description
+                                                  .toString()),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                              // return ListTile(
+                              //   title: Text(list[index].speciality.toString()),
+                              //   subtitle: Text(list[index].subject.toString() +
+                              //       "\n" +
+                              //       list[index].description),
+                              //   isThreeLine: true,
+                              // );
+                            },
+                          ),
                         )
                       ],
                     ),
@@ -186,10 +290,4 @@ class _FormState extends State<Form> {
   }
 
   bool loading = true;
-  @override
-  void initState() {
-    getSpecialities();
-    // TODO: implement initState
-    super.initState();
-  }
 }

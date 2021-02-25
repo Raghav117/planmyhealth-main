@@ -1,19 +1,28 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-import '../global/global.dart' as global;
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/UI/PatientDetails.dart';
 import 'package:plan_my_health/UI/prescription.dart';
 import 'package:plan_my_health/model/PatientList.dart';
 import 'package:plan_my_health/model/doctorsCheckup.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../global/global.dart' as global;
 import 'pdfOpener.dart';
+import '../model/Patient.dart';
 
 class Search extends StatefulWidget {
-  Search({Key key}) : super(key: key);
+  final bool previous;
+  final Patient patient;
+  Search({
+    Key key,
+    this.previous,
+    this.patient,
+  }) : super(key: key);
 
   @override
   _SearchState createState() => _SearchState();
@@ -109,9 +118,17 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
   }
 
   getPrescriptionData() async {
-    var response = await http.get(
-        "http://3.15.233.253:5000/doctorprecriptionlist?doctorid=${global.data.sId}");
-    data = jsonDecode(response.body);
+    if (widget.previous == false) {
+      var response = await http.get(
+          "http://3.15.233.253:5000/doctorprecriptionlist?doctorid=${global.data.sId}");
+      data = jsonDecode(response.body);
+    } else {
+      var response = await http.post(
+          "http://3.15.233.253:5000/previoususerprecription",
+          body: {"userid": widget.patient.sId, "doctorid": global.data.sId});
+      data = jsonDecode(response.body);
+    }
+
     print(data);
     data["doctorlist"].forEach((element) {
       element["doctorscheckup"].forEach((ele) {

@@ -137,6 +137,36 @@ class _PatientState extends State<Patient> {
                             SizedBox(
                               height: 20,
                             ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Height",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.height.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Weight",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.weight.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
                       ),

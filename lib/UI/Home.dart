@@ -19,7 +19,9 @@ class _HomeState extends State<Home> {
   int _selectedItem = 0;
   final Tab = [
     ParientList(),
-    Search(),
+    Search(
+      previous: false,
+    ),
     UserListScreen(),
     EditProfile(),
   ];

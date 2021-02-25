@@ -104,6 +104,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     'Dietitian',
     'Caregiver',
     'Specialist',
+    'Pharmacy',
+    'Optician',
+    'Pediatrician',
+    'Gynaecologist',
   ];
 
   List<String> _City = <String>[
@@ -135,9 +139,27 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     'ANM',
     'GNM',
     'BPT',
+    'MPharm',
+    'Bpharm',
+    'Dpharm',
+    'Ma Psychology',
+    'Masters In Diet',
+    'Yoga Teacher',
+    'Graduate',
+    '12th pass',
+    'Doctor of medicine'
   ];
 
   List<bool> qualtification = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
     false,
     false,
     false,
@@ -215,7 +237,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "Doctor Registration",
+                      "Registration for Healthcare Service Provider",
                       style: TextStyle(
                         color: Colors.green,
                         fontWeight: FontWeight.w600,

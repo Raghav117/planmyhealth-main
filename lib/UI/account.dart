@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:http/http.dart' as http;
+import 'package:plan_my_health/model/doctor.dart';
 import '../global/global.dart';
 
 class Account extends StatefulWidget {
@@ -14,6 +17,18 @@ class _AccountState extends State<Account> {
   TextEditingController pin = TextEditingController();
   TextEditingController an = TextEditingController();
   TextEditingController code = TextEditingController();
+  checkDoctorExists() async {
+    mobileController.text = "8356928929";
+    var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
+        body: {
+          "mobilenumber": mobileController.text
+        }); //!  **************  To Do
+    bool exists = jsonDecode(response.body)["status"];
+    print(exists);
+    if (exists == true) {
+      data = Data.fromJson(jsonDecode(response.body)["data"]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +144,9 @@ class _AccountState extends State<Account> {
                                     "accountnumber": an.text,
                                     "mobilenumber": data.mobile.toString()
                                   });
+                              checkDoctorExists();
+                              Navigator.pop(context);
+
                               setState(() {
                                 loading = false;
                               });
@@ -163,7 +181,80 @@ class _AccountState extends State<Account> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                        )
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        data.accountname.toString().toLowerCase() == null
+                            ? Container()
+                            : Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        color: Colors.green, width: 3)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text("Account Name"),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                                data.accountname.toString()),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text("Account Number"),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                                data.accountnumber.toString()),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text("IFSC Code"),
+                                          ),
+                                          Expanded(
+                                            child:
+                                                Text(data.ifsccode.toString()),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text("UPI Pin"),
+                                          ),
+                                          Expanded(
+                                            child: Text(data.upipin.toString()),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                       ],
                     ),
                   ),

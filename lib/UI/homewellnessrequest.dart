@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:plan_my_health/model/healthwellness.dart';
 import '../global/global.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,6 +11,24 @@ class HomeWellnessRequest extends StatefulWidget {
 }
 
 class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
+  List<Wellness> list = [];
+  getWellness() async {
+    var response =
+        await http.post("http://3.15.233.253:5000/homewellnesslist", body: {
+      "doctorid": data.sId,
+    });
+    print(response);
+    var result = jsonDecode(response.body);
+    print(result["homewellnesslist"].length);
+    var element;
+    for (element in result["homewellnesslist"]) {
+      list.add(Wellness.fromJson(element));
+    }
+    loading = false;
+    print(list);
+    setState(() {});
+  }
+
   TextEditingController client = TextEditingController();
   TextEditingController mobile = TextEditingController();
   List<String> _DoctorCategory = <String>[
@@ -24,12 +45,19 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
     'Caregiver',
     'Specialist',
   ];
+  @override
+  void initState() {
+    super.initState();
+    getWellness();
+  }
+
+  // bool loading = true;
 
   List<String> serviceMode = ["Call", "Chat", "Home Visit", "Video", "Clinic"];
   int serviceModeIndex = 0;
 
   int index = 0;
-  bool loading = false;
+  bool loading = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +66,11 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: loading == true
-              ? Center(child: CircularProgressIndicator())
-              : Column(
+      body: loading == true
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Center(
+                child: Column(
                   children: [
                     SizedBox(
                       height: 50,
@@ -198,11 +226,105 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.width * 1.5,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                      color: Colors.green, width: 3)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text("Category"),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                              list[index].category.toString()),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text("Service Mode"),
+                                        ),
+                                        Expanded(
+                                          child: Text(list[index]
+                                              .servicemode
+                                              .toString()),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text("Client Name"),
+                                        ),
+                                        Expanded(
+                                          child: Text(list[index]
+                                              .clientname
+                                              .toString()),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text("Mobile Number"),
+                                        ),
+                                        Expanded(
+                                          child: Text(list[index]
+                                              .mobilenumber
+                                              .toString()),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                          // return ListTile(
+                          //   title: Text(list[index].speciality.toString()),
+                          //   subtitle: Text(list[index].subject.toString() +
+                          //       "\n" +
+                          //       list[index].description),
+                          //   isThreeLine: true,
+                          // );
+                        },
+                      ),
                     )
                   ],
                 ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 }

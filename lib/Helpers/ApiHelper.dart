@@ -265,7 +265,7 @@ class ApiHelper {
                 "followupdate": followupdata.toString(),
                 "doctorcheckdate": DateTime.now(),
                 "findings": json.encode(findings),
-                "ratings": ratings
+                "doctorfeedback": ratings
               },
               options: Options(
                 headers: {

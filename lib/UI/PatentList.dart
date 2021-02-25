@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/UI/PatientDetails.dart';
+import 'package:plan_my_health/UI/form2.dart';
 import 'package:plan_my_health/global/global.dart';
 import 'package:plan_my_health/model/Patient.dart';
 import 'package:plan_my_health/model/Specialities.dart';
@@ -13,7 +15,7 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'homewellnessrequest.dart';
 import 'account.dart';
-import 'form.dart' as form;
+import 'healtharticle.dart' as form;
 
 class ParientList extends StatefulWidget {
   ParientList({Key key}) : super(key: key);
@@ -27,6 +29,15 @@ class _ParientListState extends State<ParientList> {
   Completer<GoogleMapController> _controller = Completer();
   List<String> options = [];
   List<Marker> marker = [];
+  Location location = new Location();
+  LocationData _locationData;
+  getLocation() async {
+    loading = true;
+    _locationData = await location.getLocation();
+    setState(() {
+      loading = false;
+    });
+  }
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -376,7 +387,10 @@ class _ParientListState extends State<ParientList> {
                             myLocationButtonEnabled: true,
                             markers: marker.toSet(),
                             mapType: MapType.normal,
-                            initialCameraPosition: position,
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(_locationData.latitude,
+                                    _locationData.longitude),
+                                zoom: 15),
                             onMapCreated: (GoogleMapController controller) {
                               _controller.complete(controller);
                             },
@@ -452,7 +466,16 @@ class _ParientListState extends State<ParientList> {
                   builder: (context) => Account(),
                 ),
               ),
-            )
+            ),
+            ListTile(
+              title: Text("Home Visit"),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeVisitForm(),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -463,6 +486,9 @@ class _ParientListState extends State<ParientList> {
   @override
   void initState() {
     super.initState();
+    loading = true;
+
+    getLocation();
     marker.add(Marker(
         markerId: MarkerId("Location"),
         position:
@@ -471,9 +497,6 @@ class _ParientListState extends State<ParientList> {
         zoom: 16,
         target:
             LatLng(double.parse(data.latitude), double.parse(data.longitude)));
-    setState(() {
-      loading = false;
-    });
   }
 
   String url(String phone) {

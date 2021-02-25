@@ -27,6 +27,11 @@ class Data {
   int iV;
   String workingfrom;
   String workingto;
+  String status;
+  String accountname;
+  String accountnumber;
+  String ifsccode;
+  String upipin;
 
   Data(
       {this.sId,
@@ -81,6 +86,12 @@ class Data {
     iV = json['__v'];
     workingfrom = json['workingfrom'];
     workingto = json['workingto'];
+
+    status = json['status'];
+    accountname = json['accountname'];
+    accountnumber = json['accountnumber'];
+    ifsccode = json['ifsccode'];
+    upipin = json['upipin'];
   }
 
   Map<String, dynamic> toJson() {
