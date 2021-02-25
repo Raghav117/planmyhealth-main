@@ -167,9 +167,52 @@ class _PatientState extends State<Patient> {
                             SizedBox(
                               height: 20,
                             ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Symptoms",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: patient.symptoms.length,
+                                    itemBuilder: (context, index) =>
+                                        Text(patient.symptoms[index]["name"]),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Services",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: patient.services.length,
+                                    itemBuilder: (context, index) =>
+                                        Text(patient.services[index]["name"]),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),

@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/UI/PatientDetails.dart';
 import 'package:plan_my_health/UI/prescription.dart';
+import 'package:plan_my_health/model/Patient.dart';
 import 'package:plan_my_health/model/PatientList.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../global/global.dart';
 
 class UserListScreen extends StatefulWidget {
   UserListScreen({Key key}) : super(key: key);
@@ -27,6 +30,7 @@ class _UserListScreenState extends State<UserListScreen>
     WidgetsBinding.instance.addObserver(this);
     print("geting doctore list");
     getuserlist();
+    getPatient();
   }
 
   @override
@@ -81,6 +85,17 @@ class _UserListScreenState extends State<UserListScreen>
   //   return orderList;
   // }
   List<Doctorlist> days = [];
+
+  List<Patient> patient = [];
+
+  getPatient() async {
+    var response =
+        await http.get("http://3.15.233.253:5000/orders?doctorid=${data.sId}");
+    var result = jsonDecode(response.body);
+    for (var element in result["doctorlist"]) {
+      patient.add(Patient.fromJson(element));
+    }
+  }
 
   Future<List<Doctorlist>> getuserlist() async {
     await apiHelper.getOderList().then((userlist) {
@@ -142,12 +157,12 @@ class _UserListScreenState extends State<UserListScreen>
         itemCount: data.length,
         itemBuilder: (context, index) {
           if (data[index].userdata.length > 0)
-            return _tile(data[index].userdata[0], data[index].sId);
+            return _tile(data[index].userdata[0], data[index].sId, index);
           return Container();
         });
   }
 
-  ListTile _tile(Userdata user, String sId) => ListTile(
+  ListTile _tile(Userdata user, String sId, int index) => ListTile(
         tileColor: Colors.green.shade50,
         // onTap: () async => await launch(url("+91 " + user.mobile.toString())),
         onTap: () {
@@ -158,6 +173,7 @@ class _UserListScreenState extends State<UserListScreen>
                         number: user.mobile.toString(),
                         sId: sId,
                         city: user.cityId,
+                        patient: patient[index],
                       )));
         },
         leading: Container(

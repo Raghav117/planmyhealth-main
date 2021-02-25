@@ -1,22 +1,32 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart' as launch;
+
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/UI/UsersListScreen.dart';
 import 'package:plan_my_health/UI/editProfile.dart';
 import 'package:plan_my_health/UI/prescription.dart';
 import 'package:plan_my_health/UI/search.dart';
 import 'package:plan_my_health/model/Patient.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart' as launch;
+
 import 'patient.dart' as p;
 
 class PatientDetails extends StatefulWidget {
-  PatientDetails({Key key, this.number, this.sId, this.city}) : super(key: key);
+  final Patient patient;
+  PatientDetails({
+    Key key,
+    this.patient,
+    this.city,
+    this.number,
+    this.sId,
+  }) : super(key: key);
   final String number, sId, city;
 
   ApiHelper apiHelper = ApiHelper();
   @override
-  _PatientDetailsState createState() => _PatientDetailsState();
+  _PatientDetailsState createState() => _PatientDetailsState(patient);
 }
 
 class _PatientDetailsState extends State<PatientDetails>
@@ -24,13 +34,15 @@ class _PatientDetailsState extends State<PatientDetails>
   bool isLoading = true;
   ApiHelper apiHelper = ApiHelper();
   bool onCall = false;
-  Patient patient;
+  final Patient patient;
+
+  _PatientDetailsState(this.patient);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    getUserdetails();
+    // getUserdetails();
   }
 
   @override
@@ -78,14 +90,14 @@ class _PatientDetailsState extends State<PatientDetails>
     );
   }
 
-  void getUserdetails() {
-    apiHelper.getPatientDetails(widget.number).then((value) {
-      print("get Diagnosis");
-      print(value.name);
-      patient = value;
-      setState(() {});
-    });
-  }
+  // void getUserdetails() {
+  //   apiHelper.getPatientDetails(widget.number).then((value) {
+  //     print("get Diagnosis");
+  //     print(value.name);
+  //     patient = value;
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

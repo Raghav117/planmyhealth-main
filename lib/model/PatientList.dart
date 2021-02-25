@@ -33,7 +33,7 @@ class Doctorlist {
     userdata = new List<Userdata>();
     if (json['userdata'].length > 0) {
       json['userdata'].forEach((v) {
-        userdata.add(new Userdata.fromJson(v, sId));
+        userdata.add(new Userdata.fromJson(v, sId, json));
       });
     }
   }
@@ -67,6 +67,8 @@ class Userdata {
   String renewalFlag;
   String activeFlag;
   String activePlanId;
+  List symptoms = [];
+  List services = [];
 
   Userdata(
       {this.sId,
@@ -88,7 +90,7 @@ class Userdata {
       this.activeFlag,
       this.activePlanId});
 
-  Userdata.fromJson(Map<String, dynamic> json, String sId) {
+  Userdata.fromJson(Map<String, dynamic> json, String sId, Map json2) {
     sId = sId;
     id = json['id'];
     name = json['name'];
@@ -107,6 +109,8 @@ class Userdata {
     renewalFlag = json['renewalFlag'];
     activeFlag = json['activeFlag'];
     activePlanId = json['activePlanId'];
+    symptoms = json2["symptoms"];
+    services = json2["services"];
   }
 
   Map<String, dynamic> toJson() {

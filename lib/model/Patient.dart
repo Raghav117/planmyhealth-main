@@ -16,28 +16,35 @@ class Patient {
   String renewalFlag;
   String activeFlag;
   String activePlanId;
-  String height, weight;
+  String height;
+  String weight;
+  List symptoms, services;
 
-  Patient(
-      {this.sId,
-      this.id,
-      this.name,
-      this.cityId,
-      this.pincode,
-      this.gender,
-      this.age,
-      this.mobile,
-      this.password,
-      this.employeeTag,
-      this.employeeId,
-      this.groupId,
-      this.relation,
-      this.email,
-      this.renewalFlag,
-      this.activeFlag,
-      this.activePlanId});
+  Patient({
+    this.sId,
+    this.id,
+    this.name,
+    this.cityId,
+    this.pincode,
+    this.gender,
+    this.age,
+    this.mobile,
+    this.password,
+    this.employeeTag,
+    this.employeeId,
+    this.groupId,
+    this.relation,
+    this.email,
+    this.renewalFlag,
+    this.activeFlag,
+    this.activePlanId,
+    this.height,
+    this.weight,
+  });
 
   Patient.fromJson(Map<String, dynamic> json) {
+    Map json2 = json;
+    json = json["userdata"][0];
     sId = json['_id'];
     id = json['id'];
     name = json['name'];
@@ -57,6 +64,8 @@ class Patient {
     activePlanId = json['activePlanId'];
     height = json['height'];
     weight = json['weight'];
+    symptoms = json2["symptoms"];
+    services = json2["services"];
   }
 
   Map<String, dynamic> toJson() {
