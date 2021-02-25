@@ -236,12 +236,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   SizedBox(height: height * 0.1),
                   Align(
                     alignment: Alignment.center,
-                    child: Text(
-                      "Registration for Healthcare Service Provider",
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 32,
+                    child: FittedBox(
+                      child: Text(
+                        "Registration for Healthcare Service Provider",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.w600,
+                          // fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
