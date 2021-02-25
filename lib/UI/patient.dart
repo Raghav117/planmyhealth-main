@@ -167,6 +167,85 @@ class _PatientState extends State<Patient> {
                             SizedBox(
                               height: 20,
                             ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Food Habit",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.food_habit.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Life Style",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.lifestyle.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Water Intake Daily",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(
+                                      patient.water_intake_daily.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Medical History",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child:
+                                      Text(patient.medical_history.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Preferred Mode of Treatment",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient
+                                      .preferred_mode_of_treatment
+                                      .toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
                       ),

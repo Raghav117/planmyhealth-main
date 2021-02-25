@@ -19,6 +19,11 @@ class Patient {
   String height;
   String weight;
   List symptoms, services;
+  String preferred_mode_of_treatment,
+      medical_history,
+      lifestyle,
+      food_habit,
+      water_intake_daily;
 
   Patient({
     this.sId,
@@ -65,6 +70,11 @@ class Patient {
     height = json['height'];
     weight = json['weight'];
     symptoms = json2["symptoms"];
+    preferred_mode_of_treatment = json['preferred_mode_of_treatment'];
+    medical_history = json['medical_history'];
+    water_intake_daily = json['water_intake_daily'];
+    food_habit = json['food_habit'];
+    lifestyle = json['lifestyle'];
     services = json2["services"];
   }
 
