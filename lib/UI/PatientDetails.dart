@@ -112,220 +112,291 @@ class _PatientDetailsState extends State<PatientDetails>
                         width: 40,
                         child: CircularProgressIndicator()),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          // color: Colors.green.shade300,
-                          padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
-                          child: Text("Back",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              )),
-                        ),
-                      ),
-                      Container(
-                        color: Colors.green.shade300,
-                        padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.asset("assets/logo.jpeg"),
-                                ),
-                                SizedBox(width: 15),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      patient.name,
-                                      style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      "Age: " +
-                                          patient.age.toString() +
-                                          " years old ",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(height: 3),
-                                    Text(
-                                      "Gender: " + patient.gender,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Container(height: 2, color: Colors.green),
-                            SizedBox(height: 8),
-                            Row(children: [
-                              Icon(Icons.location_city),
-                              SizedBox(width: 5),
-                              Text(
-                                widget.city.toString(),
+                : SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            // color: Colors.green.shade300,
+                            padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
+                            child: Text("Back",
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                            ])
-                          ],
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                )),
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 15),
-                            // Text(
-                            //   "Problem: ",
-                            //   style: TextStyle(
-                            //       fontSize: 18, fontWeight: FontWeight.w800),
-                            // ),
-                            // SizedBox(height: 8),
-                            // Text(
-                            //   "Take the time to make some notes about your symptoms before you call or visit the doctor. Worrying about your symptoms is not a sign of weakness. Being honest about what you are experiencing doesn't mean that you are complaining. The doctor needs to know how you feel.",
-                            //   style: TextStyle(
-                            //       fontSize: 14, fontWeight: FontWeight.w400),
-                            // ),
-                          ],
-                        ),
-                      ),
-                      Spacer(),
-                      Container(
+                        Container(
+                          color: Colors.green.shade300,
                           padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-                          //   color: Colors.pink.shade300,
-                          child: Column(children: [
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => p.Patient(
-                                            patient: patient,
-                                          ),
-                                        ));
-                                  },
-                                  child: Container(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    height: 100,
                                     decoration: BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Image.asset("assets/logo.jpeg"),
+                                  ),
+                                  SizedBox(width: 15),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        patient.name,
+                                        style: TextStyle(
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        "Age: " +
+                                            patient.age.toString() +
+                                            " years old ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(height: 3),
+                                      Text(
+                                        "Gender: " + patient.gender,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Container(height: 2, color: Colors.green),
+                              SizedBox(height: 8),
+                              Row(children: [
+                                Icon(Icons.location_city),
+                                SizedBox(width: 5),
+                                Text(
+                                  widget.city.toString(),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ])
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Card(
+                          elevation: 10,
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Symptoms",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: patient.symptoms.length,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Align(
+                                      alignment: Alignment.center,
                                       child: Text(
-                                        "View Details",
+                                        patient.symptoms[index]["name"],
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 8),
-                                GestureDetector(
-                                  onTap: () async {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Search(
-                                            previous: true,
-                                            patient: patient,
-                                            // patient: patient,
-                                          ),
-                                        ));
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Text(
-                                        "Prescriptions",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: 20,
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8),
-                            GestureDetector(
-                              onTap: () async {
-                                await launch.launch(
-                                    "https://wa.me/+91${widget.number}?text=Hello Sir,I am calling you");
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Text(
-                                    "Whatsapp",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        Card(
+                          elevation: 10,
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Services",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: patient.services.length,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        patient.services[index]["name"],
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                            padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                            //   color: Colors.pink.shade300,
+                            child: Column(children: [
+                              SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => p.Patient(
+                                              patient: patient,
+                                            ),
+                                          ));
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Text(
+                                          "View Details",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Search(
+                                              previous: true,
+                                              patient: patient,
+                                              // patient: patient,
+                                            ),
+                                          ));
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Text(
+                                          "Prescriptions",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () async {
+                                  await launch.launch(
+                                      "https://wa.me/+91${widget.number}?text=Hello Sir,I am calling you");
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Text(
+                                      "Whatsapp",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 8),
-                            GestureDetector(
-                              onTap: () => _showDialog(),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Text(
-                                    "Create Prescription",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
+                              SizedBox(height: 8),
+                              GestureDetector(
+                                onTap: () => _showDialog(),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Text(
+                                      "Create Prescription",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ])),
-                      SizedBox(height: 15),
-                    ],
+                            ])),
+                        SizedBox(height: 15),
+                      ],
+                    ),
                   )),
       ),
     );
