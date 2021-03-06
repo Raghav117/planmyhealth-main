@@ -70,7 +70,7 @@ class _EditProfileState extends State<EditProfile> {
                                 onTap: () {
                                   showDialog(
                                     context: context,
-                                    child: Dialog(
+                                    builder: (context) => Dialog(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(25)),

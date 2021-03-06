@@ -27,7 +27,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
 
   checkDoctorExists() async {
-    mobileController.text = "8356928929";
+    // mobileController.text = "8356928929";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -929,17 +929,17 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
         } else {
           showDialog(
               context: context,
-              child: Dialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                child: Container(
-                  height: 200,
-                  width: 300,
-                  child: Center(
-                    child: Text("All Fields are Cumpulsory"),
-                  ),
-                ),
-              ));
+              builder: (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Container(
+                      height: 200,
+                      width: 300,
+                      child: Center(
+                        child: Text("All Fields are Cumpulsory"),
+                      ),
+                    ),
+                  ));
         }
       },
       borderSide: BorderSide(color: Colors.green),

@@ -153,24 +153,24 @@ class _FormState extends State<Form> {
                               print(resonse.body);
                               showDialog(
                                   context: context,
-                                  child: Dialog(
-                                    child: Container(
-                                      height: 300,
-                                      child: Center(
-                                          child: Text("Successfully Done")),
-                                    ),
-                                  ));
+                                  builder: (context) => Dialog(
+                                        child: Container(
+                                          height: 300,
+                                          child: Center(
+                                              child: Text("Successfully Done")),
+                                        ),
+                                      ));
                             } else {
                               showDialog(
                                   context: context,
-                                  child: Dialog(
-                                    child: Container(
-                                      height: 300,
-                                      child: Center(
-                                          child: Text(
-                                              "All Fields are Compulsory")),
-                                    ),
-                                  ));
+                                  builder: (context) => Dialog(
+                                        child: Container(
+                                          height: 300,
+                                          child: Center(
+                                              child: Text(
+                                                  "All Fields are Compulsory")),
+                                        ),
+                                      ));
                             }
                           },
                           color: Colors.green,
