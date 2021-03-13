@@ -82,7 +82,7 @@ class HomeVisit {
     doctorid = json['doctorid'];
     date = json['date'];
     remark = json['remark'];
-    charges = json['charges'];
+    charges = json['charges'].toString();
     status = json['status'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

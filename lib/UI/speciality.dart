@@ -5,34 +5,27 @@ import 'package:http/http.dart' as http;
 import 'package:plan_my_health/model/speciality.dart';
 
 class Specialityy extends StatefulWidget {
+  final List<Speciality> speciality;
+
+  const Specialityy({Key key, this.speciality}) : super(key: key);
   @override
   _AccrediationsState createState() => _AccrediationsState();
 }
 
 class _AccrediationsState extends State<Specialityy> {
-  List<Speciality> specialtiy = [];
+  List<Speciality> specialtiy;
   List<bool> colors = [];
-
-  getAccrediations() async {
-    var response = await http.get("http://3.15.233.253:5000/specialities");
-    print(response.body);
-    Map m = jsonDecode(response.body);
-    for (var data in m["specialitieslist"]) {
-      colors.add(false);
-      specialtiy.add(Speciality.fromJson(data));
-    }
-    setState(() {
-      loading = false;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    getAccrediations();
+    specialtiy = widget.speciality;
+    specialtiy.forEach((element) {
+      colors.add(false);
+    });
   }
 
-  bool loading = true;
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

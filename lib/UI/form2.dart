@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:http/http.dart' as http;
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:plan_my_health/UI/equipments.dart';
@@ -43,6 +46,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
     data1["data"].forEach((element) {
       homeVisit.add(HomeVisit.fromJson(element));
     });
+    setState(() {});
     print(homeVisit);
   }
 
@@ -562,23 +566,50 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                 furtherequipments.add(jsonEncode(equip[i]));
                               }
                             });
-                            var response = await http.post(
-                                "http://3.15.233.253:5000/savehomevisit",
-                                body: {
-                                  "furtherrecommendation":
-                                      furtherrecommendation.toString(),
-                                  "treatment": furthertreatement.toString(),
-                                  "issues": furtherissues.toString(),
-                                  "equipments": furtherequipments.toString(),
-                                  "intime": intime.toString(),
-                                  "outtime": outtime.toString(),
-                                  "date": DateTime.now().toString(),
-                                  "remark": remarks.text.toString(),
-                                  "charges": charges.text.toString(),
-                                  "doctorid": data.sId.toString()
-                                });
+
+                            //! *****************   To Do  *************************
+
+                            String url =
+                                "http://3.15.233.253:5000/savehomevisit?doctorid=${data.sId.toString()}&furtherrecommendation=${furtherrecommendation.toString()}&treatment=${furthertreatement.toString()}&issues=${furtherissues.toString()}&equipments=${furtherequipments.toString()}&intime=${intime.toString()}&outtime=${outtime.toString()}&date=${DateTime.now().toString()}&remark=${remarks.text.toString()}&charges=${charges.text.toString()}";
+                            var response = http.MultipartRequest(
+                              'POST',
+                              Uri.parse(url),
+                            );
+                            print(response);
+                            if (multiimages.length != 0) {
+                              multiimages.forEach((element) async {
+                                String filePath =
+                                    await FlutterAbsolutePath.getAbsolutePath(
+                                        element.identifier);
+                                response.files.add(http.MultipartFile(
+                                  'document',
+                                  File(filePath).readAsBytes().asStream(),
+                                  File(filePath).lengthSync(),
+                                  filename: "document.jpg",
+                                ));
+                              });
+                            }
+
+                            //!  **********************  ToDo  **************************************
+                            // var response = await http.post(
+                            //     "http://3.15.233.253:5000/savehomevisit",
+                            //     body: {
+                            //       "furtherrecommendation":
+                            //           furtherrecommendation.toString(),
+                            //       "treatment": furthertreatement.toString(),
+                            //       "issues": furtherissues.toString(),
+                            //       "equipments": furtherequipments.toString(),
+                            //       "intime": intime.toString(),
+                            //       "outtime": outtime.toString(),
+                            //       "date": DateTime.now().toString(),
+                            //       "remark": remarks.text.toString(),
+                            //       "charges": charges.text.toString(),
+                            //       "doctorid": data.sId.toString()
+                            //     });
+                            var res = await response.send();
+                            print(res.statusCode);
+                            print(res);
                             setState(() {
-                              print(response.body);
                               loading = false;
                             });
                             Navigator.pop(context);

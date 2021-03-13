@@ -222,7 +222,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
-                                        patient.symptoms[index]["name"],
+                                        patient.symptoms[index]["value"],
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
@@ -256,22 +256,100 @@ class _PatientDetailsState extends State<PatientDetails>
                                 SizedBox(
                                   height: 20,
                                 ),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: patient.services.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        patient.services[index]["name"],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
+                                Text(patient.services,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    )),
+                                SizedBox(
+                                  height: 20,
                                 ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 10,
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Remarks",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(patient.Remarks,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    )),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 10,
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Health Isaue",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(patient.Primary_Health_Issue,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    )),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 10,
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Treatment Consultant",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(patient.Treatment_Consultant,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    )),
                                 SizedBox(
                                   height: 20,
                                 ),

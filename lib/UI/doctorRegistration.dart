@@ -32,7 +32,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
 
   checkDoctorExists() async {
-    mobileController.text = "8356928929";
+    // mobileController.text = "8356928929";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -61,12 +61,21 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   }
 
   getSpeciality() async {
-    var response = await http.get("http://3.15.233.253:5000/specialities");
+    int ma = _DoctorCategory.indexOf(_selectedcategory);
+
+    var response = await http.get(
+        "http://3.15.233.253:5000/specialitieslist?prov_type=${_doctorCategory[ma]}");
     // print(response.body);
     Map m = jsonDecode(response.body);
+    print(m);
+    speciality.clear();
+
     for (var data in m["specialitieslist"]) {
       speciality.add(Speciality.fromJson(data));
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   bool loading = true;
@@ -87,7 +96,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   // final _cityController = TextEditingController();
   final _experiencecontroller = TextEditingController();
 
-  String _selectedcategory = "Doctor";
+  var _selectedcategory;
   String _selectedpractice = "Allopathy";
   var _selectedexperience = "";
   String _selectedqual = "BAMS";
@@ -117,24 +126,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     "Lucknow",
     "Patna"
   ];
-  List<String> _DoctorCategory = <String>[
-    'Doctor',
-    'Clinic',
-    'Hospital',
-    'Poly Clinic',
-    'Nursing Home',
-    'Nurse',
-    'Physiotherapist',
-    'AYUSH',
-    'Psychologist',
-    'Dietitian',
-    'Caregiver',
-    'Specialist',
-    'Pharmacy',
-    'Optician',
-    'Pediatrician',
-    'Gynaecologist',
-  ];
+  List _DoctorCategory = [];
+  List _doctorCategory = [];
 
   List<String> _City = <String>[
     'Doctor',
@@ -151,55 +144,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     'Specialist',
   ];
 
-  List<String> _Qualification = <String>[
-    'BAMS',
-    'MBBS',
-    'MSC.diet',
-    'BHMS',
-    'BDS',
-    'MA',
-    'Psychology',
-    'MD',
-    'MS',
-    'Bsc.Nursing',
-    'ANM',
-    'GNM',
-    'BPT',
-    'MPharm',
-    'Bpharm',
-    'Dpharm',
-    'Ma Psychology',
-    'Masters In Diet',
-    'Yoga Teacher',
-    'Graduate',
-    '12th pass',
-    'Doctor of medicine'
-  ];
+  List _Qualification = [];
 
-  List<bool> qualtification = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  List<bool> qualtification = [];
 
   List<String> _PracticeType = <String>[
     'Allopathy',
@@ -213,6 +160,31 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     'Male',
     'Not Specified',
   ];
+
+  getCategory() async {
+    var r = await http.get("http://3.15.233.253:5000/providertypeslist");
+    Map re = jsonDecode(r.body);
+    re["providerlist"].forEach((element) {
+      _DoctorCategory.add(element["prov_type_name"]);
+      _doctorCategory.add(element["prov_type_code"]);
+    });
+  }
+
+  getQualifications() async {
+    var m = _DoctorCategory.indexOf(_selectedcategory);
+
+    var r = await http.get(
+        "http://3.15.233.253:5000/doctorqualificationslist?prov_type=${_doctorCategory[m]}");
+    Map re = jsonDecode(r.body);
+    print(re);
+    _Qualification = re["doctorqualificationslist"];
+    qualtification.clear();
+    _Qualification.forEach((element) {
+      qualtification.add(false);
+    });
+
+    getSpeciality();
+  }
 
   bool check = false;
 
@@ -228,9 +200,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     super.initState();
     getToken();
     loading = true;
+    getCategory();
     checkDoctorExists();
     getAccrediations();
-    getSpeciality();
     setState(() {});
 
     images.add("Add Image");
@@ -346,17 +318,21 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       value,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
+                                          fontSize: 12,
                                           color: Colors.green),
                                     ),
-                                    value: value,
+                                    value: value.toString(),
                                   )).toList(),
                           onChanged: (selectedCategory) {
                             setState(() {
-                              print(_selectedcategory);
+                              loading = true;
                               _selectedcategory = selectedCategory;
                             });
+                            getQualifications();
                           },
-                          value: _selectedcategory,
+                          value: _selectedcategory == null
+                              ? null
+                              : _selectedcategory.toString(),
                           hint: Text(
                             "Select Category",
                             style: TextStyle(color: Colors.green),
@@ -446,7 +422,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Expanded(child: Text(e)),
+                            Expanded(
+                                child: Text(e["qualific_name"].toString())),
                             Expanded(
                               child: Checkbox(
                                 value: qualtification[index],
@@ -636,7 +613,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       var response =
                           await Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) {
-                          return Specialityy();
+                          return Specialityy(
+                            speciality: speciality,
+                          );
                         },
                       ));
                       if (response != null) specialityColor = response;
@@ -1016,7 +995,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
         String qualif = "";
         while (++i < qualtification.length) {
           if (qualtification[i] == true) {
-            qualif = qualif + _Qualification[i] + ",";
+            print(_Qualification[i]);
+            qualif = qualif + _Qualification[i]["qualific_code"] + ",";
           }
         }
         if (_experiencecontroller.text.length != 0 &&
@@ -1026,7 +1006,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             _nameController.text.length != 0 &&
             _addressController.text.length != 0 &&
             _emailController.text.length != 0 &&
-            _selectedcategory.length != 0 &&
+            _selectedcategory != null &&
             _selectedpractice.length != 0 &&
             // _selectedqual.length != 0 &&
             _selectedgender.length != 0 &&
@@ -1044,8 +1024,24 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
 
           loading = true;
           setState(() {});
+          i = -1;
+          List furtherA = [];
+          accrediationColor.forEach((element) {
+            ++i;
+            if (element == true) {
+              furtherA.add(jsonEncode(accrediation[i]));
+            }
+          });
+          i = -1;
+          List furtherS = [];
+          specialityColor.forEach((element) {
+            ++i;
+            if (element == true) {
+              furtherA.add(jsonEncode(speciality[i]));
+            }
+          });
           String url =
-              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
+              "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
           var request = http.MultipartRequest(
             'POST',
             Uri.parse(url),

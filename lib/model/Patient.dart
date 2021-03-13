@@ -18,7 +18,8 @@ class Patient {
   String activePlanId;
   String height;
   String weight, Primary_Health_Issue, Treatment_Consultant, Remarks;
-  List symptoms, services;
+  List symptoms;
+  String services;
   String preferred_mode_of_treatment,
       medical_history,
       lifestyle,
