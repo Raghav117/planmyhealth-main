@@ -17,7 +17,7 @@ class Patient {
   String activeFlag;
   String activePlanId;
   String height;
-  String weight;
+  String weight, Primary_Health_Issue, Treatment_Consultant, Remarks;
   List symptoms, services;
   String preferred_mode_of_treatment,
       medical_history,
@@ -69,13 +69,16 @@ class Patient {
     activePlanId = json['activePlanId'];
     height = json['height'];
     weight = json['weight'];
-    symptoms = json2["symptoms"];
+    symptoms = json2["usercheckup"][1]["Symptoms"];
     preferred_mode_of_treatment = json['preferred_mode_of_treatment'];
     medical_history = json['medical_history'];
     water_intake_daily = json['water_intake_daily'];
     food_habit = json['food_habit'];
     lifestyle = json['lifestyle'];
-    services = json2["services"];
+    services = json2["usercheckup"][4]["ModeOfService"];
+    Primary_Health_Issue = json2["usercheckup"][3]["Primary_Health_Issue"];
+    Treatment_Consultant = json2["usercheckup"][2]["Treatment_Consultant"];
+    Remarks = json2["usercheckup"][0]["Remarks"];
   }
 
   Map<String, dynamic> toJson() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:plan_my_health/UI/equipments.dart';
 import 'package:plan_my_health/UI/findings.dart';
 import 'package:plan_my_health/UI/issue.dart';
@@ -9,6 +10,7 @@ import 'package:plan_my_health/global/global.dart';
 import 'package:plan_my_health/model/equipments.dart';
 import 'dart:convert';
 import '../model/findings.dart';
+import '../model/homevisit.dart';
 
 class HomeVisitForm extends StatefulWidget {
   @override
@@ -22,6 +24,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
   @override
   void initState() {
     super.initState();
+    gethomevisit();
     getFindings();
     getEquipments();
     getIssue();
@@ -29,12 +32,26 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
     getRecommandation();
   }
 
+  List<HomeVisit> homeVisit = [];
+
+  gethomevisit() async {
+    var response = await http.post("http://3.15.233.253:5000/gethomevisit",
+        body: {"doctor_id": data.sId});
+    print(response.body);
+
+    var data1 = jsonDecode(response.body);
+    data1["data"].forEach((element) {
+      homeVisit.add(HomeVisit.fromJson(element));
+    });
+    print(homeVisit);
+  }
+
   bool loading = true;
   List<Finding> findings = [];
 
   void getFindings() async {
     var response = await http.get("http://3.15.233.253:5000/findings");
-    print(response.body);
+    // print(response.body);
     var data = jsonDecode(response.body);
     data["findinglist"].forEach((element) {
       findings.add(Finding.fromJson(element));
@@ -43,7 +60,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
 
   getEquipments() async {
     var response = await http.get("http://3.15.233.253:5000/equipments");
-    print(response.body);
+    // print(response.body);
     Map m = jsonDecode(response.body);
     for (var data in m["equipmentslist"]) {
       equip.add(Equip.fromJson(data));
@@ -53,7 +70,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
   getRecommandation() async {
     var response =
         await http.get("http://3.15.233.253:5000/getfurtherrecommendations");
-    print(response.body);
+    // print(response.body);
     Map m = jsonDecode(response.body);
     for (var data in m["furtherrecommendationslist"]) {
       recom.add(Recomandation.fromJson(data));
@@ -65,7 +82,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
 
   getIssue() async {
     var response = await http.get("http://3.15.233.253:5000/healthissues");
-    print(response.body);
+    // print(response.body);
     Map m = jsonDecode(response.body);
     for (var data in m["healthissueslist"]) {
       issues.add(Issue.fromJson(data));
@@ -74,7 +91,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
 
   getTreat() async {
     var response = await http.get("http://3.15.233.253:5000/procedures");
-    print(response.body);
+    // print(response.body);
     Map m = jsonDecode(response.body);
     for (var data in m["procedureslist"]) {
       treat.add(Treatment.fromJson(data));
@@ -92,6 +109,62 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
   List treatment = [];
   List equipments = [];
   List recomandation = [];
+  List<Asset> multiimages = List<Asset>();
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = List<Asset>();
+    String error = 'No Error Dectected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 50,
+        enableCamera: true,
+        selectedAssets: multiimages,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      multiimages = resultList;
+    });
+  }
+
+  Widget buildGridView() {
+    return multiimages.length == 0
+        ? Container()
+        : Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Card(
+              elevation: 3.0,
+              child: GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                children: List.generate(multiimages.length, (index) {
+                  Asset asset = multiimages[index];
+                  return AssetThumb(
+                    asset: asset,
+                    width: 300,
+                    height: 300,
+                  );
+                }),
+              ),
+            ),
+          );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -427,6 +500,22 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                     SizedBox(
                       height: 50,
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 28.0),
+                      child: FlatButton(
+                        onPressed: () => loadAssets(),
+                        child: Text(
+                          "Add Case Details ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    buildGridView(),
+                    SizedBox(
+                      height: 50,
+                    ),
                     Center(
                       child: RaisedButton(
                         onPressed: () async {
@@ -538,6 +627,186 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                             borderRadius: BorderRadius.circular(20)),
                       ),
                     ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 1.5,
+                      child: ListView.builder(
+                        itemCount: homeVisit.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height / 1.5,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.green,
+                                  ),
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: ListView(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "In Time",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(homeVisit[index].intime)
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Out Time",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(homeVisit[index].outtime)
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Issues Offered",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            homeVisit[index].issues.length,
+                                        itemBuilder: (context, index1) {
+                                          return Text(
+                                            homeVisit[index]
+                                                .issues[index1]
+                                                .description,
+                                            textAlign: TextAlign.center,
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Treatments",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            homeVisit[index].treatment.length,
+                                        itemBuilder: (context, index1) {
+                                          return Text(
+                                            homeVisit[index]
+                                                .treatment[index1]
+                                                .description
+                                                .toString(),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Equipement & Consumables used",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            homeVisit[index].equipments.length,
+                                        itemBuilder: (context, index1) {
+                                          return Text(
+                                            homeVisit[index]
+                                                .equipments[index1]
+                                                .name,
+                                            textAlign: TextAlign.center,
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Further Recomandations",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: homeVisit[index]
+                                            .furtherrecommendation
+                                            .length,
+                                        itemBuilder: (context, index1) {
+                                          return Text(
+                                            homeVisit[index]
+                                                .furtherrecommendation[index1]
+                                                .name,
+                                            textAlign: TextAlign.center,
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Charges",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(homeVisit[index].charges)
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Remarks",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(homeVisit[index].remark)
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
                   ],
                 ),
               ),

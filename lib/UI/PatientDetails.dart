@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:plan_my_health/global/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as launch;
 
@@ -352,7 +353,7 @@ class _PatientDetailsState extends State<PatientDetails>
                               GestureDetector(
                                 onTap: () async {
                                   await launch.launch(
-                                      "https://wa.me/+91${widget.number}?text=Hello Sir,I am calling you");
+                                      "https://wa.me/+91${widget.number}?text=Hello ${patient.name},\nThis is ${data.name} trying to connect with you for your Health Issue");
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

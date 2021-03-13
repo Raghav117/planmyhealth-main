@@ -1,6 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:plan_my_health/UI/accrediation.dart';
+import 'package:plan_my_health/UI/speciality.dart';
+import 'package:plan_my_health/model/Specialities.dart';
+import 'package:plan_my_health/model/accrediations.dart';
+import 'package:plan_my_health/model/speciality.dart';
 
 import '../global/global.dart';
 
@@ -27,7 +32,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
 
   checkDoctorExists() async {
-    // mobileController.text = "8356928929";
+    mobileController.text = "8356928929";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -46,7 +51,28 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     setState(() {});
   }
 
+  getAccrediations() async {
+    var response = await http.get("http://3.15.233.253:5000/getaccrediation");
+    // print(response.body);
+    Map m = jsonDecode(response.body);
+    for (var data in m["accrediationlist"]) {
+      accrediation.add(Accrediation.fromJson(data));
+    }
+  }
+
+  getSpeciality() async {
+    var response = await http.get("http://3.15.233.253:5000/specialities");
+    // print(response.body);
+    Map m = jsonDecode(response.body);
+    for (var data in m["specialitieslist"]) {
+      speciality.add(Speciality.fromJson(data));
+    }
+  }
+
   bool loading = true;
+  List<Accrediation> accrediation = [];
+  List<Speciality> speciality = [];
+  List<bool> accrediationColor = [], specialityColor = [];
 
   final _nameformKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -203,6 +229,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     getToken();
     loading = true;
     checkDoctorExists();
+    getAccrediations();
+    getSpeciality();
     setState(() {});
 
     images.add("Add Image");
@@ -535,6 +563,139 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   SizedBox(
                     height: 20,
                   ),
+                  GestureDetector(
+                    onTap: () async {
+                      var response =
+                          await Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return Accrediations();
+                        },
+                      ));
+                      if (response != null) accrediationColor = response;
+                      setState(() {});
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Accrediations",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Spacer(),
+                          Text(
+                            "+",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  accrediationColor.indexOf(true) == -1
+                      ? Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Not Selected"),
+                          ),
+                        )
+                      : Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: accrediationColor.length,
+                            itemBuilder: (context, index) {
+                              return accrediationColor[index] == true
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          accrediation[index].accrediationCode,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: Colors.green)),
+                                    )
+                                  : Container();
+                            },
+                          ),
+                        ),
+                  SizedBox(
+                    height: 30,
+                  ),
+
+                  //!********************  Speciality  *********************
+
+                  GestureDetector(
+                    onTap: () async {
+                      var response =
+                          await Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return Specialityy();
+                        },
+                      ));
+                      if (response != null) specialityColor = response;
+                      setState(() {});
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Specialities",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Spacer(),
+                          Text(
+                            "+",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  specialityColor.indexOf(true) == -1
+                      ? Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Not Selected"),
+                          ),
+                        )
+                      : Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: specialityColor.length,
+                            itemBuilder: (context, index) {
+                              return specialityColor[index] == true
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(speciality[index].name,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: Colors.green)),
+                                    )
+                                  : Container();
+                            },
+                          ),
+                        ),
+                  SizedBox(
+                    height: 30,
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -885,7 +1046,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           setState(() {});
           String url =
               "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}";
-          var request = http.MultipartRequest('POST', Uri.parse(url));
+          var request = http.MultipartRequest(
+            'POST',
+            Uri.parse(url),
+          );
           if (_imageFile != null) {
             request.files.add(http.MultipartFile(
               'profilepicture',
@@ -902,6 +1066,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               filename: "imagesignature.jpg",
             ));
           }
+          //! ********************************   This is function for sending multiple images  ********************************
           multiimages.forEach((element) async {
             String filePath =
                 await FlutterAbsolutePath.getAbsolutePath(element.identifier);

@@ -95,6 +95,7 @@ class _UserListScreenState extends State<UserListScreen>
     for (var element in result["doctorlist"]) {
       patient.add(Patient.fromJson(element));
     }
+    print(patient);
   }
 
   Future<List<Doctorlist>> getuserlist() async {
@@ -171,8 +172,8 @@ class _UserListScreenState extends State<UserListScreen>
               MaterialPageRoute(
                   builder: (context) => PatientDetails(
                         number: user.mobile.toString(),
-                        sId: sId,
-                        city: user.cityId,
+                        sId: sId.toString(),
+                        city: user.cityId.toString(),
                         patient: patient[index],
                       )));
         },
