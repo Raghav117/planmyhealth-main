@@ -220,9 +220,9 @@ class _ParientListState extends State<ParientList> {
                                 activeColor: Colors.green,
                                 onChanged: (value) async {
                                   if (value == false) {
-                                    setState(() {
-                                      loading = true;
-                                    });
+                                    // setState(() {
+                                    //   loading = true;
+                                    // });
                                     var response = await http.post(
                                         "http://3.15.233.253:5000/doctorstatusupdate",
                                         body: {

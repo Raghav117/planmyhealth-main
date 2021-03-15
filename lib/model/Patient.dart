@@ -2,22 +2,32 @@ class Patient {
   String sId;
   String id;
   String name;
-  String cityId;
+  String cityId, address;
   int pincode;
   String gender;
   int age;
   int mobile;
   String password;
-  String employeeTag;
+  String employeeTag,
+      blood_group,
+      occupation,
+      exercise_flag,
+      sick_frequently,
+      meals_per_day,
+      relation;
   int employeeId;
   String groupId;
-  String relation;
   String email;
   String renewalFlag;
   String activeFlag;
   String activePlanId;
   String height;
-  String weight, Primary_Health_Issue, Treatment_Consultant, Remarks;
+  String weight,
+      picture,
+      Primary_Health_Issue,
+      Treatment_Consultant,
+      Remarks,
+      preferredlanguage;
   List symptoms;
   String services;
   String preferred_mode_of_treatment,
@@ -48,12 +58,11 @@ class Patient {
     this.weight,
   });
 
-  Patient.fromJson(Map<String, dynamic> json) {
-    Map json2 = json;
+  Patient.fromJson(Map<String, dynamic> json, Map<String, dynamic> json3) {
     json = json["userdata"][0];
-    sId = json['_id'];
-    id = json['id'];
-    name = json['name'];
+    sId = json3['_id'];
+    id = json['id'].toString();
+    name = json['name'].toString();
     cityId = json['cityId'];
     pincode = json['pincode'];
     gender = json['gender'];
@@ -64,22 +73,30 @@ class Patient {
     employeeId = json['employeeId'];
     groupId = json['groupId'];
     relation = json['relation'];
+    address = json['address'];
+    picture = json['picture'].toString();
+    blood_group = json['blood_group'];
+    occupation = json['occupation'];
+    exercise_flag = json['exercise_flag'];
+    sick_frequently = json['sick_frequently'];
+    meals_per_day = json['meals_per_day'];
     email = json['email'];
     renewalFlag = json['renewalFlag'];
     activeFlag = json['activeFlag'];
     activePlanId = json['activePlanId'];
     height = json['height'];
     weight = json['weight'];
-    symptoms = json2["usercheckup"][1]["Symptoms"];
+    symptoms = json3["symptoms"];
     preferred_mode_of_treatment = json['preferred_mode_of_treatment'];
     medical_history = json['medical_history'];
     water_intake_daily = json['water_intake_daily'];
     food_habit = json['food_habit'];
     lifestyle = json['lifestyle'];
-    services = json2["usercheckup"][4]["ModeOfService"];
-    Primary_Health_Issue = json2["usercheckup"][3]["Primary_Health_Issue"];
-    Treatment_Consultant = json2["usercheckup"][2]["Treatment_Consultant"];
-    Remarks = json2["usercheckup"][0]["Remarks"];
+    services = json3["modeofservice"];
+    Primary_Health_Issue = json3["primaryhealthissue"];
+    preferredlanguage = json3["preferredlanguage"];
+    // Treatment_Consultant = json2["usercheckup"][2]["Treatment_Consultant"];
+    Remarks = json3["remarks"];
   }
 
   Map<String, dynamic> toJson() {

@@ -59,6 +59,11 @@ class _PatientState extends State<Patient> {
                           children: [
                             ListTile(
                               // leading: Image.network(
+                              //   "http://3.15.233.253/" + patient.picture,
+                              //   errorBuilder: (context, error, stackTrace) =>
+                              //       Icon(Icons.account_box_outlined),
+                              // ),
+                              // leading: Image.network(
                               //   "http://3.15.233.253/" + global.data.picture,
                               //   errorBuilder: (context, error, stackTrace) =>
                               //       Icon(Icons.account_box_outlined),
@@ -240,6 +245,129 @@ class _PatientState extends State<Patient> {
                                   child: Text(patient
                                       .preferred_mode_of_treatment
                                       .toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Primary Health Issue",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(
+                                      patient.Primary_Health_Issue.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Preferred Language",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(
+                                      patient.preferredlanguage.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Mode Of Services",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.services.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Blood Group",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.blood_group.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Occupation",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.occupation.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Exercise Flag",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.exercise_flag.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Sick Frequently",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child:
+                                      Text(patient.sick_frequently.toString()),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text("Meals Per Day",
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ))),
+                                Expanded(
+                                  child: Text(patient.meals_per_day.toString()),
                                 )
                               ],
                             ),

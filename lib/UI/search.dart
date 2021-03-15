@@ -80,37 +80,6 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
     );
   }
 
-  // Future<List<Doctorlist> getuserlist() {
-  //   apiHelper.getOderList().then((userlist) {
-  //     // print(userlist.doctorlist[0].userdata[0].name);
-  //     for (Doctorlist doctorlist in userlist.doctorlist) {
-  //       List<Doctorlist> orderList = [];
-  //       orderList.add(doctorlist);
-  //       // for (Userdata userdata in doctorlist.userdata) {
-  //       //   print(userdata.name);
-  //       // }
-  //     }
-  //   });
-  //   return orderList;
-  // }
-  List<Doctorlist> days = [];
-
-  Future<List<Doctorlist>> getuserlist() async {
-    await apiHelper.getOderList().then((userlist) {
-      days.clear();
-      userlist.doctorlist.forEach((element) {
-        days.add(element);
-      });
-      // for (int i = 0; i <= userlist.doctorlist.length; i++) {
-      //   print("adding");
-      //   days.add(userlist.doctorlist[i]);
-      // }
-    });
-    print("--------------------------------------- check-------------");
-    print(days);
-    return days;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -127,6 +96,7 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
           "http://3.15.233.253:5000/previoususerprecription",
           body: {"userid": widget.patient.sId, "doctorid": global.data.sId});
       data = jsonDecode(response.body);
+      print(data);
     }
 
     print(data);

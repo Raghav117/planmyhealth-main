@@ -142,7 +142,12 @@ class _PatientDetailsState extends State<PatientDetails>
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                     ),
-                                    child: Image.asset("assets/logo.jpeg"),
+                                    child: Image.network(
+                                      "http://3.15.233.253/" + patient.picture,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Icon(Icons.account_box_outlined),
+                                    ),
                                   ),
                                   SizedBox(width: 15),
                                   Column(
@@ -222,7 +227,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
-                                        patient.symptoms[index]["value"],
+                                        patient.symptoms[index],
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
@@ -327,36 +332,36 @@ class _PatientDetailsState extends State<PatientDetails>
                             ),
                           ),
                         ),
-                        Card(
-                          elevation: 10,
-                          color: Colors.green,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Treatment Consultant",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(patient.Treatment_Consultant,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    )),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        // Card(
+                        //   elevation: 10,
+                        //   color: Colors.green,
+                        //   shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(20)),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: Column(
+                        //       children: [
+                        //         Text(
+                        //           "Treatment Consultant",
+                        //           style: TextStyle(
+                        //               color: Colors.white,
+                        //               fontWeight: FontWeight.bold,
+                        //               fontSize: 18),
+                        //         ),
+                        //         SizedBox(
+                        //           height: 20,
+                        //         ),
+                        //         Text(patient.Treatment_Consultant,
+                        //             style: TextStyle(
+                        //               color: Colors.white,
+                        //             )),
+                        //         SizedBox(
+                        //           height: 20,
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         Container(
                             padding: const EdgeInsets.fromLTRB(25, 10, 25, 10),
                             //   color: Colors.pink.shade300,
@@ -431,7 +436,7 @@ class _PatientDetailsState extends State<PatientDetails>
                               GestureDetector(
                                 onTap: () async {
                                   await launch.launch(
-                                      "https://wa.me/+91${widget.number}?text=Hello ${patient.name},\nThis is ${data.name} trying to connect with you for your Health Issue");
+                                      "https://wa.me/+91${widget.number}?text=Hello ${patient.name},\nThis is ${data.name} trying to connect with you for your ${widget.patient.Primary_Health_Issue}");
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

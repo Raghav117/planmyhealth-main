@@ -200,19 +200,19 @@ class ApiHelper {
     }
   }
 
-  Future<Patient> getPatientDetails(String number) async {
-    Response response = await dio
-        .get("http://3.15.233.253:5000/getmember?mobileNumber=" + number);
+  // Future<Patient> getPatientDetails(String number) async {
+  //   Response response = await dio
+  //       .get("http://3.15.233.253:5000/getmember?mobileNumber=" + number);
 
-    print("---------------------" + response.statusCode.toString());
-    if (response.statusCode == 200) {
-      Patient patient = Patient.fromJson(response.data);
-      print("---------------------" + patient.name);
-      return patient;
-    } else {
-      print(response.data);
-    }
-  }
+  //   print("---------------------" + response.statusCode.toString());
+  //   if (response.statusCode == 200) {
+  //     Patient patient = Patient.fromJson(response.data);
+  //     print("---------------------" + patient.name);
+  //     return patient;
+  //   } else {
+  //     print(response.data);
+  //   }
+  // }
 
   // ignore: non_constant_identifier_names
   Future<FormData> FormData2() async {
