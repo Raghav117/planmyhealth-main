@@ -334,7 +334,7 @@ class _ParientListState extends State<ParientList> {
                                                   BorderRadius.circular(20)),
                                           onPressed: () async {
                                             setState(() {
-                                              loading = true;
+                                              // loading = true;
                                             });
 
                                             options.clear();

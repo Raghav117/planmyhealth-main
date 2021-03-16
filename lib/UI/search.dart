@@ -30,6 +30,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> with WidgetsBindingObserver {
   List<Doctorlist> orderList;
+  List<Patient> patient = [];
   bool onCall = false;
   ApiHelper apiHelper = ApiHelper();
 
@@ -91,25 +92,38 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
       var response = await http.get(
           "http://3.15.233.253:5000/doctorprecriptionlist?doctorid=${global.data.sId}");
       data = jsonDecode(response.body);
+      for (var element in data["doctorlist"]) {
+        if (element["userdata"].length > 0 && element["doctors"].length > 0)
+          for (var element2 in element["doctors"]) {
+            patient.add(Patient.fromJson(element, element2));
+          }
+      }
     } else {
       var response = await http.post(
           "http://3.15.233.253:5000/previoususerprecription",
-          body: {"userid": widget.patient.sId, "doctorid": global.data.sId});
+          body: {"userid": widget.patient.id});
       data = jsonDecode(response.body);
+      for (var element in data["precriptiondetails"]) {
+        if (element["userdata"].length > 0 && element["doctors"].length > 0)
+          for (var element2 in element["doctors"]) {
+            patient.add(Patient.fromJson(element, element2));
+          }
+      }
       print(data);
     }
 
-    print(data);
-    data["doctorlist"].forEach((element) {
-      element["doctorscheckup"].forEach((ele) {
-        doctorcheckup.add(DoctorsCheckUp.fromJson(ele));
-      });
-      element["userdata"].forEach((ele) {
-        userData.add(UserData.fromJson(ele));
-      });
-    });
-    print(doctorcheckup);
-    print(userData);
+    print(patient);
+    // print(data);
+    // data["doctorlist"].forEach((element) {
+    //   element["userdata"].forEach((ele) {
+    //     doctorcheckup.add(DoctorsCheckUp.fromJson(ele));
+    //   });
+    //   element["userdata"].forEach((ele) {
+    //     userData.add(UserData.fromJson(ele));
+    //   });
+    // });
+    // print(doctorcheckup);
+    // print(userData);
     // print(userData[0].id);
     loading = false;
     setState(() {});
@@ -117,8 +131,6 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
 
   List<Map> m;
   bool loading = true;
-  List<DoctorsCheckUp> doctorcheckup = List();
-  List<UserData> userData = List();
   bool show = false;
   var data;
 
@@ -138,189 +150,186 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                 )
               : SingleChildScrollView(
                   child: Column(
-                      children: userData.map((e) {
-                    int index = userData.indexOf(e);
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PdfOpener(
-                              url: "http://3.15.233.253/" +
-                                  data["doctorlist"][index]["pdffile"]
-                                      .replaceAll("/var/www/html/", ""),
-                            ),
-                          ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border:
-                                  Border.all(color: Colors.green, width: 3)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text("Name"),
-                                    ),
-                                    Expanded(
-                                      child:
-                                          Text(userData[index].name.toString()),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text("Mobile Number"),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                          userData[index].mobile.toString()),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text("Date"),
-                                    ),
-                                    Expanded(
-                                      child: Text(userData[index]
-                                          .dateOfJoining
-                                          .toString()),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text("Diagnosis"),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: doctorcheckup[index]
-                                            .diagnosis
-                                            .map((e) =>
-                                                Text(e["diagnosis_name"]))
-                                            .toList(),
-                                      )),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                      children: patient.map((e) {
+                    int index = patient.indexOf(e);
+                    if (e.pdffile == null)
+                      return Container();
+                    else
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PdfOpener(
+                                url: "http://3.15.233.253/" +
+                                    e.pdffile.replaceAll("/var/www/html/", ""),
+                              ),
+                            ));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border:
+                                    Border.all(color: Colors.green, width: 3)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text("Name"),
+                                      ),
+                                      Expanded(
+                                        child: Text(e.name.toString()),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text("Mobile Number"),
+                                      ),
+                                      Expanded(
+                                        child: Text(e.mobile.toString()),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text("Date"),
+                                      ),
+                                      Expanded(
+                                        child: Text(e.dateOfJoining.toString()),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text("Diagnosis"),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: e.diagnosis
+                                              .map((e) =>
+                                                  Text(e["diagnosis_name"]))
+                                              .toList(),
+                                        )),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
+                      );
                   }).toList()),
                 )),
     );
   }
 
-  ListView _jobsListView(data) {
-    print("---------------------");
-    print("length of get users list" + data.length.toString());
-    return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          if (data[index].userdata.length > 0)
-            return _tile(data[index].userdata[0]);
-          return Container();
-        });
-  }
+  // ListView _jobsListView(data) {
+  //   print("---------------------");
+  //   print("length of get users list" + data.length.toString());
+  //   return ListView.builder(
+  //       itemCount: data.length,
+  //       itemBuilder: (context, index) {
+  //         if (data[index].userdata.length > 0)
+  //           return _tile(data[index].userdata[0]);
+  //         return Container();
+  //       });
+  // }
 
-  ListTile _tile(dynamic user) => ListTile(
-        tileColor: Colors.green.shade50,
-        // onTap: () async => await launch(url("+91 " + user.mobile.toString())),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      PatientDetails(number: user.mobile.toString())));
-        },
-        leading: Container(
-            width: 54,
-            height: 54,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        "https://i1.wp.com/www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-2.jpg")))),
-        title: Row(
-          children: [
-            Text(
-              user.name.toString(),
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(width: 2),
-          ],
-        ),
-        subtitle: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-          child: Text(
-            user.mobile.toString(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: "HelveticaNeueMedium",
-                fontSize: 14),
-          ),
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              " [ " + user.gender.toString() + " ]",
-              style: TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.w800,
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-                child: Text(user.age.toString() + " Years",
-                    style: TextStyle(color: Colors.black))),
-          ],
-        ),
-      );
+  // ListTile _tile(dynamic user) => ListTile(
+  //       tileColor: Colors.green.shade50,
+  //       // onTap: () async => await launch(url("+91 " + user.mobile.toString())),
+  //       onTap: () {
+  //         Navigator.push(
+  //             context,
+  //             MaterialPageRoute(
+  //                 builder: (context) =>
+  //                     PatientDetails(number: user.mobile.toString())));
+  //       },
+  //       leading: Container(
+  //           width: 54,
+  //           height: 54,
+  //           decoration: BoxDecoration(
+  //               shape: BoxShape.circle,
+  //               image: DecorationImage(
+  //                   fit: BoxFit.fill,
+  //                   image: NetworkImage(
+  //                       "https://i1.wp.com/www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-2.jpg")))),
+  //       title: Row(
+  //         children: [
+  //           Text(
+  //             user.name.toString(),
+  //             style: TextStyle(
+  //               fontSize: 20,
+  //             ),
+  //           ),
+  //           SizedBox(width: 2),
+  //         ],
+  //       ),
+  //       subtitle: Padding(
+  //         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+  //         child: Text(
+  //           user.mobile.toString(),
+  //           maxLines: 1,
+  //           overflow: TextOverflow.ellipsis,
+  //           softWrap: false,
+  //           style: TextStyle(
+  //               color: Colors.black,
+  //               fontFamily: "HelveticaNeueMedium",
+  //               fontSize: 14),
+  //         ),
+  //       ),
+  //       trailing: Column(
+  //         mainAxisAlignment: MainAxisAlignment.end,
+  //         crossAxisAlignment: CrossAxisAlignment.end,
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           Text(
+  //             " [ " + user.gender.toString() + " ]",
+  //             style: TextStyle(
+  //               color: Colors.green,
+  //               fontWeight: FontWeight.w800,
+  //               fontSize: 18,
+  //             ),
+  //           ),
+  //           SizedBox(height: 10),
+  //           Container(
+  //               child: Text(user.age.toString() + " Years",
+  //                   style: TextStyle(color: Colors.black))),
+  //         ],
+  //       ),
+  //     );
 
-  String url(String phone) {
-    print("Call url function");
-    if (Platform.isAndroid) {
-      // add the [https]
-      setState(() {
-        onCall = true;
-      });
-      return "https://wa.me/$phone/?text= "; // new line
-    } else {
-      // add the [https]
-      return "https://api.whatsapp.com/send?phone=$phone= "; // new line
-    }
-  }
+  // String url(String phone) {
+  //   print("Call url function");
+  //   if (Platform.isAndroid) {
+  //     // add the [https]
+  //     setState(() {
+  //       onCall = true;
+  //     });
+  //     return "https://wa.me/$phone/?text= "; // new line
+  //   } else {
+  //     // add the [https]
+  //     return "https://api.whatsapp.com/send?phone=$phone= "; // new line
+  //   }
+  // }
 }

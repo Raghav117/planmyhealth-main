@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Patient {
   String sId;
   String id;
@@ -16,11 +18,11 @@ class Patient {
       meals_per_day,
       relation;
   int employeeId;
-  String groupId;
+  String groupId, pdffile;
   String email;
   String renewalFlag;
   String activeFlag;
-  String activePlanId;
+  String activePlanId, dateOfJoining;
   String height;
   String weight,
       picture,
@@ -28,7 +30,7 @@ class Patient {
       Treatment_Consultant,
       Remarks,
       preferredlanguage;
-  List symptoms;
+  List symptoms, diagnosis;
   String services;
   String preferred_mode_of_treatment,
       medical_history,
@@ -61,7 +63,7 @@ class Patient {
   Patient.fromJson(Map<String, dynamic> json, Map<String, dynamic> json3) {
     json = json["userdata"][0];
     sId = json3['_id'];
-    id = json['id'].toString();
+    id = json['_id'].toString();
     name = json['name'].toString();
     cityId = json['cityId'];
     pincode = json['pincode'];
@@ -86,6 +88,7 @@ class Patient {
     activePlanId = json['activePlanId'];
     height = json['height'];
     weight = json['weight'];
+    dateOfJoining = json['dateOfJoining'];
     symptoms = json3["symptoms"];
     preferred_mode_of_treatment = json['preferred_mode_of_treatment'];
     medical_history = json['medical_history'];
@@ -94,7 +97,9 @@ class Patient {
     lifestyle = json['lifestyle'];
     services = json3["modeofservice"];
     Primary_Health_Issue = json3["primaryhealthissue"];
+    pdffile = json3["pdffile"];
     preferredlanguage = json3["preferredlanguage"];
+    diagnosis = jsonDecode(json3["diagnosis"].toString());
     // Treatment_Consultant = json2["usercheckup"][2]["Treatment_Consultant"];
     Remarks = json3["remarks"];
   }

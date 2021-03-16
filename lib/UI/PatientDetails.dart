@@ -312,7 +312,7 @@ class _PatientDetailsState extends State<PatientDetails>
                             child: Column(
                               children: [
                                 Text(
-                                  "Health Isaue",
+                                  "Health Issue",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
