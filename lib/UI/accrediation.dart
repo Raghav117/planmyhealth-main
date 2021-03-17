@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_my_health/model/accrediations.dart';
 
@@ -37,7 +38,11 @@ class _AccrediationsState extends State<Accrediations> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Accrediations"),
+        backgroundColor: Colors.greenAccent,
+        title: Text(
+          "Accrediations",
+          style: GoogleFonts.dosis(),
+        ),
         centerTitle: true,
       ),
       body: loading == true
@@ -49,27 +54,31 @@ class _AccrediationsState extends State<Accrediations> {
                 Expanded(
                     child: ListView.builder(
                   itemCount: accrediation.length,
-                  itemBuilder: (context, index) => ListTile(
-                    onTap: () {
-                      setState(() {
-                        colors[index] = !colors[index];
-                      });
-                    },
-                    // tileColor:
-                    title: Text(
-                      accrediation[index].accrediationName,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color:
-                            colors[index] == false ? Colors.black : Colors.blue,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      onTap: () {
+                        setState(() {
+                          colors[index] = !colors[index];
+                        });
+                      },
+                      // tileColor:
+                      title: Text(
+                        accrediation[index].accrediationName,
+                        style: GoogleFonts.dosis(
+                          fontSize: 18,
+                          color: colors[index] == false
+                              ? Colors.black
+                              : Colors.greenAccent,
+                        ),
                       ),
+                      leading: colors[index] == false
+                          ? Icon(Icons.check_box_outline_blank)
+                          : Icon(
+                              Icons.check_box,
+                              color: Colors.greenAccent,
+                            ),
                     ),
-                    leading: colors[index] == false
-                        ? Icon(Icons.check_box_outline_blank)
-                        : Icon(
-                            Icons.check_box,
-                            color: Colors.blue,
-                          ),
                   ),
                 )),
                 InkWell(
@@ -80,7 +89,7 @@ class _AccrediationsState extends State<Accrediations> {
                     height: 50,
                     width: 180,
                     decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.greenAccent,
                         borderRadius: BorderRadius.circular(30)),
                     child: Center(
                         child: Text(

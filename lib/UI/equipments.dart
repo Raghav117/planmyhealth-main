@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_my_health/model/equipments.dart';
 
@@ -37,7 +38,11 @@ class _EquipmentsState extends State<Equipments> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Equipments"),
+        title: Text(
+          "Equipments",
+          style: GoogleFonts.dosis(),
+        ),
+        backgroundColor: Colors.greenAccent,
         centerTitle: true,
       ),
       body: loading == true
@@ -58,17 +63,18 @@ class _EquipmentsState extends State<Equipments> {
                     // tileColor:
                     title: Text(
                       equip[index].name,
-                      style: TextStyle(
+                      style: GoogleFonts.dosis(
                         fontSize: 18,
-                        color:
-                            colors[index] == false ? Colors.black : Colors.blue,
+                        color: colors[index] == false
+                            ? Colors.black
+                            : Colors.greenAccent,
                       ),
                     ),
                     leading: colors[index] == false
                         ? Icon(Icons.check_box_outline_blank)
                         : Icon(
                             Icons.check_box,
-                            color: Colors.blue,
+                            color: Colors.greenAccent,
                           ),
                   ),
                 )),
@@ -80,12 +86,12 @@ class _EquipmentsState extends State<Equipments> {
                     height: 50,
                     width: 180,
                     decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.greenAccent,
                         borderRadius: BorderRadius.circular(30)),
                     child: Center(
                         child: Text(
                       "Done",
-                      style: TextStyle(color: Colors.white),
+                      style: GoogleFonts.dosis(color: Colors.white),
                     )),
                   ),
                 )

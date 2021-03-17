@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:plan_my_health/UI/equipments.dart';
@@ -174,7 +175,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Visit"),
+        title: Text("Home Visit", style: GoogleFonts.dosis()),
+        backgroundColor: Colors.greenAccent,
         centerTitle: true,
       ),
       body: loading == true
@@ -188,8 +190,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                   children: [
                     Text(
                       "In Time",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: GoogleFonts.dosis(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     GestureDetector(
                         onTap: () async {
@@ -198,6 +200,19 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                             firstDate: DateTime.now(),
                             initialDate: intime,
                             lastDate: DateTime(2025),
+                            builder: (context, child) {
+                              return Theme(
+                                child: child,
+                                data: ThemeData.light().copyWith(
+                                  primaryColor: Colors.greenAccent,
+                                  accentColor: Colors.greenAccent,
+                                  colorScheme: ColorScheme.light(
+                                      primary: Colors.greenAccent),
+                                  buttonTheme: ButtonThemeData(
+                                      textTheme: ButtonTextTheme.primary),
+                                ),
+                              );
+                            },
                           );
                           if (time != null) intime = time;
                           setState(() {});
@@ -208,8 +223,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                     ),
                     Text(
                       "Out Time",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: GoogleFonts.dosis(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     GestureDetector(
                         onTap: () async {
@@ -218,6 +233,19 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                             firstDate: DateTime.now(),
                             initialDate: intime,
                             lastDate: DateTime(2025),
+                            builder: (context, child) {
+                              return Theme(
+                                child: child,
+                                data: ThemeData.light().copyWith(
+                                  primaryColor: Colors.greenAccent,
+                                  accentColor: Colors.greenAccent,
+                                  colorScheme: ColorScheme.light(
+                                      primary: Colors.greenAccent),
+                                  buttonTheme: ButtonThemeData(
+                                      textTheme: ButtonTextTheme.primary),
+                                ),
+                              );
+                            },
                           );
                           if (time != null) outtime = time;
                           setState(() {});
@@ -241,13 +269,13 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                         children: [
                           Text(
                             "Issue Offered",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Spacer(),
                           Text(
                             "+",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           )
                         ],
@@ -275,7 +303,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(issues[index].description,
-                                            style: TextStyle(
+                                            style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                             )),
@@ -302,13 +330,13 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                         children: [
                           Text(
                             "Treatement Offered",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Spacer(),
                           Text(
                             "+",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           )
                         ],
@@ -336,7 +364,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(treat[index].description,
-                                            style: TextStyle(
+                                            style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                             )),
@@ -363,13 +391,13 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                         children: [
                           Text(
                             "Equipement & Consumables used",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Spacer(),
                           Text(
                             "+",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           )
                         ],
@@ -397,7 +425,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(equip[index].name,
-                                            style: TextStyle(
+                                            style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                             )),
@@ -425,12 +453,12 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                         children: [
                           Text(
                             "Further recommendation",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Text(
                             "+",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           )
                         ],
@@ -458,7 +486,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(recom[index].name,
-                                            style: TextStyle(
+                                            style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                             )),
@@ -472,8 +500,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                     ),
                     Text(
                       "Charges",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: GoogleFonts.dosis(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     SizedBox(
                       height: 10,
@@ -489,8 +517,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                     ),
                     Text(
                       "Remarks",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: GoogleFonts.dosis(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     SizedBox(
                       height: 10,
@@ -510,7 +538,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                         onPressed: () => loadAssets(),
                         child: Text(
                           "Add Case Details ",
-                          style: TextStyle(
+                          style: GoogleFonts.dosis(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -623,7 +651,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                         height: 300,
                                         width: 300,
                                         child: Center(
-                                          child: Text("Successfully Saved"),
+                                          child: Text("Successfully Saved",
+                                              style: GoogleFonts.dosis()),
                                         ),
                                       ),
                                     ));
@@ -638,8 +667,9 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                         height: 300,
                                         width: 300,
                                         child: Center(
-                                          child:
-                                              Text("All fields are compulsory"),
+                                          child: Text(
+                                              "All fields are compulsory",
+                                              style: GoogleFonts.dosis()),
                                         ),
                                       ),
                                     ));
@@ -648,9 +678,9 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                             loading = false;
                           });
                         },
-                        color: Colors.blue,
+                        color: Colors.greenAccent,
                         child: Text("Submit",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             )),
@@ -684,10 +714,11 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "In Time",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(homeVisit[index].intime)
+                                      Text(homeVisit[index].intime,
+                                          style: GoogleFonts.dosis())
                                     ],
                                   ),
                                   SizedBox(
@@ -697,10 +728,11 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "Out Time",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(homeVisit[index].outtime)
+                                      Text(homeVisit[index].outtime,
+                                          style: GoogleFonts.dosis())
                                     ],
                                   ),
                                   SizedBox(
@@ -710,7 +742,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "Issues Offered",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
                                       ListView.builder(
@@ -719,11 +751,11 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                             homeVisit[index].issues.length,
                                         itemBuilder: (context, index1) {
                                           return Text(
-                                            homeVisit[index]
-                                                .issues[index1]
-                                                .description,
-                                            textAlign: TextAlign.center,
-                                          );
+                                              homeVisit[index]
+                                                  .issues[index1]
+                                                  .description,
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.dosis());
                                         },
                                       )
                                     ],
@@ -735,7 +767,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "Treatments",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
                                       ListView.builder(
@@ -744,12 +776,12 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                             homeVisit[index].treatment.length,
                                         itemBuilder: (context, index1) {
                                           return Text(
-                                            homeVisit[index]
-                                                .treatment[index1]
-                                                .description
-                                                .toString(),
-                                            textAlign: TextAlign.center,
-                                          );
+                                              homeVisit[index]
+                                                  .treatment[index1]
+                                                  .description
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.dosis());
                                         },
                                       )
                                     ],
@@ -761,7 +793,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "Equipement & Consumables used",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
                                       ListView.builder(
@@ -770,11 +802,11 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                             homeVisit[index].equipments.length,
                                         itemBuilder: (context, index1) {
                                           return Text(
-                                            homeVisit[index]
-                                                .equipments[index1]
-                                                .name,
-                                            textAlign: TextAlign.center,
-                                          );
+                                              homeVisit[index]
+                                                  .equipments[index1]
+                                                  .name,
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.dosis());
                                         },
                                       )
                                     ],
@@ -786,7 +818,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "Further Recomandations",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
                                       ListView.builder(
@@ -796,11 +828,11 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                             .length,
                                         itemBuilder: (context, index1) {
                                           return Text(
-                                            homeVisit[index]
-                                                .furtherrecommendation[index1]
-                                                .name,
-                                            textAlign: TextAlign.center,
-                                          );
+                                              homeVisit[index]
+                                                  .furtherrecommendation[index1]
+                                                  .name,
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.dosis());
                                         },
                                       )
                                     ],
@@ -812,10 +844,11 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "Charges",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(homeVisit[index].charges)
+                                      Text(homeVisit[index].charges,
+                                          style: GoogleFonts.dosis())
                                     ],
                                   ),
                                   SizedBox(
@@ -825,10 +858,11 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                                     children: [
                                       Text(
                                         "Remarks",
-                                        style: TextStyle(
+                                        style: GoogleFonts.dosis(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(homeVisit[index].remark)
+                                      Text(homeVisit[index].remark,
+                                          style: GoogleFonts.dosis())
                                     ],
                                   ),
                                 ],

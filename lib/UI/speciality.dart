@@ -31,6 +31,7 @@ class _AccrediationsState extends State<Specialityy> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Speciality"),
+        backgroundColor: Colors.greenAccent,
         centerTitle: true,
       ),
       body: loading == true
@@ -53,15 +54,16 @@ class _AccrediationsState extends State<Specialityy> {
                       specialtiy[index].name,
                       style: TextStyle(
                         fontSize: 18,
-                        color:
-                            colors[index] == false ? Colors.black : Colors.blue,
+                        color: colors[index] == false
+                            ? Colors.black
+                            : Colors.greenAccent,
                       ),
                     ),
                     leading: colors[index] == false
                         ? Icon(Icons.check_box_outline_blank)
                         : Icon(
                             Icons.check_box,
-                            color: Colors.blue,
+                            color: Colors.greenAccent,
                           ),
                   ),
                 )),
@@ -73,7 +75,7 @@ class _AccrediationsState extends State<Specialityy> {
                     height: 50,
                     width: 180,
                     decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.greenAccent,
                         borderRadius: BorderRadius.circular(30)),
                     child: Center(
                         child: Text(

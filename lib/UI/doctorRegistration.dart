@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/UI/accrediation.dart';
 import 'package:plan_my_health/UI/speciality.dart';
 import 'package:plan_my_health/model/Specialities.dart';
@@ -217,12 +218,50 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     locationData = await location.getLocation();
   }
 
+  Widget text() {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.lightBlueAccent.withOpacity(0.2)),
+        width: MediaQuery.of(context).size.width - 120,
+        child: TextField(
+          cursorColor: Colors.green,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+          ),
+        ));
+  }
+
+  Widget _entryField(String title, isPassword, TextEditingController text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(title, style: GoogleFonts.dosis(fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+                controller: text,
+                obscureText: isPassword,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    fillColor: Color(0xfff3f3f4),
+                    filled: true))
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: loading == true
           ? Center(
               child: CircularProgressIndicator(),
@@ -239,24 +278,28 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     child: FittedBox(
                       child: Text(
                         "Registration for Healthcare Service Provider",
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.w600,
-                          // fontSize: 18,
-                        ),
+                        style: GoogleFonts.dosis(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17
+                            // fontSize: 18,
+                            ),
                       ),
                     ),
                   ),
                   SizedBox(height: height * 0.04),
-                  doctorName(),
-                  SizedBox(height: height * 0.04),
-                  email(),
-                  SizedBox(height: height * 0.04),
+                  _entryField("Name", false, _nameController),
+                  _entryField("Email", false, _emailController),
+                  // _entryField("Name", false),
+                  // doctorName(),
+                  // SizedBox(height: height * 0.04),
+                  // email(),
+                  // SizedBox(height: height * 0.04),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "Date of Birth: ",
-                      style: TextStyle(
+                      "Date of Birth  ",
+                      style: GoogleFonts.dosis(
                         color: Colors.green,
                         // fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -268,9 +311,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     onPressed: () {
                       _selectDate(context);
                     },
-                    child: Text(
-                      " " + selectedDate.toString().substring(0, 10),
-                    ),
+                    child: Text(" " + selectedDate.toString().substring(0, 10),
+                        style: GoogleFonts.dosis()),
                   ),
                   SizedBox(height: height * 0.04),
                   Row(
@@ -282,7 +324,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           items: _Gender.map((value) => DropdownMenuItem(
                                 child: Text(
                                   value,
-                                  style: TextStyle(
+                                  style: GoogleFonts.dosis(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.green),
                                 ),
@@ -297,7 +339,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           value: _selectedgender,
                           hint: Text(
                             "Select Gender",
-                            style: TextStyle(color: Colors.green),
+                            style: GoogleFonts.dosis(color: Colors.green),
                           ),
                           elevation: 5,
                           isExpanded: false,
@@ -316,7 +358,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               _DoctorCategory.map((value) => DropdownMenuItem(
                                     child: Text(
                                       value,
-                                      style: TextStyle(
+                                      style: GoogleFonts.dosis(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 12,
                                           color: Colors.green),
@@ -335,7 +377,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               : _selectedcategory.toString(),
                           hint: Text(
                             "Select Category",
-                            style: TextStyle(color: Colors.green),
+                            style: GoogleFonts.dosis(color: Colors.green),
                           ),
                           elevation: 5,
                           isExpanded: false,
@@ -353,7 +395,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   //         items: _PracticeType.map((value) => DropdownMenuItem(
                   //               child: Text(
                   //                 value,
-                  //                 style: TextStyle(
+                  //                 style: GoogleFonts.dosis(
                   //                     fontWeight: FontWeight.bold,
                   //                     color: Colors.green),
                   //               ),
@@ -368,7 +410,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   //         value: _selectedpractice,
                   //         hint: Text(
                   //           "Select Practice",
-                  //           style: TextStyle(color: Colors.green),
+                  //           style: GoogleFonts.dosis(color: Colors.green),
                   //         ),
                   //         elevation: 5,
                   //         isExpanded: false,
@@ -386,7 +428,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   //         items: _Qualification.map((value) => DropdownMenuItem(
                   //               child: Text(
                   //                 value,
-                  //                 style: TextStyle(
+                  //                 style: GoogleFonts.dosis(
                   //                     fontWeight: FontWeight.bold,
                   //                     color: Colors.green),
                   //               ),
@@ -401,7 +443,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   //         value: _selectedqual,
                   //         hint: Text(
                   //           "Select Qualification",
-                  //           style: TextStyle(color: Colors.green),
+                  //           style: GoogleFonts.dosis(color: Colors.green),
                   //         ),
                   //         elevation: 5,
                   //         isExpanded: false,
@@ -413,8 +455,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     height: 100,
                   ),
                   Text("Qualifications",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      style: GoogleFonts.dosis(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
                   Column(
                     children: _Qualification.map((e) {
                       int index = _Qualification.indexOf(e);
@@ -423,9 +465,11 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                         child: Row(
                           children: [
                             Expanded(
-                                child: Text(e["qualific_name"].toString())),
+                                child: Text(e["qualific_name"].toString(),
+                                    style: GoogleFonts.dosis())),
                             Expanded(
                               child: Checkbox(
+                                activeColor: Colors.greenAccent,
                                 value: qualtification[index],
                                 onChanged: (value) {
                                   setState(() {
@@ -443,7 +487,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   SizedBox(height: height * 0.04),
                   Text(
                     "Services",
-                    style: TextStyle(
+                    style: GoogleFonts.dosis(
                       color: Colors.green,
                       // fontWeight: FontWeight.w600,
                       fontSize: 17,
@@ -456,85 +500,113 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   Row(
                     children: [
                       Checkbox(
+                          activeColor: Colors.greenAccent,
                           value: vedio,
                           onChanged: (value) {
                             setState(() {
                               vedio = value;
                             });
                           }),
-                      Text("Video Call")
+                      Text(
+                        "Video Call",
+                        style: GoogleFonts.dosis(),
+                      )
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
+                          activeColor: Colors.greenAccent,
                           value: check,
                           onChanged: (value) {
                             setState(() {
                               check = value;
                             });
                           }),
-                      Text("Call")
+                      Text(
+                        "Call",
+                        style: GoogleFonts.dosis(),
+                      )
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
+                          activeColor: Colors.greenAccent,
                           value: chat,
                           onChanged: (value) {
                             setState(() {
                               chat = value;
                             });
                           }),
-                      Text("Chat")
+                      Text(
+                        "Chat",
+                        style: GoogleFonts.dosis(),
+                      )
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
+                          activeColor: Colors.greenAccent,
                           value: clinic,
                           onChanged: (value) {
                             setState(() {
                               clinic = value;
                             });
                           }),
-                      Text("At Clinic")
+                      Text(
+                        "At Clinic",
+                        style: GoogleFonts.dosis(),
+                      )
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
+                          activeColor: Colors.greenAccent,
                           value: medical,
                           onChanged: (value) {
                             setState(() {
                               medical = value;
                             });
                           }),
-                      Text("Medical Camps")
+                      Text(
+                        "Medical Camps",
+                        style: GoogleFonts.dosis(),
+                      )
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
+                          activeColor: Colors.greenAccent,
                           value: wellness,
                           onChanged: (value) {
                             setState(() {
                               wellness = value;
                             });
                           }),
-                      Text("Wellness Sessions")
+                      Text(
+                        "Wellness Sessions",
+                        style: GoogleFonts.dosis(),
+                      )
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
+                          activeColor: Colors.greenAccent,
                           value: homevisit,
                           onChanged: (value) {
                             setState(() {
                               homevisit = value;
                             });
                           }),
-                      Text("Home Visit")
+                      Text(
+                        "Home Visit",
+                        style: GoogleFonts.dosis(),
+                      )
                     ],
                   ),
                   SizedBox(
@@ -557,13 +629,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                         children: [
                           Text(
                             "Accrediations",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Spacer(),
                           Text(
                             "+",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           )
                         ],
@@ -578,7 +650,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           color: Colors.white,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("Not Selected"),
+                            child: Text(
+                              "Not Selected",
+                              style: GoogleFonts.dosis(),
+                            ),
                           ),
                         )
                       : Card(
@@ -593,7 +668,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                           accrediation[index].accrediationCode,
-                                          style: TextStyle(
+                                          style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                               color: Colors.green)),
@@ -627,13 +702,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                         children: [
                           Text(
                             "Specialities",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Spacer(),
                           Text(
                             "+",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           )
                         ],
@@ -648,7 +723,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           color: Colors.white,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("Not Selected"),
+                            child: Text(
+                              "Not Selected",
+                              style: GoogleFonts.dosis(),
+                            ),
                           ),
                         )
                       : Card(
@@ -662,7 +740,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   ? Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(speciality[index].name,
-                                          style: TextStyle(
+                                          style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
                                               color: Colors.green)),
@@ -683,7 +761,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           alignment: Alignment.center,
                           child: Text(
                             "Years of experience: ",
-                            style: TextStyle(
+                            style: GoogleFonts.dosis(
                               color: Colors.green,
                               // fontWeight: FontWeight.w600,
                               fontSize: 17,
@@ -765,11 +843,11 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     ),
                   ),
                   SizedBox(height: height * 0.04),
-                  clinicName(),
+                  _entryField("Clinic Name", false, _clinicController),
                   SizedBox(height: height * 0.04),
                   Text(
                     "Selecty City",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: GoogleFonts.dosis(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: height * 0.04),
                   DropdownButton(
@@ -781,18 +859,18 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       },
                       items: city.map((e) {
                         return DropdownMenuItem(
-                          child: Text(e),
+                          child: Text(e, style: GoogleFonts.dosis()),
                           value: e,
                         );
                       }).toList()),
                   SizedBox(height: height * 0.06),
-                  address(),
+                  _entryField("Address", false, _addressController),
                   SizedBox(height: height * 0.04),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
                       "Working Hours: ",
-                      style: TextStyle(
+                      style: GoogleFonts.dosis(
                         color: Colors.green,
                         // fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -807,8 +885,11 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       onPressed: () {
                         _startTime(context);
                       },
-                      child: Text("From: " +
-                          selectedStartTime.toString().substring(10, 15)),
+                      child: Text(
+                        "From: " +
+                            selectedStartTime.toString().substring(10, 15),
+                        style: GoogleFonts.dosis(),
+                      ),
                     ),
                     SizedBox(width: width * 0.1),
                     RaisedButton(
@@ -816,18 +897,20 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       onPressed: () {
                         _endTime(context);
                       },
-                      child: Text("To: " +
-                          selectedendTime.toString().substring(10, 15)),
+                      child: Text(
+                        "To: " + selectedendTime.toString().substring(10, 15),
+                        style: GoogleFonts.dosis(),
+                      ),
                     ),
                   ]),
                   SizedBox(height: height * 0.04),
-                  regNum(),
+                  _entryField("Registration Number", false, _regNumController),
                   SizedBox(height: height * 0.04),
                   // Padding(
                   //   padding: const EdgeInsets.only(right: 28.0),
                   //   child: Text(
                   //     "Upload Signature: ",
-                  //     style: TextStyle(
+                  //     style: GoogleFonts.dosis(
                   //       color: Colors.green,
                   //       // fontWeight: FontWeight.w600,
                   //       fontSize: 17,
@@ -848,7 +931,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       padding: const EdgeInsets.only(right: 28.0),
                       child: Text(
                         "Upload Profile Picture: ",
-                        style: TextStyle(
+                        style: GoogleFonts.dosis(
                           color: Colors.green,
                           // fontWeight: FontWeight.w600,
                           fontSize: 17,
@@ -874,7 +957,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       padding: const EdgeInsets.only(right: 28.0),
                       child: Text(
                         "Upload Signature Picture: ",
-                        style: TextStyle(
+                        style: GoogleFonts.dosis(
                           color: Colors.green,
                           // fontWeight: FontWeight.w600,
                           fontSize: 17,
@@ -898,7 +981,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       onPressed: () => loadAssets(),
                       child: Text(
                         "Upload Certificates ",
-                        style: TextStyle(
+                        style: GoogleFonts.dosis(
                           color: Colors.green,
                           decoration: TextDecoration.underline,
 
@@ -976,10 +1059,22 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1890, 01),
-        lastDate: DateTime(2101));
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1890, 01),
+      lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          child: child,
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.greenAccent,
+            accentColor: Colors.greenAccent,
+            colorScheme: ColorScheme.light(primary: Colors.greenAccent),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+        );
+      },
+    );
 
     if (picked != null && picked != selectedDate)
       setState(() {
@@ -1097,7 +1192,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       height: 200,
                       width: 300,
                       child: Center(
-                        child: Text("All Fields are Cumpulsory"),
+                        child: Text(
+                          "All Fields are Cumpulsory",
+                          style: GoogleFonts.dosis(),
+                        ),
                       ),
                     ),
                   ));
@@ -1107,9 +1205,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       shape: new RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(30.0),
       ),
-      child: Text(
-        "Save",
-      ),
+      child: Text("Save", style: GoogleFonts.dosis()),
     );
   }
 
@@ -1166,7 +1262,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       children: <Widget>[
         Text(
           name.name,
-          style: TextStyle(color: Colors.green),
+          style: GoogleFonts.dosis(color: Colors.green),
         ),
         SizedBox(
           width: 5,
@@ -1195,7 +1291,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Name",
-            labelStyle: TextStyle(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.green),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1225,7 +1321,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Email",
-            labelStyle: TextStyle(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.green),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1255,7 +1351,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "registration Number",
-            labelStyle: TextStyle(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.green),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1285,7 +1381,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Address",
-            labelStyle: TextStyle(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.green),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1315,7 +1411,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Clinic Name",
-            labelStyle: TextStyle(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.green),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),

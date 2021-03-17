@@ -159,6 +159,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                         patient.name,
                                         style: TextStyle(
                                             fontSize: 28,
+                                            color: Colors.white,
                                             fontWeight: FontWeight.w900),
                                       ),
                                       SizedBox(height: 5),
@@ -168,6 +169,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                             " years old ",
                                         style: TextStyle(
                                             fontSize: 18,
+                                            color: Colors.white,
                                             fontWeight: FontWeight.w600),
                                       ),
                                       SizedBox(height: 3),
@@ -175,6 +177,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                         "Gender: " + patient.gender,
                                         style: TextStyle(
                                             fontSize: 18,
+                                            color: Colors.white,
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ],
@@ -182,15 +185,19 @@ class _PatientDetailsState extends State<PatientDetails>
                                 ],
                               ),
                               SizedBox(height: 8),
-                              Container(height: 2, color: Colors.green),
+                              // Container(height: 2, color: Colors.white),
                               SizedBox(height: 8),
                               Row(children: [
-                                Icon(Icons.location_city),
+                                Icon(
+                                  Icons.location_city,
+                                  color: Colors.white,
+                                ),
                                 SizedBox(width: 5),
                                 Text(
                                   widget.city.toString(),
                                   style: TextStyle(
                                       fontSize: 16,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.w400),
                                 ),
                               ])
@@ -200,135 +207,149 @@ class _PatientDetailsState extends State<PatientDetails>
                         SizedBox(
                           height: 40,
                         ),
-                        Card(
-                          elevation: 10,
-                          color: Colors.green,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Symptoms",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: patient.symptoms.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        patient.symptoms[index],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Color.fromRGBO(204, 224, 241, 0.3)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Symptoms",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: patient.symptoms.length,
+                                    itemBuilder: (context, index) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          patient.symptoms[index],
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        Card(
-                          elevation: 10,
-                          color: Colors.green,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Services",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(patient.services,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: double.infinity,
+                            // color: Colors.green,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Color.fromRGBO(204, 224, 241, 0.3)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Services",
                                     style: TextStyle(
-                                      color: Colors.white,
-                                    )),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(patient.services,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      )),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        Card(
-                          elevation: 10,
-                          color: Colors.green,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Remarks",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(patient.Remarks,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: double.infinity,
+                            // color: Colors.green,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Color.fromRGBO(204, 224, 241, 0.3)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Remarks",
                                     style: TextStyle(
-                                      color: Colors.white,
-                                    )),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(patient.Remarks,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      )),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        Card(
-                          elevation: 10,
-                          color: Colors.green,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Health Issue",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(patient.Primary_Health_Issue,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: double.infinity,
+                            // color: Colors.green,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Color.fromRGBO(204, 224, 241, 0.3)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Health Issue",
                                     style: TextStyle(
-                                      color: Colors.white,
-                                    )),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(patient.Primary_Health_Issue,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      )),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -383,7 +404,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.blue,
+                                          color: Colors.green.shade400,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10))),
                                       alignment: Alignment.center,
@@ -414,7 +435,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.blue,
+                                          color: Colors.green.shade400,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10))),
                                       alignment: Alignment.center,
@@ -440,7 +461,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.blue,
+                                      color: Colors.green.shade400,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
                                   alignment: Alignment.center,
@@ -461,7 +482,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                 onTap: () => _showDialog(),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.blue,
+                                      color: Colors.green.shade400,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
                                   alignment: Alignment.center,
