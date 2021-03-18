@@ -5,6 +5,7 @@ import 'package:plan_my_health/UI/Home.dart';
 import 'package:plan_my_health/UI/Splash.dart';
 import 'package:plan_my_health/UI/form2.dart';
 import 'package:plan_my_health/UI/prescription.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import 'UI/UsersListScreen.dart';
 import 'UI/doctorRegistration.dart';
 import 'UI/signupverify.dart';
@@ -12,6 +13,7 @@ import 'UI/healtharticle.dart' as form;
 import 'global/global.dart';
 import 'UI/homewellnessrequest.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,6 +67,13 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  _startListeningSms() async {
+    String otp = await SmsRetrieved.startListeningSms();
+    if (otp.isNotEmpty || otp != null) {
+      print(otp.split(" ")[1]);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,9 +86,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   FirebaseAuth auth;
-
+  Stream s;
   signin() async {
-    // mobileController.text = "+91" + mobileController.text;
+    _startListeningSms();
     getUser();
     loading = true;
     setState(() {});
@@ -178,7 +187,8 @@ class _MyAppState extends State<MyApp> {
 
   //! ********************************************************  For Sms Diolog Box   ********************************************************
 
-  Future<bool> smsOTPDialog(BuildContext context) {
+  Future<bool> smsOTPDialog(BuildContext context) async {
+    await SmsAutoFill().listenForCode;
     return showDialog(
       context: context,
       builder: (context) => Scaffold(
@@ -231,17 +241,26 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                   ),
-                  Container(
-                      child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        fillColor: Colors.green,
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green))),
-                    onChanged: (value) {
-                      smsOTP = value;
-                    },
-                  ))
+                  PinFieldAutoFill(
+                    // decoration: // UnderlineDecoration, BoxLooseDecoration or BoxTightDecoration see https://github.com/TinoGuo/pin_input_text_field for more info,
+                    currentCode: smsOTP, // prefill with a code
+                    // onCodeSubmitted: //code submitted callback
+                    onCodeChanged: (v) {
+                      smsOTP = v;
+                    }, //code changed callback
+                    // codeLength: //code length, default 6
+                  ),
+                  // Container(
+                  //     child: TextField(
+                  //   keyboardType: TextInputType.number,
+                  //   decoration: InputDecoration(
+                  //       fillColor: Colors.green,
+                  //       border: OutlineInputBorder(
+                  //           borderSide: BorderSide(color: Colors.green))),
+                  //   onChanged: (value) {
+                  //     smsOTP = value;
+                  //   },
+                  // )),
                 ],
               )),
             ),
