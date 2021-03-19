@@ -9,7 +9,7 @@ import 'package:plan_my_health/model/accrediations.dart';
 import 'package:plan_my_health/model/speciality.dart';
 
 import '../global/global.dart';
-
+import 'bezier.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -225,7 +225,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             color: Colors.lightBlueAccent.withOpacity(0.2)),
         width: MediaQuery.of(context).size.width - 120,
         child: TextField(
-          cursorColor: Colors.green,
+          cursorColor: Colors.greenAccent,
           decoration: InputDecoration(
             border: InputBorder.none,
           ),
@@ -240,7 +240,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(title, style: GoogleFonts.dosis(fontWeight: FontWeight.bold)),
+            Text(title,
+                style: GoogleFonts.dosis(
+                    fontWeight: FontWeight.bold, fontSize: 17)),
             SizedBox(
               height: 10,
             ),
@@ -266,26 +268,23 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: height * 0.1),
-                  Align(
-                    alignment: Alignment.center,
-                    child: FittedBox(
-                      child: Text(
-                        "Registration for Healthcare Service Provider",
-                        style: GoogleFonts.dosis(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17
-                            // fontSize: 18,
-                            ),
-                      ),
-                    ),
+          : Stack(
+              children: <Widget>[
+                Positioned(
+                    top: -MediaQuery.of(context).size.height * .15,
+                    right: -MediaQuery.of(context).size.width * .4,
+                    child: Container(child: BezierContainer())),
+                SingleChildScrollView(
+                    child: SafeArea(
+                        child: Column(children: [
+                  SizedBox(
+                    height: 90,
+                  ),
+                  Text("Register",
+                      style: GoogleFonts.dosis(
+                          fontWeight: FontWeight.bold, fontSize: 25)),
+                  SizedBox(
+                    height: 50,
                   ),
                   SizedBox(height: height * 0.04),
                   _entryField("Name", false, _nameController),
@@ -300,8 +299,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     child: Text(
                       "Date of Birth  ",
                       style: GoogleFonts.dosis(
-                        color: Colors.green,
-                        // fontWeight: FontWeight.w600,
+                        color: Colors.greenAccent,
+                        fontWeight: FontWeight.bold,
                         fontSize: 17,
                       ),
                     ),
@@ -385,72 +384,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       ),
                     ],
                   ),
-                  // SizedBox(height: height * 0.04),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     Container(
-                  //       width: 300,
-                  //       child: DropdownButton(
-                  //         items: _PracticeType.map((value) => DropdownMenuItem(
-                  //               child: Text(
-                  //                 value,
-                  //                 style: GoogleFonts.dosis(
-                  //                     fontWeight: FontWeight.bold,
-                  //                     color: Colors.green),
-                  //               ),
-                  //               value: value,
-                  //             )).toList(),
-                  //         onChanged: (selectedtype) {
-                  //           setState(() {
-                  //             _selectedpractice = selectedtype;
-                  //             print(_selectedpractice);
-                  //           });
-                  //         },
-                  //         value: _selectedpractice,
-                  //         hint: Text(
-                  //           "Select Practice",
-                  //           style: GoogleFonts.dosis(color: Colors.green),
-                  //         ),
-                  //         elevation: 5,
-                  //         isExpanded: false,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(height: height * 0.04),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     Container(
-                  //       width: 300,
-                  //       child: DropdownButton(
-                  //         items: _Qualification.map((value) => DropdownMenuItem(
-                  //               child: Text(
-                  //                 value,
-                  //                 style: GoogleFonts.dosis(
-                  //                     fontWeight: FontWeight.bold,
-                  //                     color: Colors.green),
-                  //               ),
-                  //               value: value,
-                  //             )).toList(),
-                  //         onChanged: (selectedQ) {
-                  //           setState(() {
-                  //             _selectedqual = selectedQ;
-                  //             print(_selectedqual);
-                  //           });
-                  //         },
-                  //         value: _selectedqual,
-                  //         hint: Text(
-                  //           "Select Qualification",
-                  //           style: GoogleFonts.dosis(color: Colors.green),
-                  //         ),
-                  //         elevation: 5,
-                  //         isExpanded: false,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   SizedBox(
                     height: 100,
                   ),
@@ -488,7 +421,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   Text(
                     "Services",
                     style: GoogleFonts.dosis(
-                      color: Colors.green,
+                      color: Colors.greenAccent,
+                      fontWeight: FontWeight.bold,
                       // fontWeight: FontWeight.w600,
                       fontSize: 17,
                     ),
@@ -762,7 +696,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           child: Text(
                             "Years of experience: ",
                             style: GoogleFonts.dosis(
-                              color: Colors.green,
+                              color: Colors.greenAccent,
+                              fontWeight: FontWeight.bold,
+
                               // fontWeight: FontWeight.w600,
                               fontSize: 17,
                             ),
@@ -871,7 +807,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     child: Text(
                       "Working Hours: ",
                       style: GoogleFonts.dosis(
-                        color: Colors.green,
+                        color: Colors.greenAccent,
+                        fontWeight: FontWeight.bold,
+
                         // fontWeight: FontWeight.w600,
                         fontSize: 17,
                       ),
@@ -906,97 +844,129 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   SizedBox(height: height * 0.04),
                   _entryField("Registration Number", false, _regNumController),
                   SizedBox(height: height * 0.04),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(right: 28.0),
-                  //   child: Text(
-                  //     "Upload Signature: ",
-                  //     style: GoogleFonts.dosis(
-                  //       color: Colors.green,
-                  //       // fontWeight: FontWeight.w600,
-                  //       fontSize: 17,
-                  //     ),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 148.0),
-                  //   child: buildImageGridView(),
-                  // ),
-                  // SizedBox(height: height * 0.04),
 
                   InkWell(
                     onTap: () {
                       _onAddImageClick();
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 28.0),
-                      child: Text(
-                        "Upload Profile Picture: ",
-                        style: GoogleFonts.dosis(
-                          color: Colors.green,
-                          // fontWeight: FontWeight.w600,
-                          fontSize: 17,
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width / 2,
+                      decoration: BoxDecoration(
+                          color: Colors.greenAccent,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
+                        child: Text(
+                          "Upload Profile Picture",
+                          style: GoogleFonts.dosis(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 148.0),
-                      child: _imageFile == null
-                          ? Container()
-                          : Container(
-                              height: 300,
-                              width: 300,
-                              child: Image.file(_imageFile),
-                            )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _imageFile == null
+                      ? Container()
+                      : Container(
+                          height: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  color: Colors.greenAccent, width: 2)),
+                          child: Image.file(_imageFile),
+                        ),
                   SizedBox(height: height * 0.04),
                   InkWell(
                     onTap: () {
                       _onAddSignatureClick();
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 28.0),
-                      child: Text(
-                        "Upload Signature Picture: ",
-                        style: GoogleFonts.dosis(
-                          color: Colors.green,
-                          // fontWeight: FontWeight.w600,
-                          fontSize: 17,
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      decoration: BoxDecoration(
+                          color: Colors.greenAccent,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
+                        child: Text(
+                          "Upload Signature",
+                          style: GoogleFonts.dosis(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 148.0),
-                      child: _signatureimageFile == null
-                          ? Container()
-                          : Container(
-                              height: 300,
-                              width: 300,
-                              child: Image.file(_signatureimageFile),
-                            )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _signatureimageFile == null
+                      ? Container()
+                      : Container(
+                          height: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  color: Colors.greenAccent, width: 2)),
+                          child: Image.file(_signatureimageFile),
+                        ),
                   SizedBox(height: height * 0.04),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 28.0),
-                    child: FlatButton(
-                      onPressed: () => loadAssets(),
-                      child: Text(
-                        "Upload Certificates ",
-                        style: GoogleFonts.dosis(
-                          color: Colors.green,
-                          decoration: TextDecoration.underline,
-
-                          // fontWeight: FontWeight.w600,
-                          fontSize: 17,
+                  InkWell(
+                    onTap: () {
+                      loadAssets();
+                    },
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      decoration: BoxDecoration(
+                          color: Colors.greenAccent,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
+                        child: Text(
+                          "Load Assets",
+                          style: GoogleFonts.dosis(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 30,
                   ),
                   buildGridView(),
                   SizedBox(height: height * 0.02),
                   saveButton(context),
                   SizedBox(height: height * 0.07),
-                ],
-              ),
+                ]))),
+                // Align(
+                //   alignment: Alignment.center,
+                //   child: FittedBox(
+                //     child: Text(
+                //       "Registration for Healthcare Service Provider",
+                //       style: GoogleFonts.dosis(
+                //           color: Colors.greenAccent,
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 17
+                //           // fontSize: 18,
+                //           ),
+                //     ),
+                //   ),
+                // ),
+              ],
             ),
     );
   }
@@ -1004,22 +974,30 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   Widget buildGridView() {
     return multiimages.length == 0
         ? Container()
-        : Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Card(
-              elevation: 3.0,
-              child: GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 3,
-                children: List.generate(multiimages.length, (index) {
-                  Asset asset = multiimages[index];
-                  return AssetThumb(
-                    asset: asset,
-                    width: 300,
-                    height: 300,
-                  );
-                }),
-              ),
+        : Container(
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              children: List.generate(multiimages.length, (index) {
+                Asset asset = multiimages[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border:
+                            Border.all(color: Colors.greenAccent, width: 2)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: AssetThumb(
+                        asset: asset,
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                  ),
+                );
+              }),
             ),
           );
   }

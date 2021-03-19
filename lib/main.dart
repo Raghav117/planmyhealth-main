@@ -67,12 +67,12 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  _startListeningSms() async {
-    String otp = await SmsRetrieved.startListeningSms();
-    if (otp.isNotEmpty || otp != null) {
-      print(otp.split(" ")[1]);
-    }
-  }
+  // _startListeningSms() async {
+  //   String otp = await SmsRetrieved.startListeningSms();
+  //   if (otp.isNotEmpty || otp != null) {
+  //     print(otp.split(" ")[1]);
+  //   }
+  // }
 
   @override
   void initState() {
@@ -86,9 +86,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   FirebaseAuth auth;
-  Stream s;
+  // Stream s;
   signin() async {
-    _startListeningSms();
+    // _startListeningSms();
     getUser();
     loading = true;
     setState(() {});
@@ -188,7 +188,7 @@ class _MyAppState extends State<MyApp> {
   //! ********************************************************  For Sms Diolog Box   ********************************************************
 
   Future<bool> smsOTPDialog(BuildContext context) async {
-    await SmsAutoFill().listenForCode;
+    // await SmsAutoFill().listenForCode;
     return showDialog(
       context: context,
       builder: (context) => Scaffold(
@@ -241,26 +241,17 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                   ),
-                  PinFieldAutoFill(
-                    // decoration: // UnderlineDecoration, BoxLooseDecoration or BoxTightDecoration see https://github.com/TinoGuo/pin_input_text_field for more info,
-                    currentCode: smsOTP, // prefill with a code
-                    // onCodeSubmitted: //code submitted callback
-                    onCodeChanged: (v) {
-                      smsOTP = v;
-                    }, //code changed callback
-                    // codeLength: //code length, default 6
-                  ),
-                  // Container(
-                  //     child: TextField(
-                  //   keyboardType: TextInputType.number,
-                  //   decoration: InputDecoration(
-                  //       fillColor: Colors.green,
-                  //       border: OutlineInputBorder(
-                  //           borderSide: BorderSide(color: Colors.green))),
-                  //   onChanged: (value) {
-                  //     smsOTP = value;
-                  //   },
-                  // )),
+                  Container(
+                      child: TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        fillColor: Colors.green,
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))),
+                    onChanged: (value) {
+                      smsOTP = value;
+                    },
+                  )),
                 ],
               )),
             ),
