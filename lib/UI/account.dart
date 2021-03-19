@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:http/http.dart' as http;
@@ -34,8 +35,11 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text("Account"),
+        backgroundColor: Colors.greenAccent,
+        title: Text(
+          "Account",
+          style: GoogleFonts.dosis(),
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -52,14 +56,16 @@ class _AccountState extends State<Account> {
                         ),
                         Text(
                           "Bank Account Name",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.dosis(
+                              color: Colors.greenAccent,
+                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
+                              style: GoogleFonts.dosis(),
                               controller: aname,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
@@ -70,8 +76,9 @@ class _AccountState extends State<Account> {
                         ),
                         Text(
                           "Account Number",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.dosis(
+                              color: Colors.greenAccent,
+                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
@@ -79,6 +86,7 @@ class _AccountState extends State<Account> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
                               controller: an,
+                              style: GoogleFonts.dosis(),
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
@@ -89,8 +97,9 @@ class _AccountState extends State<Account> {
                         ),
                         Text(
                           "IFSC Code",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.dosis(
+                              color: Colors.greenAccent,
+                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
@@ -99,6 +108,7 @@ class _AccountState extends State<Account> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
                               controller: code,
+                              style: GoogleFonts.dosis(),
                               // maxLines: 10,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
@@ -109,8 +119,9 @@ class _AccountState extends State<Account> {
                         ),
                         Text(
                           "UPI PIN",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.dosis(
+                              color: Colors.greenAccent,
+                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
@@ -118,6 +129,7 @@ class _AccountState extends State<Account> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
                               controller: pin,
+                              style: GoogleFonts.dosis(),
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
@@ -157,7 +169,8 @@ class _AccountState extends State<Account> {
                                         child: Container(
                                           height: 300,
                                           child: Center(
-                                              child: Text("Successfully Done")),
+                                              child: Text("Successfully Done",
+                                                  style: GoogleFonts.dosis())),
                                         ),
                                       ));
                             } else {
@@ -168,15 +181,17 @@ class _AccountState extends State<Account> {
                                           height: 300,
                                           child: Center(
                                               child: Text(
-                                                  "All Fields are Compulsory")),
+                                                  "All Fields are Compulsory",
+                                                  style: GoogleFonts.dosis())),
                                         ),
                                       ));
                             }
                           },
-                          color: Colors.green,
+                          color: Colors.greenAccent,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("Save"),
+                            child: Text("Save",
+                                style: GoogleFonts.dosis(color: Colors.white)),
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -191,7 +206,7 @@ class _AccountState extends State<Account> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                        color: Colors.green, width: 3)),
+                                        color: Colors.greenAccent, width: 3)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -199,11 +214,16 @@ class _AccountState extends State<Account> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Text("Account Name"),
+                                            child: Text(
+                                              "Account Name",
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                           Expanded(
                                             child: Text(
-                                                data.accountname.toString()),
+                                              data.accountname.toString(),
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -213,11 +233,16 @@ class _AccountState extends State<Account> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Text("Account Number"),
+                                            child: Text(
+                                              "Account Number",
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                           Expanded(
                                             child: Text(
-                                                data.accountnumber.toString()),
+                                              data.accountnumber.toString(),
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -227,11 +252,16 @@ class _AccountState extends State<Account> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Text("IFSC Code"),
+                                            child: Text(
+                                              "IFSC Code",
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                           Expanded(
-                                            child:
-                                                Text(data.ifsccode.toString()),
+                                            child: Text(
+                                              data.ifsccode.toString(),
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -241,10 +271,16 @@ class _AccountState extends State<Account> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Text("UPI Pin"),
+                                            child: Text(
+                                              "UPI Pin",
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                           Expanded(
-                                            child: Text(data.upipin.toString()),
+                                            child: Text(
+                                              data.upipin.toString(),
+                                              style: GoogleFonts.dosis(),
+                                            ),
                                           ),
                                         ],
                                       ),

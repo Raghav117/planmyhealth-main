@@ -199,7 +199,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   @override
   void initState() {
     super.initState();
-    getToken();
+
     loading = true;
     getCategory();
     checkDoctorExists();

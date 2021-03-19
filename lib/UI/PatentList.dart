@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
@@ -44,6 +45,15 @@ class _ParientListState extends State<ParientList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
+        title: Text(
+          "Welcome to My Plan Health, " + data.name.toString(),
+          style: GoogleFonts.dosis(
+              fontSize: 15, color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        centerTitle: true,
+      ),
       key: scaffoldKey,
       body: SafeArea(
         child: loading == true
@@ -54,155 +64,28 @@ class _ParientListState extends State<ParientList> {
                 child: Container(
                     child: Column(children: [
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.green,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.menu,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              if (scaffoldKey.currentState.isDrawerOpen) {
-                                scaffoldKey.currentState.openEndDrawer();
-                              } else {
-                                scaffoldKey.currentState.openDrawer();
-                              }
-                            },
-                          ),
-                          Text(
-                            "Welcome to My Plan Health," + data.name.toString(),
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Text("Log Out"),
-                              onPressed: () {
-                                FirebaseAuth.instance.signOut();
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(
-                                  builder: (context) {
-                                    return MyApp();
-                                  },
-                                ));
-                              },
-                            ),
-                          )
-                        ],
-                      ),
+                      // width: MediaQuery.of(context).size.width,
+                      // color: Colors.greenAccent,
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Text("Log Out", style: GoogleFonts.dosis()),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) {
+                            return MyApp();
+                          },
+                        ));
+                      },
                     ),
-                  ),
-                  // Container(
-                  //   child: Column(
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  //         child: Container(
-                  //             child: Row(children: [
-                  //           Container(
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.green,
-                  //               borderRadius: BorderRadius.all(Radius.circular(16)),
-                  //             ),
-                  //             child: Padding(
-                  //               padding: const EdgeInsets.symmetric(
-                  //                   vertical: 7, horizontal: 14),
-                  //               child: Text("Cardiology",
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.w400,
-                  //                       color: Colors.white,
-                  //                       fontFamily: "HelveticaNeueMedium")),
-                  //             ),
-                  //           ),
-                  //           SizedBox(width: 18),
-                  //           Container(
-                  //             child: Text("Oncology"),
-                  //           ),
-                  //           SizedBox(width: 18),
-                  //           Container(
-                  //             child: Text("Neurology"),
-                  //           ),
-                  //         ])),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  )),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        // ListTile(
-                        //   tileColor: Colors.green.shade50,
-                        //   onTap: () {
-                        //     // Navigator.push(context,
-                        //     //     MaterialPageRoute(builder: (context) => PatientDetails(number: )));
-                        //   },
-                        //   //   onTap: () async => await launch(url("+91 7387563324")),
-                        //   leading: Container(
-                        //       width: 54,
-                        //       height: 54,
-                        //       decoration: BoxDecoration(
-                        //           shape: BoxShape.circle,
-                        //           image: DecorationImage(
-                        //               fit: BoxFit.fill,
-                        //               image: NetworkImage(
-                        //                   "https://i1.wp.com/www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-2.jpg")))),
-                        //   title: Row(
-                        //     children: [
-                        //       Text(
-                        //         "Anarghya Sravan",
-                        //         style: TextStyle(
-                        //           fontSize: 20,
-                        //         ),
-                        //       ),
-                        //       SizedBox(width: 2),
-                        //     ],
-                        //   ),
-                        //   subtitle: Padding(
-                        //     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                        //     child: Text(
-                        //       "+91 9820891087",
-                        //       maxLines: 1,
-                        //       overflow: TextOverflow.ellipsis,
-                        //       softWrap: false,
-                        //       style: TextStyle(
-                        //           color: Colors.black,
-                        //           fontFamily: "HelveticaNeueMedium",
-                        //           fontSize: 14),
-                        //     ),
-                        //   ),
-                        //   trailing: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     mainAxisSize: MainAxisSize.min,
-                        //     children: [
-                        //       Text(
-                        //         " [ M ]",
-                        //         style: TextStyle(
-                        //           color: Colors.green,
-                        //           fontWeight: FontWeight.w800,
-                        //           fontSize: 18,
-                        //         ),
-                        //       ),
-                        //       SizedBox(height: 10),
-                        //       Container(
-                        //           child: Text("26 years",
-                        //               style: TextStyle(color: Colors.black))),
-                        //     ],
-                        //   ),
-                        // ),
                         SizedBox(
                           height: 30,
                         ),
@@ -211,18 +94,16 @@ class _ParientListState extends State<ParientList> {
                             Spacer(),
                             Text(
                               "Offline",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: GoogleFonts.dosis(
+                                  fontWeight: FontWeight.bold),
                             ),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Switch(
                                 value: online,
-                                activeColor: Colors.green,
+                                activeColor: Colors.greenAccent,
                                 onChanged: (value) async {
                                   if (value == false) {
-                                    // setState(() {
-                                    //   loading = true;
-                                    // });
                                     var response = await http.post(
                                         "http://3.15.233.253:5000/doctorstatusupdate",
                                         body: {
@@ -243,7 +124,8 @@ class _ParientListState extends State<ParientList> {
                             ),
                             Text(
                               "Online",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: GoogleFonts.dosis(
+                                  fontWeight: FontWeight.bold),
                             ),
                             Spacer(),
                           ],
@@ -255,7 +137,7 @@ class _ParientListState extends State<ParientList> {
                                 color: Colors.transparent,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.green[400],
+                                      color: Colors.greenAccent,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -263,9 +145,16 @@ class _ParientListState extends State<ParientList> {
                                       children: [
                                         Row(
                                           children: [
-                                            Expanded(child: Text("Chat")),
+                                            Expanded(
+                                              child: Text(
+                                                "Chat",
+                                                style: GoogleFonts.dosis(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
                                             Checkbox(
-                                                activeColor: Colors.purple[300],
+                                                activeColor: Colors.green,
                                                 value: chat,
                                                 onChanged: (value) {
                                                   setState(() {
@@ -276,9 +165,15 @@ class _ParientListState extends State<ParientList> {
                                         ),
                                         Row(
                                           children: [
-                                            Expanded(child: Text("Home Visit")),
+                                            Expanded(
+                                                child: Text(
+                                              "Home Visit",
+                                              style: GoogleFonts.dosis(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            )),
                                             Checkbox(
-                                                activeColor: Colors.purple[300],
+                                                activeColor: Colors.green,
                                                 value: home_visit,
                                                 onChanged: (value) {
                                                   setState(() {
@@ -289,9 +184,15 @@ class _ParientListState extends State<ParientList> {
                                         ),
                                         Row(
                                           children: [
-                                            Expanded(child: Text("Video Call")),
+                                            Expanded(
+                                                child: Text(
+                                              "Video Call",
+                                              style: GoogleFonts.dosis(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            )),
                                             Checkbox(
-                                                activeColor: Colors.purple[300],
+                                                activeColor: Colors.green,
                                                 value: video,
                                                 onChanged: (value) {
                                                   setState(() {
@@ -302,9 +203,15 @@ class _ParientListState extends State<ParientList> {
                                         ),
                                         Row(
                                           children: [
-                                            Expanded(child: Text("At Center")),
+                                            Expanded(
+                                                child: Text(
+                                              "At Center",
+                                              style: GoogleFonts.dosis(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            )),
                                             Checkbox(
-                                                activeColor: Colors.purple[300],
+                                                activeColor: Colors.green,
                                                 value: center,
                                                 onChanged: (value) {
                                                   setState(() {
@@ -315,10 +222,16 @@ class _ParientListState extends State<ParientList> {
                                         ),
                                         Row(
                                           children: [
-                                            Expanded(child: Text("Call")),
+                                            Expanded(
+                                                child: Text(
+                                              "Call",
+                                              style: GoogleFonts.dosis(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            )),
                                             Checkbox(
                                                 value: call,
-                                                activeColor: Colors.purple[300],
+                                                activeColor: Colors.green,
                                                 onChanged: (value) {
                                                   setState(() {
                                                     call = value;
@@ -366,8 +279,8 @@ class _ParientListState extends State<ParientList> {
                                           },
                                           child: Text(
                                             "Save",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: GoogleFonts.dosis(
+                                                color: Colors.white),
                                           ),
                                         )
                                       ],
@@ -378,52 +291,37 @@ class _ParientListState extends State<ParientList> {
                         SizedBox(
                           height: 50,
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.width,
-                          width: double.infinity,
-                          // color: Colors.green,
-                          child: GoogleMap(
-                            myLocationEnabled: true,
-                            myLocationButtonEnabled: true,
-                            markers: marker.toSet(),
-                            mapType: MapType.normal,
-                            initialCameraPosition: CameraPosition(
-                                target: LatLng(_locationData.latitude,
-                                    _locationData.longitude),
-                                zoom: 15),
-                            onMapCreated: (GoogleMapController controller) {
-                              _controller.complete(controller);
-                            },
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.width,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                    color: Colors.greenAccent, width: 2)),
+                            // color: Colors.greenAccent,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: GoogleMap(
+                                myLocationEnabled: true,
+                                myLocationButtonEnabled: true,
+                                markers: marker.toSet(),
+                                mapType: MapType.normal,
+                                initialCameraPosition: CameraPosition(
+                                    target: LatLng(_locationData.latitude,
+                                        _locationData.longitude),
+                                    zoom: 15),
+                                onMapCreated: (GoogleMapController controller) {
+                                  _controller.complete(controller);
+                                },
+                              ),
+                            ),
                           ),
                         ),
-
-                        // RaisedButton(
-                        //   onPressed: () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => HomeWellnessRequest(),
-                        //     ),
-                        //   ),
-                        //   child: Text("Home Wellness"),
-                        // ),
-                        // RaisedButton(
-                        //   onPressed: () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => form.Form(),
-                        //     ),
-                        //   ),
-                        //   child: Text("Health Article"),
-                        // ),
-                        // RaisedButton(
-                        //   onPressed: () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => Account(),
-                        //     ),
-                        //   ),
-                        //   child: Text("Account"),
-                        // ),
+                        SizedBox(
+                          height: 50,
+                        ),
                       ],
                     ),
                   ),
@@ -433,16 +331,46 @@ class _ParientListState extends State<ParientList> {
       drawer: Drawer(
         child: ListView(
           children: [
-            UserAccountsDrawerHeader(
-              currentAccountPicture: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.network("http://3.15.233.253/" + data.picture)),
-              accountEmail: Text(data.email),
-              accountName: Text(data.name),
-              decoration: BoxDecoration(color: Colors.green),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromRGBO(253, 213, 124, 1),
+                        border: Border.all(
+                          color: Color.fromRGBO(253, 213, 124, 1),
+                        )),
+                    child: Image.network("http://3.15.233.253/" + data.picture),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(data.name,
+                      style: GoogleFonts.dosis(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        // color: Colors.white,
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(data.email, style: GoogleFonts.dosis()),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
             ),
             ListTile(
-              title: Text("Health Article"),
+              title: Text("Health Article", style: GoogleFonts.dosis()),
+              leading: Icon(Icons.healing_outlined),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -451,7 +379,8 @@ class _ParientListState extends State<ParientList> {
               ),
             ),
             ListTile(
-                title: Text("Home Wellness"),
+                title: Text("Home Wellness", style: GoogleFonts.dosis()),
+                leading: Icon(Icons.wallet_travel_outlined),
                 onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -459,7 +388,8 @@ class _ParientListState extends State<ParientList> {
                       ),
                     )),
             ListTile(
-              title: Text("Account"),
+              title: Text("Account", style: GoogleFonts.dosis()),
+              leading: Icon(Icons.account_balance),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -468,7 +398,8 @@ class _ParientListState extends State<ParientList> {
               ),
             ),
             ListTile(
-              title: Text("Home Visit"),
+              title: Text("Home Visit", style: GoogleFonts.dosis()),
+              leading: Icon(Icons.home),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

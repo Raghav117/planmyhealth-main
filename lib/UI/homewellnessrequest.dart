@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/model/healthwellness.dart';
 import '../global/global.dart';
 import 'package:http/http.dart' as http;
@@ -62,9 +63,12 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Wellness Request"),
+        title: Text(
+          "Home Wellness Request",
+          style: GoogleFonts.dosis(),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.greenAccent,
       ),
       body: loading == true
           ? Center(child: CircularProgressIndicator())
@@ -77,8 +81,9 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                     ),
                     Text(
                       "Category",
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.dosis(
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.15,
@@ -100,7 +105,7 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                             value: i,
                             child: Text(
                               type,
-                              style: TextStyle(color: Colors.black),
+                              style: GoogleFonts.dosis(color: Colors.black),
                             ),
                           );
                         }).toList(),
@@ -108,8 +113,9 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                     ),
                     Text(
                       "Service Mode",
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.dosis(
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.15,
@@ -131,7 +137,7 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                             value: i,
                             child: Text(
                               type,
-                              style: TextStyle(color: Colors.black),
+                              style: GoogleFonts.dosis(color: Colors.black),
                             ),
                           );
                         }).toList(),
@@ -139,14 +145,16 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                     ),
                     Text(
                       "Client Name",
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.dosis(
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.1,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
+                          style: GoogleFonts.dosis(),
                           controller: client,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -157,14 +165,16 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                     ),
                     Text(
                       "Mobile Number",
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.dosis(
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.1,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
+                          style: GoogleFonts.dosis(),
                           controller: mobile,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -203,7 +213,10 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                                     child: Container(
                                       height: 300,
                                       child: Center(
-                                          child: Text("Successfully Done")),
+                                          child: Text(
+                                        "Successfully Done",
+                                        style: GoogleFonts.dosis(),
+                                      )),
                                     ),
                                   ));
                         } else {
@@ -214,15 +227,20 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                                       height: 300,
                                       child: Center(
                                           child: Text(
-                                              "All Fields are Compulsory")),
+                                        "All Fields are Compulsory",
+                                        style: GoogleFonts.dosis(),
+                                      )),
                                     ),
                                   ));
                         }
                       },
-                      color: Colors.green,
+                      color: Colors.greenAccent,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Save"),
+                        child: Text(
+                          "Save",
+                          style: GoogleFonts.dosis(color: Colors.white),
+                        ),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -243,7 +261,7 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                      color: Colors.green, width: 3)),
+                                      color: Colors.greenAccent, width: 3)),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
@@ -251,11 +269,16 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Text("Category"),
+                                          child: Text(
+                                            "Category",
+                                            style: GoogleFonts.dosis(),
+                                          ),
                                         ),
                                         Expanded(
                                           child: Text(
-                                              list[index].category.toString()),
+                                            list[index].category.toString(),
+                                            style: GoogleFonts.dosis(),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -265,27 +288,16 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Text("Service Mode"),
+                                          child: Text(
+                                            "Service Mode",
+                                            style: GoogleFonts.dosis(),
+                                          ),
                                         ),
                                         Expanded(
-                                          child: Text(list[index]
-                                              .servicemode
-                                              .toString()),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text("Client Name"),
-                                        ),
-                                        Expanded(
-                                          child: Text(list[index]
-                                              .clientname
-                                              .toString()),
+                                          child: Text(
+                                            list[index].servicemode.toString(),
+                                            style: GoogleFonts.dosis(),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -295,12 +307,35 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Text("Mobile Number"),
+                                          child: Text(
+                                            "Client Name",
+                                            style: GoogleFonts.dosis(),
+                                          ),
                                         ),
                                         Expanded(
-                                          child: Text(list[index]
-                                              .mobilenumber
-                                              .toString()),
+                                          child: Text(
+                                            list[index].clientname.toString(),
+                                            style: GoogleFonts.dosis(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            "Mobile Number",
+                                            style: GoogleFonts.dosis(),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            list[index].mobilenumber.toString(),
+                                            style: GoogleFonts.dosis(),
+                                          ),
                                         ),
                                       ],
                                     ),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -140,8 +141,11 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
       appBar: AppBar(
         // leading: Icon(Icons.menu),
         centerTitle: true,
-        title: Text('Prescription List'),
-        backgroundColor: Colors.green,
+        title: Text(
+          'Prescription List',
+          style: GoogleFonts.dosis(),
+        ),
+        backgroundColor: Colors.greenAccent,
       ),
       body: SafeArea(
           child: loading == true
@@ -169,8 +173,8 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                border:
-                                    Border.all(color: Colors.green, width: 3)),
+                                border: Border.all(
+                                    color: Colors.greenAccent, width: 3)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -306,7 +310,7 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
   //           Text(
   //             " [ " + user.gender.toString() + " ]",
   //             style: TextStyle(
-  //               color: Colors.green,
+  //               color: Colors.greenAccent,
   //               fontWeight: FontWeight.w800,
   //               fontSize: 18,
   //             ),

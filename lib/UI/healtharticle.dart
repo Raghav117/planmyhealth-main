@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:http/http.dart' as http;
@@ -41,8 +42,8 @@ class _FormState extends State<Form> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text("Health Article"),
+        backgroundColor: Colors.greenAccent,
+        title: Text("Health Article", style: GoogleFonts.dosis()),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -59,8 +60,10 @@ class _FormState extends State<Form> {
                         ),
                         Text(
                           "Speciality",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.dosis(
+                              color: Colors.greenAccent,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.15,
@@ -82,7 +85,7 @@ class _FormState extends State<Form> {
                                 value: type['name'],
                                 child: Text(
                                   type['name'],
-                                  style: TextStyle(color: Colors.black),
+                                  style: GoogleFonts.dosis(color: Colors.black),
                                 ),
                               );
                             }).toList(),
@@ -90,14 +93,17 @@ class _FormState extends State<Form> {
                         ),
                         Text(
                           "Subject",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.dosis(
+                              color: Colors.greenAccent,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
+                              style: GoogleFonts.dosis(),
                               controller: subject,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
@@ -108,8 +114,10 @@ class _FormState extends State<Form> {
                         ),
                         Text(
                           "Description",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.dosis(
+                              color: Colors.greenAccent,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
@@ -117,6 +125,7 @@ class _FormState extends State<Form> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
+                              style: GoogleFonts.dosis(),
                               controller: description,
                               maxLines: 10,
                               decoration: InputDecoration(
@@ -157,7 +166,10 @@ class _FormState extends State<Form> {
                                         child: Container(
                                           height: 300,
                                           child: Center(
-                                              child: Text("Successfully Done")),
+                                              child: Text(
+                                            "Successfully Done",
+                                            style: GoogleFonts.dosis(),
+                                          )),
                                         ),
                                       ));
                             } else {
@@ -168,15 +180,20 @@ class _FormState extends State<Form> {
                                           height: 300,
                                           child: Center(
                                               child: Text(
-                                                  "All Fields are Compulsory")),
+                                            "All Fields are Compulsory",
+                                            style: GoogleFonts.dosis(),
+                                          )),
                                         ),
                                       ));
                             }
                           },
-                          color: Colors.green,
+                          color: Colors.greenAccent,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("Save"),
+                            child: Text(
+                              "Save",
+                              style: GoogleFonts.dosis(color: Colors.white),
+                            ),
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -197,7 +214,7 @@ class _FormState extends State<Form> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
                                       border: Border.all(
-                                          color: Colors.green, width: 3)),
+                                          color: Colors.greenAccent, width: 3)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -205,27 +222,18 @@ class _FormState extends State<Form> {
                                         Row(
                                           children: [
                                             Expanded(
-                                              child: Text("Speciality"),
+                                              child: Text(
+                                                "Speciality",
+                                                style: GoogleFonts.dosis(),
+                                              ),
                                             ),
                                             Expanded(
-                                              child: Text(list[index]
-                                                  .speciality
-                                                  .toString()),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text("Subject"),
-                                            ),
-                                            Expanded(
-                                              child: Text(list[index]
-                                                  .subject
-                                                  .toString()),
+                                              child: Text(
+                                                list[index]
+                                                    .speciality
+                                                    .toString(),
+                                                style: GoogleFonts.dosis(),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -235,12 +243,37 @@ class _FormState extends State<Form> {
                                         Row(
                                           children: [
                                             Expanded(
-                                              child: Text("Description"),
+                                              child: Text(
+                                                "Subject",
+                                                style: GoogleFonts.dosis(),
+                                              ),
                                             ),
                                             Expanded(
-                                              child: Text(list[index]
-                                                  .description
-                                                  .toString()),
+                                              child: Text(
+                                                list[index].subject.toString(),
+                                                style: GoogleFonts.dosis(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                "Description",
+                                                style: GoogleFonts.dosis(),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                list[index]
+                                                    .description
+                                                    .toString(),
+                                                style: GoogleFonts.dosis(),
+                                              ),
                                             ),
                                           ],
                                         ),

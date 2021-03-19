@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
@@ -124,8 +125,12 @@ class _UserListScreenState extends State<UserListScreen>
     return Scaffold(
       appBar: AppBar(
         // leading: Icon(Icons.menu),
-        title: Text('Create Presciption'),
-        backgroundColor: Colors.green,
+        title: Text(
+          'Create Presciption',
+          style: GoogleFonts.dosis(),
+        ),
+        backgroundColor: Colors.greenAccent,
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Container(
@@ -190,7 +195,7 @@ class _UserListScreenState extends State<UserListScreen>
                   Text(
                     " [ " + patient[index].gender.toString() + " ]",
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.greenAccent,
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
                     ),
@@ -272,7 +277,7 @@ class _UserListScreenState extends State<UserListScreen>
   //           Text(
   //             " [ " + user.gender.toString() + " ]",
   //             style: TextStyle(
-  //               color: Colors.green,
+  //               color: Colors.greenAccent,
   //               fontWeight: FontWeight.w800,
   //               fontSize: 18,
   //             ),

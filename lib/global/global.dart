@@ -33,7 +33,8 @@ Future<Map<String, dynamic>> sendAndRetrieveMessage() async {
     'https://fcm.googleapis.com/fcm/send',
     headers: <String, String>{
       'Content-Type': 'application/json',
-      'Authorization': 'key=AAAAX9twaH0:APA91bEC2eSMJX_nG8hRvOGtHuh0EUmoutTBzDZ-FjIa63r8ftGoZFZxaFgSEGo5-4SxxVBqcP1wsuSyksL9_TKAk3N2grwsatA9o0EXRlcf0MDwC4UPDn5t-pjHMExNW73cMR6sAVUZ',
+      'Authorization':
+          'key=AAAAX9twaH0:APA91bEC2eSMJX_nG8hRvOGtHuh0EUmoutTBzDZ-FjIa63r8ftGoZFZxaFgSEGo5-4SxxVBqcP1wsuSyksL9_TKAk3N2grwsatA9o0EXRlcf0MDwC4UPDn5t-pjHMExNW73cMR6sAVUZ',
     },
     body: jsonEncode(
       <String, dynamic>{
@@ -68,7 +69,7 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 String token;
 getToken() async {
   token = await _firebaseMessaging.getToken();
-  postDeviceToken();
+  if (data != null) postDeviceToken();
   print(token);
 }
 
