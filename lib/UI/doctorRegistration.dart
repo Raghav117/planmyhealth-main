@@ -33,7 +33,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
 
   checkDoctorExists() async {
-    // mobileController.text = "8356928929";
+    // mobileController.text = "9012220988";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -242,7 +242,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           children: <Widget>[
             Text(title,
                 style: GoogleFonts.dosis(
-                    fontWeight: FontWeight.bold, fontSize: 17)),
+                    color: Colors.greenAccent,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17)),
             SizedBox(
               height: 10,
             ),
@@ -282,7 +284,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   ),
                   Text("Register",
                       style: GoogleFonts.dosis(
-                          fontWeight: FontWeight.bold, fontSize: 25)),
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25)),
                   SizedBox(
                     height: 50,
                   ),
@@ -325,7 +329,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   value,
                                   style: GoogleFonts.dosis(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.green),
+                                      color: Colors.greenAccent),
                                 ),
                                 value: value,
                               )).toList(),
@@ -338,7 +342,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           value: _selectedgender,
                           hint: Text(
                             "Select Gender",
-                            style: GoogleFonts.dosis(color: Colors.green),
+                            style: GoogleFonts.dosis(color: Colors.greenAccent),
                           ),
                           elevation: 5,
                           isExpanded: false,
@@ -360,7 +364,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       style: GoogleFonts.dosis(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 12,
-                                          color: Colors.green),
+                                          color: Colors.greenAccent),
                                     ),
                                     value: value.toString(),
                                   )).toList(),
@@ -376,7 +380,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               : _selectedcategory.toString(),
                           hint: Text(
                             "Select Category",
-                            style: GoogleFonts.dosis(color: Colors.green),
+                            style: GoogleFonts.dosis(color: Colors.greenAccent),
                           ),
                           elevation: 5,
                           isExpanded: false,
@@ -389,7 +393,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   ),
                   Text("Qualifications",
                       style: GoogleFonts.dosis(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
                   Column(
                     children: _Qualification.map((e) {
                       int index = _Qualification.indexOf(e);
@@ -564,7 +570,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           Text(
                             "Accrediations",
                             style: GoogleFonts.dosis(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                color: Colors.greenAccent,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                           Spacer(),
                           Text(
@@ -605,7 +613,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
-                                              color: Colors.green)),
+                                              color: Colors.greenAccent)),
                                     )
                                   : Container();
                             },
@@ -637,7 +645,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           Text(
                             "Specialities",
                             style: GoogleFonts.dosis(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                color: Colors.greenAccent,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                           Spacer(),
                           Text(
@@ -677,7 +687,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           style: GoogleFonts.dosis(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
-                                              color: Colors.green)),
+                                              color: Colors.greenAccent)),
                                     )
                                   : Container();
                             },
@@ -783,7 +793,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   SizedBox(height: height * 0.04),
                   Text(
                     "Selecty City",
-                    style: GoogleFonts.dosis(fontWeight: FontWeight.bold),
+                    style: GoogleFonts.dosis(
+                        color: Colors.greenAccent, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: height * 0.04),
                   DropdownButton(
@@ -933,7 +944,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                           borderRadius: BorderRadius.circular(15)),
                       child: Center(
                         child: Text(
-                          "Load Assets",
+                          "Upload Documents",
                           style: GoogleFonts.dosis(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -1179,11 +1190,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   ));
         }
       },
-      borderSide: BorderSide(color: Colors.green),
+      borderSide: BorderSide(color: Colors.greenAccent),
       shape: new RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(30.0),
       ),
-      child: Text("Save", style: GoogleFonts.dosis()),
+      child: Text("Save",
+          style: GoogleFonts.dosis(
+              color: Colors.greenAccent, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -1240,7 +1253,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       children: <Widget>[
         Text(
           name.name,
-          style: GoogleFonts.dosis(color: Colors.green),
+          style: GoogleFonts.dosis(color: Colors.greenAccent),
         ),
         SizedBox(
           width: 5,
@@ -1269,7 +1282,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Name",
-            labelStyle: GoogleFonts.dosis(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1299,7 +1312,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Email",
-            labelStyle: GoogleFonts.dosis(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1329,7 +1342,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "registration Number",
-            labelStyle: GoogleFonts.dosis(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1359,7 +1372,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Address",
-            labelStyle: GoogleFonts.dosis(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
@@ -1389,7 +1402,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             // fillColor: Colors.grey[200],
             // filled: true,
             labelText: "Clinic Name",
-            labelStyle: GoogleFonts.dosis(color: Colors.green),
+            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),

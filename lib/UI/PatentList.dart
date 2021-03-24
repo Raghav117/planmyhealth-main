@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -32,15 +33,53 @@ class _ParientListState extends State<ParientList> {
   List<Marker> marker = [];
   Location location = new Location();
   LocationData _locationData;
+
+  Set<Polyline> _polylines = {};
+
   getLocation() async {
     loading = true;
     _locationData = await location.getLocation();
     setState(() {
       loading = false;
     });
+    setPolylines();
   }
 
+// this will hold each polyline coordinate as Lat and Lng pairs
+  List<LatLng> polylineCoordinates = [];
+// this is the key object - the PolylinePoints
+// which generates every polyline between start and finish
+  PolylinePoints polylinePoints = PolylinePoints();
   var scaffoldKey = GlobalKey<ScaffoldState>();
+
+  setPolylines() async {
+    PolylineResult result = await polylinePoints?.getRouteBetweenCoordinates(
+        "AIzaSyChfbb57VsD7N7LQK_L4Upl6Yma47jzIps",
+        PointLatLng(_locationData.latitude, _locationData.longitude),
+        PointLatLng(double.parse(data.latitude), double.parse(data.longitude)));
+    if (result != null) {
+      // loop through all PointLatLng points and convert them
+      // to a list of LatLng, required by the Polyline
+
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    setState(() {
+      // create a Polyline instance
+      // with an id, an RGB color and the list of LatLng pairs
+      Polyline polyline = Polyline(
+          polylineId: PolylineId("poly"),
+          color: Colors.greenAccent,
+          width: 5,
+          points: polylineCoordinates);
+
+      // add the constructed polyline as a set of points
+      // to the polyline set, which will eventually
+      // end up showing up on the map
+      _polylines.add(polyline);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,6 +345,7 @@ class _ParientListState extends State<ParientList> {
                               child: GoogleMap(
                                 myLocationEnabled: true,
                                 myLocationButtonEnabled: true,
+                                polylines: _polylines,
                                 markers: marker.toSet(),
                                 mapType: MapType.normal,
                                 initialCameraPosition: CameraPosition(
