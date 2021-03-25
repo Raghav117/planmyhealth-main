@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
@@ -19,6 +21,7 @@ import 'package:plan_my_health/global/global.dart';
 import 'package:plan_my_health/model/Diagnosis.dart';
 import 'package:plan_my_health/model/Diagnostics.dart';
 import 'package:plan_my_health/model/Medicines.dart';
+import 'package:plan_my_health/model/Patient.dart';
 import 'package:plan_my_health/model/SelectMedicineList.dart';
 import 'package:plan_my_health/model/SelectTestList.dart';
 import 'package:plan_my_health/model/SelectedDisease.dart';
@@ -35,7 +38,13 @@ import 'Home.dart';
 
 class Prescription extends StatefulWidget {
   Prescription(
-      {Key key, this.name, this.age, this.gender, this.pid, this.mobile})
+      {Key key,
+      this.name,
+      this.age,
+      this.gender,
+      this.pid,
+      this.mobile,
+      this.patient})
       : super(key: key);
 
   final String name;
@@ -43,6 +52,7 @@ class Prescription extends StatefulWidget {
   final String pid;
   final String gender;
   final String mobile;
+  final Patient patient;
   @override
   _PrescriptionState createState() => _PrescriptionState();
 }
@@ -191,13 +201,13 @@ class _PrescriptionState extends State<Prescription> {
                       Container(
                         // height: 60,
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.green,
+                        color: Colors.greenAccent,
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
                             child: Text(
                               "Write Prescription",
-                              style: TextStyle(
+                              style: GoogleFonts.dosis(
                                   fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700),
@@ -206,7 +216,7 @@ class _PrescriptionState extends State<Prescription> {
                         ),
                       ),
                       Container(
-                        color: Colors.green,
+                        color: Colors.greenAccent,
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.s,
                           children: [
@@ -216,7 +226,8 @@ class _PrescriptionState extends State<Prescription> {
                               child: RaisedButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15)),
-                                child: Text("Log Out"),
+                                child:
+                                    Text("Log Out", style: GoogleFonts.dosis()),
                                 onPressed: () {
                                   FirebaseAuth.instance.signOut();
                                   Navigator.pushReplacement(context,
@@ -240,7 +251,7 @@ class _PrescriptionState extends State<Prescription> {
                                         builder: (context) => Home(),
                                       ));
                                 },
-                                child: Text("Home"),
+                                child: Text("Home", style: GoogleFonts.dosis()),
                               ),
                             ),
                             Spacer(),
@@ -249,28 +260,199 @@ class _PrescriptionState extends State<Prescription> {
                       )
                     ],
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    width: MediaQuery.of(context).size.width,
-                    height: 100,
-                    color: Colors.grey,
+                  SingleChildScrollView(
                     child: Column(
                       children: [
-                        Row(children: [
-                          Text(
-                            "Name: " + widget.name.toString(),
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          width: MediaQuery.of(context).size.width,
+                          // height: 100,
+                          color: Colors.greenAccent.withOpacity(0.2),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "Name: " + widget.name.toString(),
+                                      style: GoogleFonts.dosis(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ]),
+                              SizedBox(height: 5),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                        "Gender: " +
+                                            widget.gender.toString() +
+                                            "           Age: " +
+                                            widget.age.toString() +
+                                            " years old",
+                                        style: GoogleFonts.dosis()),
+                                  ]),
+                              SizedBox(height: 5),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                        "Height: " +
+                                            widget.patient.height.toString() +
+                                            "           Weight: " +
+                                            widget.patient.weight,
+                                        style: GoogleFonts.dosis()),
+                                  ]),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Center(
+                                child: Text(
+                                  "Symptoms",
+                                  style: GoogleFonts.dosis(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: widget.patient.symptoms.length,
+                                itemBuilder: (context, index) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      widget.patient.symptoms[index],
+                                      style: GoogleFonts.dosis(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  // color: Colors.greenAccent,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    // color: Color.fromRGBO(
+                                    //     204, 224, 241, 0.3)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Services",
+                                          style: GoogleFonts.dosis(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(widget.patient.services,
+                                            style: GoogleFonts.dosis(
+                                              color: Colors.black,
+                                            )),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  // color: Colors.greenAccent,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    // color: Color.fromRGBO(
+                                    //     204, 224, 241, 0.3)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Remarks",
+                                          style: GoogleFonts.dosis(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(widget.patient.Remarks,
+                                            style: GoogleFonts.dosis(
+                                              color: Colors.black,
+                                            )),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  // color: Colors.greenAccent,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    // color: Color.fromRGBO(
+                                    //     204, 224, 241, 0.3)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Health Issue",
+                                          style: GoogleFonts.dosis(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                            widget.patient.Primary_Health_Issue,
+                                            style: GoogleFonts.dosis(
+                                              color: Colors.black,
+                                            )),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ]),
-                        SizedBox(height: 5),
-                        Row(children: [
-                          Text("Gender: " +
-                              widget.gender.toString() +
-                              "           Age: " +
-                              widget.age.toString() +
-                              " years old"),
-                        ]),
+                        ),
                       ],
                     ),
                   ),
@@ -282,13 +464,6 @@ class _PrescriptionState extends State<Prescription> {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Text(
-                              //   "Select Suspected Disease",
-                              //   style: TextStyle(
-                              //       fontSize: 20,
-                              //       color: Colors.black,
-                              //       fontWeight: FontWeight.bold),
-                              // ),
                               SizedBox(height: 8),
                               //! ************  Findings *****************
                               Row(
@@ -297,7 +472,7 @@ class _PrescriptionState extends State<Prescription> {
                                 children: [
                                   Text(
                                     "Findings",
-                                    style: TextStyle(
+                                    style: GoogleFonts.dosis(
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
@@ -333,7 +508,8 @@ class _PrescriptionState extends State<Prescription> {
                                       color: Colors.white,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("Not Selected"),
+                                        child: Text("Not Selected",
+                                            style: GoogleFonts.dosis()),
                                       ),
                                     )
                                   : Card(
@@ -351,13 +527,13 @@ class _PrescriptionState extends State<Prescription> {
                                               ? Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child:
-                                                      Text(findings[index].name,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 15,
-                                                          )),
+                                                  child: Text(
+                                                      findings[index].name,
+                                                      style: GoogleFonts.dosis(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                      )),
                                                 )
                                               : Container();
                                         },
@@ -372,7 +548,7 @@ class _PrescriptionState extends State<Prescription> {
                                 children: [
                                   Text(
                                     "Suspected Disease",
-                                    style: TextStyle(
+                                    style: GoogleFonts.dosis(
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
@@ -404,7 +580,8 @@ class _PrescriptionState extends State<Prescription> {
                                       color: Colors.white,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("Not Selected"),
+                                        child: Text("Not Selected",
+                                            style: GoogleFonts.dosis()),
                                       ),
                                     )
                                   : Card(
@@ -412,7 +589,7 @@ class _PrescriptionState extends State<Prescription> {
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       // width: double.infinity,
-                                      // color: Colors.green,
+                                      // color: Colors.greenAccent,
                                       // constraints: BoxConstraints(
                                       // minHeight: 100, maxHeight: 200),
                                       child: ListView.builder(
@@ -426,7 +603,7 @@ class _PrescriptionState extends State<Prescription> {
                                                   child: Text(
                                                       suspectedDisease[index]
                                                           .diagnosisName,
-                                                      style: TextStyle(
+                                                      style: GoogleFonts.dosis(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 15,
@@ -444,7 +621,7 @@ class _PrescriptionState extends State<Prescription> {
                                 children: [
                                   Text(
                                     "Add Medicines",
-                                    style: TextStyle(
+                                    style: GoogleFonts.dosis(
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
@@ -510,7 +687,7 @@ class _PrescriptionState extends State<Prescription> {
                                             Expanded(
                                                 child: Text(
                                               " Not Selected",
-                                              style: TextStyle(
+                                              style: GoogleFonts.dosis(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 16),
                                             )),
@@ -541,8 +718,8 @@ class _PrescriptionState extends State<Prescription> {
                                                                     index]
                                                                 .name
                                                                 .toString(),
-                                                            style:
-                                                                TextStyle(
+                                                            style: GoogleFonts
+                                                                .dosis(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w700,
@@ -574,7 +751,8 @@ class _PrescriptionState extends State<Prescription> {
                                                               selectMedicineList[
                                                                       index]
                                                                   .days,
-                                                          style: TextStyle(
+                                                          style:
+                                                              GoogleFonts.dosis(
                                                             fontSize: 12,
                                                           ),
                                                         )
@@ -590,7 +768,7 @@ class _PrescriptionState extends State<Prescription> {
                                 children: [
                                   Text(
                                     "Select Test",
-                                    style: TextStyle(
+                                    style: GoogleFonts.dosis(
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
@@ -643,7 +821,7 @@ class _PrescriptionState extends State<Prescription> {
                                             Expanded(
                                                 child: Text(
                                               " Not Selected",
-                                              style: TextStyle(
+                                              style: GoogleFonts.dosis(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 16),
                                             )),
@@ -671,7 +849,7 @@ class _PrescriptionState extends State<Prescription> {
                                                               selectTestList[
                                                                       index]
                                                                   .name,
-                                                              style: TextStyle(
+                                                              style: GoogleFonts.dosis(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -696,7 +874,7 @@ class _PrescriptionState extends State<Prescription> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Follow Up Date",
-                                      style: TextStyle(
+                                      style: GoogleFonts.dosis(
                                           fontSize: 18,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold)),
@@ -719,8 +897,8 @@ class _PrescriptionState extends State<Prescription> {
                                           child: Icon(Icons.add),
                                         )
                                       : Text(followupdate.toString(),
-                                          style: TextStyle(
-                                              color: Colors.green,
+                                          style: GoogleFonts.dosis(
+                                              color: Colors.greenAccent,
                                               fontWeight: FontWeight.bold)),
                                 ),
                               ),
@@ -730,7 +908,7 @@ class _PrescriptionState extends State<Prescription> {
 
                               Text(
                                 "Hospitalization required ?",
-                                style: TextStyle(
+                                style: GoogleFonts.dosis(
                                     fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
@@ -755,7 +933,7 @@ class _PrescriptionState extends State<Prescription> {
                                           });
                                         },
                                       ),
-                                      Text("Yes")
+                                      Text("Yes", style: GoogleFonts.dosis())
                                     ],
                                   )),
                                   SizedBox(width: 10),
@@ -772,7 +950,7 @@ class _PrescriptionState extends State<Prescription> {
                                           });
                                         },
                                       ),
-                                      Text("No")
+                                      Text("No", style: GoogleFonts.dosis())
                                     ],
                                   )),
                                 ],
@@ -796,7 +974,7 @@ class _PrescriptionState extends State<Prescription> {
                               //               30, 10, 30, 10),
                               //           child: Text(
                               //             " No ",
-                              //             style: TextStyle(
+                              //             style: GoogleFonts.dosis(
                               //                 fontSize: 20,
                               //                 fontWeight: FontWeight.w600),
                               //           ),
@@ -810,7 +988,7 @@ class _PrescriptionState extends State<Prescription> {
                               //       },
                               //       child: Container(
                               //         decoration: BoxDecoration(
-                              //             color: Colors.green,
+                              //             color: Colors.greenAccent,
                               //             borderRadius: BorderRadius.all(
                               //                 Radius.circular(6))),
                               //         alignment: Alignment.center,
@@ -819,7 +997,7 @@ class _PrescriptionState extends State<Prescription> {
                               //               30, 10, 30, 10),
                               //           child: Text(
                               //             " Yes ",
-                              //             style: TextStyle(
+                              //             style: GoogleFonts.dosis(
                               //                 fontSize: 20,
                               //                 fontWeight: FontWeight.w600),
                               //           ),
@@ -831,7 +1009,7 @@ class _PrescriptionState extends State<Prescription> {
                               SizedBox(height: 12),
                               Text(
                                 "Specialist consultation",
-                                style: TextStyle(
+                                style: GoogleFonts.dosis(
                                     fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
@@ -869,7 +1047,8 @@ class _PrescriptionState extends State<Prescription> {
                                       value: type['name'],
                                       child: Text(
                                         type['name'],
-                                        style: TextStyle(color: Colors.black),
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.black),
                                       ),
                                     );
                                   }).toList(),
@@ -888,7 +1067,7 @@ class _PrescriptionState extends State<Prescription> {
                                 children: [
                                   Text(
                                     "Wellness Tips",
-                                    style: TextStyle(
+                                    style: GoogleFonts.dosis(
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
@@ -943,7 +1122,7 @@ class _PrescriptionState extends State<Prescription> {
                                             Expanded(
                                                 child: Text(
                                               " Not Selected",
-                                              style: TextStyle(
+                                              style: GoogleFonts.dosis(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 16),
                                             )),
@@ -976,7 +1155,7 @@ class _PrescriptionState extends State<Prescription> {
                                                                     selectwellnesslist[
                                                                             index]
                                                                         .wellnessname,
-                                                                    style: TextStyle(
+                                                                    style: GoogleFonts.dosis(
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .bold,
@@ -995,7 +1174,7 @@ class _PrescriptionState extends State<Prescription> {
 
                               Text(
                                 "Ratings",
-                                style: TextStyle(
+                                style: GoogleFonts.dosis(
                                     fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
@@ -1011,7 +1190,7 @@ class _PrescriptionState extends State<Prescription> {
                                     EdgeInsets.symmetric(horizontal: 4.0),
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
-                                  color: Colors.blue,
+                                  color: Colors.greenAccent,
                                 ),
                                 onRatingUpdate: (rating) {
                                   rat = rating;
@@ -1021,7 +1200,7 @@ class _PrescriptionState extends State<Prescription> {
                               SizedBox(height: 10),
                               Text(
                                 "Special notes",
-                                style: TextStyle(
+                                style: GoogleFonts.dosis(
                                     fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
@@ -1030,16 +1209,16 @@ class _PrescriptionState extends State<Prescription> {
                               TextFormField(
                                   controller: remarkController,
                                   keyboardType: TextInputType.name,
-                                  style: TextStyle(
+                                  style: GoogleFonts.dosis(
                                       color: Colors.black,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500),
                                   decoration: InputDecoration(
                                     labelText: "Write Remark",
                                     hintText: 'Type here...',
-                                    hintStyle: TextStyle(
+                                    hintStyle: GoogleFonts.dosis(
                                       letterSpacing: 0.4,
-                                      fontFamily: "HelveticaNeueMedium",
+                                      // fontFamily: "HelveticaNeueMedium",
                                       fontSize: 15,
                                     ),
                                     focusedBorder: OutlineInputBorder(
@@ -1131,14 +1310,14 @@ class _PrescriptionState extends State<Prescription> {
                                     height: 60,
                                     width: 150,
                                     decoration: BoxDecoration(
-                                        color: Colors.green,
+                                        color: Colors.greenAccent,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(6))),
                                     alignment: Alignment.center,
                                     child: Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Text("Save",
-                                          style: TextStyle(
+                                          style: GoogleFonts.dosis(
                                               fontSize: 15,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
@@ -1174,14 +1353,15 @@ class _PrescriptionState extends State<Prescription> {
           children: <Widget>[
             Text(
               medicinelist.drugName,
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
+              style: GoogleFonts.dosis(
+                  fontSize: 16.0, fontWeight: FontWeight.w700),
             ),
             SizedBox(
               width: 10.0,
             ),
             Text(
               medicinelist.composition,
-              style: TextStyle(fontSize: 12.0),
+              style: GoogleFonts.dosis(fontSize: 12.0),
             ),
           ],
         ),
@@ -1212,13 +1392,14 @@ class _PrescriptionState extends State<Prescription> {
                 children: [
                   Text(
                     "   Select Wellness Tips",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                    style: GoogleFonts.dosis(
+                        fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text("close    "),
+                    child: Text("close    ", style: GoogleFonts.dosis()),
                   )
                 ],
               ),
@@ -1235,7 +1416,8 @@ class _PrescriptionState extends State<Prescription> {
                           List<Wellnesslist> data = snapshot.data;
                           return wellnessList(data);
                         } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
+                          return Text("${snapshot.error}",
+                              style: GoogleFonts.dosis());
                         }
                         return Center(
                           child: Container(
@@ -1287,7 +1469,7 @@ class _PrescriptionState extends State<Prescription> {
       title: Container(
         padding: const EdgeInsets.fromLTRB(8, 9, 8, 9),
         decoration: BoxDecoration(
-            color: Colors.green,
+            color: Colors.greenAccent,
             borderRadius: BorderRadius.all(Radius.circular(5)),
             border: Border.all(color: Color(0xFFDDDDDD))),
         child: Column(
@@ -1295,7 +1477,8 @@ class _PrescriptionState extends State<Prescription> {
           children: [
             Text(
               wellnesslist[index].wellnessname,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              style:
+                  GoogleFonts.dosis(fontSize: 18, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -1324,7 +1507,8 @@ class _PrescriptionState extends State<Prescription> {
                 children: [
                   Text(
                     "   Select Disease",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                    style: GoogleFonts.dosis(
+                        fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -1363,14 +1547,15 @@ class _PrescriptionState extends State<Prescription> {
               Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Colors.greenAccent,
                     borderRadius: BorderRadius.all(Radius.circular(6))),
                 alignment: Alignment.center,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     "Add Medicine",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.dosis(
+                        fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -1398,8 +1583,9 @@ class _PrescriptionState extends State<Prescription> {
           new ListTile(
               selected: diagnosislistStatus[index],
               leading: const Icon(Icons.info),
-              title: new Text("Test"),
-              subtitle: new Text(diagnosislistStatus[index].toString()),
+              title: new Text("Test", style: GoogleFonts.dosis()),
+              subtitle: new Text(diagnosislistStatus[index].toString(),
+                  style: GoogleFonts.dosis()),
               trailing: Checkbox(
                   checkColor: Colors.white, // color of tick Mark
 
@@ -1449,7 +1635,7 @@ class _PrescriptionState extends State<Prescription> {
   // title: Container(
   //   padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
   //   decoration: BoxDecoration(
-  //       color: Colors.green,
+  //       color: Colors.greenAccent,
   //       borderRadius: BorderRadius.all(Radius.circular(5)),
   //       border: Border.all(color: Color(0xFFDDDDDD))),
   //   child: Column(
@@ -1457,7 +1643,7 @@ class _PrescriptionState extends State<Prescription> {
   //     children: [
   //       Text(
   //         diagnosislist[index].diagnosisName,
-  //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+  //         style: GoogleFonts.dosis(fontSize: 16, fontWeight: FontWeight.w500),
   //       ),
   //       SizedBox(height: 5),
   //     ],
@@ -1470,7 +1656,7 @@ class _PrescriptionState extends State<Prescription> {
   //   children: [
   //     Checkbox(
   //         checkColor: Colors.white, // color of tick Mark
-  //         activeColor: Colors.green,
+  //         activeColor: Colors.greenAccent,
   //         value: diagnosislistStatus[index],
   //         onChanged: (bool val) {}),
   //   ],
@@ -1487,7 +1673,7 @@ class _PrescriptionState extends State<Prescription> {
   // },
   // title: Text(
   //   diagnosislist[index].diagnosisName,
-  //   style: TextStyle(
+  //   style: GoogleFonts.dosis(
   //     fontSize: 18,
   //   ),
   // ),
@@ -1498,7 +1684,7 @@ class _PrescriptionState extends State<Prescription> {
   //   children: [
   //     Checkbox(
   //         checkColor: Colors.white, // color of tick Mark
-  //         activeColor: Colors.green,
+  //         activeColor: Colors.greenAccent,
   //         value: diagnosislistStatus[index],
   //         onChanged: (bool val) {}),
   //   ],
@@ -1527,13 +1713,14 @@ class _PrescriptionState extends State<Prescription> {
                 children: [
                   Text(
                     "   Select Test",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                    style: GoogleFonts.dosis(
+                        fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text("close    "),
+                    child: Text("close    ", style: GoogleFonts.dosis()),
                   )
                 ],
               ),
@@ -1550,7 +1737,8 @@ class _PrescriptionState extends State<Prescription> {
                           List<Diagnosticslist> data = snapshot.data;
                           return diagnosticslistView(data);
                         } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
+                          return Text("${snapshot.error}",
+                              style: GoogleFonts.dosis());
                         }
                         return Center(
                           child: Container(
@@ -1602,7 +1790,7 @@ class _PrescriptionState extends State<Prescription> {
       title: Container(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
         decoration: BoxDecoration(
-            color: Colors.green,
+            color: Colors.greenAccent,
             borderRadius: BorderRadius.all(Radius.circular(5)),
             border: Border.all(color: Color(0xFFDDDDDD))),
         child: Column(
@@ -1610,11 +1798,12 @@ class _PrescriptionState extends State<Prescription> {
           children: [
             Text(
               diagnosticslist[index].name,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              style:
+                  GoogleFonts.dosis(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 5),
             Text(diagnosticslist[index].bloodQuantityRequired,
-                style: TextStyle(fontSize: 12))
+                style: GoogleFonts.dosis(fontSize: 12))
           ],
         ),
       ));
@@ -1642,8 +1831,8 @@ class _PrescriptionState extends State<Prescription> {
                   children: [
                     Text(
                       " Add Medicines",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                      style: GoogleFonts.dosis(
+                          fontWeight: FontWeight.w700, fontSize: 20),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -1659,7 +1848,7 @@ class _PrescriptionState extends State<Prescription> {
                 //   controller: medicineSerchController,
                 //   clearOnSubmit: false,
                 //   suggestions: medicinelist,
-                //   style: TextStyle(color: Colors.black, fontSize: 16.0),
+                //   style: GoogleFonts.dosis(color: Colors.black, fontSize: 16.0),
                 //   decoration: InputDecoration(
                 //     counterText: "",
                 //     focusedBorder: OutlineInputBorder(
@@ -1675,7 +1864,7 @@ class _PrescriptionState extends State<Prescription> {
 
                 //     // prefix: Icon(
                 //     //   Icons.search,
-                //     //   color: Colors.green,
+                //     //   color: Colors.greenAccent,
                 //     // ),
                 //   ),
                 //   itemFilter: (item, query) {
@@ -1748,7 +1937,7 @@ class _PrescriptionState extends State<Prescription> {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value,
-                                  style: TextStyle(
+                                  style: GoogleFonts.dosis(
                                       color: Colors.black, fontSize: 12)),
                             );
                           }).toList(),
@@ -1793,7 +1982,8 @@ class _PrescriptionState extends State<Prescription> {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value,
-                                  style: TextStyle(color: Colors.black)),
+                                  style:
+                                      GoogleFonts.dosis(color: Colors.black)),
                             );
                           }).toList(),
                           validator: (value) {
@@ -1838,8 +2028,8 @@ class _PrescriptionState extends State<Prescription> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child:
-                            Text(value, style: TextStyle(color: Colors.black)),
+                        child: Text(value,
+                            style: GoogleFonts.dosis(color: Colors.black)),
                       );
                     }).toList(),
                     validator: (value) {
@@ -1860,14 +2050,14 @@ class _PrescriptionState extends State<Prescription> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.green,
+                        color: Colors.greenAccent,
                         borderRadius: BorderRadius.all(Radius.circular(6))),
                     alignment: Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
                         "Add more Medicine",
-                        style: TextStyle(
+                        style: GoogleFonts.dosis(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -1908,14 +2098,14 @@ class _PrescriptionState extends State<Prescription> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.green,
+                        color: Colors.greenAccent,
                         borderRadius: BorderRadius.all(Radius.circular(6))),
                     alignment: Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
                         "Save ",
-                        style: TextStyle(
+                        style: GoogleFonts.dosis(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ),

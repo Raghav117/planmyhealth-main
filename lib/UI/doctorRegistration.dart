@@ -6,6 +6,7 @@ import 'package:plan_my_health/UI/accrediation.dart';
 import 'package:plan_my_health/UI/speciality.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:plan_my_health/model/accrediations.dart';
+import 'package:plan_my_health/model/prates.dart';
 import 'package:plan_my_health/model/speciality.dart';
 
 import '../global/global.dart';
@@ -33,7 +34,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
 
   checkDoctorExists() async {
-    mobileController.text = "12";
+    mobileController.text = "4";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -51,6 +52,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       loading = false;
     setState(() {});
   }
+
+  Map provider = Map();
 
   getAccrediations() async {
     var response = await http.get("http://3.15.233.253:5000/getaccrediation");
@@ -77,7 +80,19 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     setState(() {
       loading = false;
     });
+    response = await http.get(
+        "http://3.15.233.253:5000/providerrates?prov_type=${_doctorCategory[ma]}");
+    m = jsonDecode(response.body);
+    print(m);
+    provider = m;
+    pr.clear();
+
+    provider["providerrate"].forEach((value) {
+      pr.add(PRates.fromJson(value));
+    });
   }
+
+  List<PRates> pr = [];
 
   bool loading = true;
   List<Accrediation> accrediation = [];
@@ -1103,131 +1118,162 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     child: Container(
-                      height: 400,
-                      width: 400,
+                      height: 600,
+                      width: 600,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Agreements",
-                              style: GoogleFonts.dosis(
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Text("1. This is first Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("2. This is second Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("3. This is third Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("4. This is forth Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("5. This is fifth Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("6. This is six Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("7. This is seven Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("8. This is Eight Agreement",
-                                style: GoogleFonts.dosis()),
-                            Text("Vedio Call Charges: 523",
-                                style: GoogleFonts.dosis()),
-                            Text("Audio Call Charges:  562",
-                                style: GoogleFonts.dosis()),
-                            Spacer(),
-                            Center(
-                              child: InkWell(
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                  List<String> mode = [];
-                                  if (check == true) mode.add("Call");
-                                  if (vedio == true) mode.add("Vedio Call");
-                                  if (chat == true) mode.add("Chat");
-                                  if (clinic == true) mode.add("At Clinic");
-                                  if (homevisit == true) mode.add("Home Visit");
-                                  if (medical == true)
-                                    mode.add("Medical Camps");
-                                  if (wellness == true)
-                                    mode.add("Wellness Sessions");
-
-                                  loading = true;
-                                  setState(() {});
-                                  i = -1;
-                                  List furtherA = [];
-                                  accrediationColor.forEach((element) {
-                                    ++i;
-                                    if (element == true) {
-                                      furtherA.add(jsonEncode(accrediation[i]));
-                                    }
-                                  });
-                                  i = -1;
-                                  List furtherS = [];
-                                  specialityColor.forEach((element) {
-                                    ++i;
-                                    if (element == true) {
-                                      furtherA.add(jsonEncode(speciality[i]));
-                                    }
-                                  });
-                                  String url =
-                                      "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
-                                  var request = http.MultipartRequest(
-                                    'POST',
-                                    Uri.parse(url),
-                                  );
-                                  if (_imageFile != null) {
-                                    request.files.add(http.MultipartFile(
-                                      'profilepicture',
-                                      _imageFile.readAsBytes().asStream(),
-                                      _imageFile.lengthSync(),
-                                      filename: "profilepicture.jpg",
-                                    ));
-                                  }
-                                  if (_signatureimageFile != null) {
-                                    request.files.add(http.MultipartFile(
-                                      'imagesignature',
-                                      _signatureimageFile
-                                          .readAsBytes()
-                                          .asStream(),
-                                      _signatureimageFile.lengthSync(),
-                                      filename: "imagesignature.jpg",
-                                    ));
-                                  }
-                                  //! ********************************   This is function for sending multiple images  ********************************
-                                  multiimages.forEach((element) async {
-                                    String filePath = await FlutterAbsolutePath
-                                        .getAbsolutePath(element.identifier);
-                                    request.files.add(http.MultipartFile(
-                                      'document',
-                                      File(filePath).readAsBytes().asStream(),
-                                      File(filePath).lengthSync(),
-                                      filename: "document.jpg",
-                                    ));
-                                  });
-                                  var res = await request.send();
-                                  print(res.statusCode);
-                                  print(res);
-
-                                  setState(() {});
-                                  //!        TO   DO
-                                  checkDoctorExists();
-                                },
-                                child: Container(
-                                  height: 30,
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Text("Agree",
-                                      style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
-                                          fontWeight: FontWeight.bold)),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Text(
+                                  "Agreements",
+                                  style: GoogleFonts.dosis(
+                                      color: Colors.greenAccent,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Text("1. This is first Agreement",
+                                  style: GoogleFonts.dosis()),
+                              Text("2. This is second Agreement",
+                                  style: GoogleFonts.dosis()),
+                              Text("3. This is third Agreement",
+                                  style: GoogleFonts.dosis()),
+                              Text("4. This is forth Agreement",
+                                  style: GoogleFonts.dosis()),
+                              Text("5. This is fifth Agreement",
+                                  style: GoogleFonts.dosis()),
+                              Text("6. This is six Agreement",
+                                  style: GoogleFonts.dosis()),
+                              Text("7. This is seven Agreement",
+                                  style: GoogleFonts.dosis()),
+                              Text("8. This is Eight Agreement",
+                                  style: GoogleFonts.dosis()),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text("Charges", style: GoogleFonts.dosis()),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Column(
+                                children: pr.map((e) {
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(e.serviceType + ":",
+                                            style: GoogleFonts.dosis()),
+                                      ),
+                                      Expanded(
+                                        child: Text('₹' + e.finalPrice,
+                                            style: GoogleFonts.dosis()),
+                                      )
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                              SizedBox(
+                                height: 80,
+                              ),
+                              Center(
+                                child: InkWell(
+                                  onTap: () async {
+                                    Navigator.pop(context);
+                                    List<String> mode = [];
+                                    if (check == true) mode.add("Call");
+                                    if (vedio == true) mode.add("Vedio Call");
+                                    if (chat == true) mode.add("Chat");
+                                    if (clinic == true) mode.add("At Clinic");
+                                    if (homevisit == true)
+                                      mode.add("Home Visit");
+                                    if (medical == true)
+                                      mode.add("Medical Camps");
+                                    if (wellness == true)
+                                      mode.add("Wellness Sessions");
+
+                                    loading = true;
+                                    setState(() {});
+                                    i = -1;
+                                    List furtherA = [];
+                                    accrediationColor.forEach((element) {
+                                      ++i;
+                                      if (element == true) {
+                                        furtherA
+                                            .add(jsonEncode(accrediation[i]));
+                                      }
+                                    });
+                                    i = -1;
+                                    List furtherS = [];
+                                    specialityColor.forEach((element) {
+                                      ++i;
+                                      if (element == true) {
+                                        furtherA.add(jsonEncode(speciality[i]));
+                                      }
+                                    });
+                                    String url =
+                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
+                                    var request = http.MultipartRequest(
+                                      'POST',
+                                      Uri.parse(url),
+                                    );
+                                    if (_imageFile != null) {
+                                      request.files.add(http.MultipartFile(
+                                        'profilepicture',
+                                        _imageFile.readAsBytes().asStream(),
+                                        _imageFile.lengthSync(),
+                                        filename: "profilepicture.jpg",
+                                      ));
+                                    }
+                                    if (_signatureimageFile != null) {
+                                      request.files.add(http.MultipartFile(
+                                        'imagesignature',
+                                        _signatureimageFile
+                                            .readAsBytes()
+                                            .asStream(),
+                                        _signatureimageFile.lengthSync(),
+                                        filename: "imagesignature.jpg",
+                                      ));
+                                    }
+                                    //! ********************************   This is function for sending multiple images  ********************************
+                                    multiimages.forEach((element) async {
+                                      String filePath =
+                                          await FlutterAbsolutePath
+                                              .getAbsolutePath(
+                                                  element.identifier);
+                                      request.files.add(http.MultipartFile(
+                                        'document',
+                                        File(filePath).readAsBytes().asStream(),
+                                        File(filePath).lengthSync(),
+                                        filename: "document.jpg",
+                                      ));
+                                    });
+                                    var res = await request.send();
+                                    print(res.statusCode);
+                                    print(res);
+
+                                    setState(() {});
+                                    //!        TO   DO
+                                    checkDoctorExists();
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Text("Continue",
+                                        style: GoogleFonts.dosis(
+                                            fontSize: 20,
+                                            color: Colors.greenAccent,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

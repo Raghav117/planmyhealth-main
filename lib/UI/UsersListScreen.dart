@@ -55,12 +55,21 @@ class _UserListScreenState extends State<UserListScreen>
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Call Conformation"),
-          content: new Text("Do you wish to make prescription for pationt ?"),
+          title: new Text(
+            "Call Conformation",
+            style: GoogleFonts.dosis(),
+          ),
+          content: new Text(
+            "Do you wish to make prescription for pationt ?",
+            style: GoogleFonts.dosis(),
+          ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Yes"),
+              child: new Text(
+                "Yes",
+                style: GoogleFonts.dosis(),
+              ),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Prescription()));
@@ -167,7 +176,7 @@ class _UserListScreenState extends State<UserListScreen>
                 children: [
                   Text(
                     patient[index].name.toString(),
-                    style: TextStyle(
+                    style: GoogleFonts.dosis(
                       fontSize: 20,
                     ),
                   ),
@@ -181,10 +190,7 @@ class _UserListScreenState extends State<UserListScreen>
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: "HelveticaNeueMedium",
-                      fontSize: 14),
+                  style: GoogleFonts.dosis(color: Colors.black, fontSize: 14),
                 ),
               ),
               trailing: Column(
@@ -194,7 +200,7 @@ class _UserListScreenState extends State<UserListScreen>
                 children: [
                   Text(
                     " [ " + patient[index].gender.toString() + " ]",
-                    style: TextStyle(
+                    style: GoogleFonts.dosis(
                       color: Colors.greenAccent,
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
@@ -203,7 +209,7 @@ class _UserListScreenState extends State<UserListScreen>
                   SizedBox(height: 10),
                   Container(
                       child: Text(patient[index].age.toString() + " Years",
-                          style: TextStyle(color: Colors.black))),
+                          style: GoogleFonts.dosis(color: Colors.black))),
                 ],
               ),
             );
@@ -249,7 +255,7 @@ class _UserListScreenState extends State<UserListScreen>
   //         children: [
   //           Text(
   //             user.name.toString(),
-  //             style: TextStyle(
+  //             style: GoogleFonts.dosis(
   //               fontSize: 20,
   //             ),
   //           ),
@@ -263,7 +269,7 @@ class _UserListScreenState extends State<UserListScreen>
   //           maxLines: 1,
   //           overflow: TextOverflow.ellipsis,
   //           softWrap: false,
-  //           style: TextStyle(
+  //           style: GoogleFonts.dosis(
   //               color: Colors.black,
   //               fontFamily: "HelveticaNeueMedium",
   //               fontSize: 14),
@@ -276,7 +282,7 @@ class _UserListScreenState extends State<UserListScreen>
   //         children: [
   //           Text(
   //             " [ " + user.gender.toString() + " ]",
-  //             style: TextStyle(
+  //             style: GoogleFonts.dosis(
   //               color: Colors.greenAccent,
   //               fontWeight: FontWeight.w800,
   //               fontSize: 18,
@@ -285,7 +291,7 @@ class _UserListScreenState extends State<UserListScreen>
   //           SizedBox(height: 10),
   //           Container(
   //               child: Text(user.age.toString() + " Years",
-  //                   style: TextStyle(color: Colors.black))),
+  //                   style: GoogleFonts.dosis(color: Colors.black))),
   //         ],
   //       ),
   //     );

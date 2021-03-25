@@ -35,15 +35,6 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
   bool onCall = false;
   ApiHelper apiHelper = ApiHelper();
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   WidgetsBinding.instance.addObserver(this);
-  //   print("geting doctore list");
-  //   getuserlist();
-  // }
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (onCall) {
@@ -65,12 +56,16 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Call Conformation"),
-          content: new Text("Do you wish to make prescription for pationt ?"),
+          title: new Text(
+            "Call Conformation",
+            style: GoogleFonts.dosis(),
+          ),
+          content: new Text("Do you wish to make prescription for pationt ?",
+              style: GoogleFonts.dosis()),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Yes"),
+              child: new Text("Yes", style: GoogleFonts.dosis()),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Prescription()));
@@ -114,18 +109,6 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
     }
 
     print(patient);
-    // print(data);
-    // data["doctorlist"].forEach((element) {
-    //   element["userdata"].forEach((ele) {
-    //     doctorcheckup.add(DoctorsCheckUp.fromJson(ele));
-    //   });
-    //   element["userdata"].forEach((ele) {
-    //     userData.add(UserData.fromJson(ele));
-    //   });
-    // });
-    // print(doctorcheckup);
-    // print(userData);
-    // print(userData[0].id);
     loading = false;
     setState(() {});
   }
@@ -182,23 +165,12 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: Text("Name"),
+                                        child: Text("Name",
+                                            style: GoogleFonts.dosis()),
                                       ),
                                       Expanded(
-                                        child: Text(e.name.toString()),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text("Mobile Number"),
-                                      ),
-                                      Expanded(
-                                        child: Text(e.mobile.toString()),
+                                        child: Text(e.name.toString(),
+                                            style: GoogleFonts.dosis()),
                                       ),
                                     ],
                                   ),
@@ -208,10 +180,12 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: Text("Date"),
+                                        child: Text("Mobile Number",
+                                            style: GoogleFonts.dosis()),
                                       ),
                                       Expanded(
-                                        child: Text(e.dateOfJoining.toString()),
+                                        child: Text(e.mobile.toString(),
+                                            style: GoogleFonts.dosis()),
                                       ),
                                     ],
                                   ),
@@ -221,7 +195,23 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: Text("Diagnosis"),
+                                        child: Text("Date",
+                                            style: GoogleFonts.dosis()),
+                                      ),
+                                      Expanded(
+                                        child: Text(e.dateOfJoining.toString(),
+                                            style: GoogleFonts.dosis()),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text("Diagnosis",
+                                            style: GoogleFonts.dosis()),
                                       ),
                                       Expanded(
                                         child: Container(
@@ -229,8 +219,9 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: e.diagnosis
-                                              .map((e) =>
-                                                  Text(e["diagnosis_name"]))
+                                              .map((e) => Text(
+                                                  e["diagnosis_name"],
+                                                  style: GoogleFonts.dosis()))
                                               .toList(),
                                         )),
                                       ),
@@ -246,94 +237,4 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                 )),
     );
   }
-
-  // ListView _jobsListView(data) {
-  //   print("---------------------");
-  //   print("length of get users list" + data.length.toString());
-  //   return ListView.builder(
-  //       itemCount: data.length,
-  //       itemBuilder: (context, index) {
-  //         if (data[index].userdata.length > 0)
-  //           return _tile(data[index].userdata[0]);
-  //         return Container();
-  //       });
-  // }
-
-  // ListTile _tile(dynamic user) => ListTile(
-  //       tileColor: Colors.green.shade50,
-  //       // onTap: () async => await launch(url("+91 " + user.mobile.toString())),
-  //       onTap: () {
-  //         Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //                 builder: (context) =>
-  //                     PatientDetails(number: user.mobile.toString())));
-  //       },
-  //       leading: Container(
-  //           width: 54,
-  //           height: 54,
-  //           decoration: BoxDecoration(
-  //               shape: BoxShape.circle,
-  //               image: DecorationImage(
-  //                   fit: BoxFit.fill,
-  //                   image: NetworkImage(
-  //                       "https://i1.wp.com/www.sardiniauniqueproperties.com/wp-content/uploads/2015/10/square-profile-pic-2.jpg")))),
-  //       title: Row(
-  //         children: [
-  //           Text(
-  //             user.name.toString(),
-  //             style: TextStyle(
-  //               fontSize: 20,
-  //             ),
-  //           ),
-  //           SizedBox(width: 2),
-  //         ],
-  //       ),
-  //       subtitle: Padding(
-  //         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-  //         child: Text(
-  //           user.mobile.toString(),
-  //           maxLines: 1,
-  //           overflow: TextOverflow.ellipsis,
-  //           softWrap: false,
-  //           style: TextStyle(
-  //               color: Colors.black,
-  //               fontFamily: "HelveticaNeueMedium",
-  //               fontSize: 14),
-  //         ),
-  //       ),
-  //       trailing: Column(
-  //         mainAxisAlignment: MainAxisAlignment.end,
-  //         crossAxisAlignment: CrossAxisAlignment.end,
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           Text(
-  //             " [ " + user.gender.toString() + " ]",
-  //             style: TextStyle(
-  //               color: Colors.greenAccent,
-  //               fontWeight: FontWeight.w800,
-  //               fontSize: 18,
-  //             ),
-  //           ),
-  //           SizedBox(height: 10),
-  //           Container(
-  //               child: Text(user.age.toString() + " Years",
-  //                   style: TextStyle(color: Colors.black))),
-  //         ],
-  //       ),
-  //     );
-
-  // String url(String phone) {
-  //   print("Call url function");
-  //   if (Platform.isAndroid) {
-  //     // add the [https]
-  //     setState(() {
-  //       onCall = true;
-  //     });
-  //     return "https://wa.me/$phone/?text= "; // new line
-  //   } else {
-  //     // add the [https]
-  //     return "https://api.whatsapp.com/send?phone=$phone= "; // new line
-  //   }
-  // }
 }

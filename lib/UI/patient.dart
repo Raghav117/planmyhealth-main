@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_my_health/UI/pdfOpener.dart';
 import 'dart:convert';
@@ -33,8 +34,8 @@ class _PatientState extends State<Patient> {
       appBar: AppBar(
         // leading: Icon(Icons.menu),
         centerTitle: true,
-        title: Text('Profile'),
-        backgroundColor: Colors.green,
+        title: Text('Profile', style: GoogleFonts.dosis()),
+        backgroundColor: Colors.greenAccent,
       ),
       body: loading == true
           ? Center(
@@ -49,34 +50,24 @@ class _PatientState extends State<Patient> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          // color: Colors.green,
+                          // color: Colors.greenAccent,
                           color: Colors.white,
-                          // border: Border.all(color: Colors.green, width: 3),
+                          // border: Border.all(color: Colors.greenAccent, width: 3),
                           borderRadius: BorderRadius.circular(20)),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
                             ListTile(
-                              // leading: Image.network(
-                              //   "http://3.15.233.253/" + patient.picture,
-                              //   errorBuilder: (context, error, stackTrace) =>
-                              //       Icon(Icons.account_box_outlined),
-                              // ),
-                              // leading: Image.network(
-                              //   "http://3.15.233.253/" + global.data.picture,
-                              //   errorBuilder: (context, error, stackTrace) =>
-                              //       Icon(Icons.account_box_outlined),
-                              // ),
-                              title: Text(
-                                patient.name.toString(),
-                              ),
-                              subtitle: Text(patient.email.toString()),
+                              title: Text(patient.name.toString(),
+                                  style: GoogleFonts.dosis()),
+                              subtitle: Text(patient.email.toString(),
+                                  style: GoogleFonts.dosis()),
                               isThreeLine: true,
                               // trailing: Text(
                               //   global.data.experience.toString() +
                               //       " Years Experience",
-                              //   style: TextStyle(fontSize: 15),
+                              //   style: GoogleFonts.dosis(fontSize: 15),
                               // ),
                             ),
                             SizedBox(
@@ -86,11 +77,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Mobile Number",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(global.data.mobile.toString()),
+                                  child: Text(global.data.mobile.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -101,11 +93,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Age",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.age.toString()),
+                                  child: Text(patient.age.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -116,11 +109,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Gender",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.gender.toString()),
+                                  child: Text(patient.gender.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -131,11 +125,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("City",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.cityId.toString()),
+                                  child: Text(patient.cityId.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -146,11 +141,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Height",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.height.toString()),
+                                  child: Text(patient.height.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -161,11 +157,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Weight",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.weight.toString()),
+                                  child: Text(patient.weight.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -176,11 +173,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Food Habit",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.food_habit.toString()),
+                                  child: Text(patient.food_habit.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -191,11 +189,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Life Style",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.lifestyle.toString()),
+                                  child: Text(patient.lifestyle.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -206,12 +205,13 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Water Intake Daily",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
                                   child: Text(
-                                      patient.water_intake_daily.toString()),
+                                      patient.water_intake_daily.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -222,12 +222,13 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Medical History",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child:
-                                      Text(patient.medical_history.toString()),
+                                  child: Text(
+                                      patient.medical_history.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -238,13 +239,14 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Preferred Mode of Treatment",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient
-                                      .preferred_mode_of_treatment
-                                      .toString()),
+                                  child: Text(
+                                      patient.preferred_mode_of_treatment
+                                          .toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -255,12 +257,13 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Primary Health Issue",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
                                   child: Text(
-                                      patient.Primary_Health_Issue.toString()),
+                                      patient.Primary_Health_Issue.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -271,12 +274,13 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Preferred Language",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
                                   child: Text(
-                                      patient.preferredlanguage.toString()),
+                                      patient.preferredlanguage.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -287,11 +291,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Mode Of Services",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.services.toString()),
+                                  child: Text(patient.services.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -302,11 +307,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Blood Group",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.blood_group.toString()),
+                                  child: Text(patient.blood_group.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -317,11 +323,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Occupation",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.occupation.toString()),
+                                  child: Text(patient.occupation.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -332,11 +339,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Exercise Flag",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.exercise_flag.toString()),
+                                  child: Text(patient.exercise_flag.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -347,12 +355,13 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Sick Frequently",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child:
-                                      Text(patient.sick_frequently.toString()),
+                                  child: Text(
+                                      patient.sick_frequently.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),
@@ -363,11 +372,12 @@ class _PatientState extends State<Patient> {
                               children: [
                                 Expanded(
                                     child: Text("Meals Per Day",
-                                        style: TextStyle(
-                                          color: Colors.green,
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
                                         ))),
                                 Expanded(
-                                  child: Text(patient.meals_per_day.toString()),
+                                  child: Text(patient.meals_per_day.toString(),
+                                      style: GoogleFonts.dosis()),
                                 )
                               ],
                             ),

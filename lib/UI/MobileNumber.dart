@@ -70,29 +70,6 @@ class _MobileNumberState extends State<MobileNumber> {
                       Container(
                           child: Row(
                         children: [
-                          // Container(
-                          //   width: MediaQuery.of(context).size.width / 6,
-                          //   child: Padding(
-                          //     padding: const EdgeInsets.all(8.0),
-                          //     child: TextFormField(
-                          //       style: TextStyle(
-                          //           color: Colors.black,
-                          //           fontSize: 22,
-                          //           fontWeight: FontWeight.w500),
-                          //       decoration: InputDecoration(
-                          //           hintText: '+91 ',
-                          //           hintStyle: TextStyle(
-                          //               fontSize: 22,
-                          //               fontWeight: FontWeight.w500)),
-                          //       validator: (value) {
-                          //         if (value.isEmpty) {
-                          //           return 'Please enter some text';
-                          //         }
-                          //         return null;
-                          //       },
-                          //     ),
-                          //   ),
-                          // ),
                           Container(
                             width: MediaQuery.of(context).size.width / 1.2,
                             child: TextFormField(
@@ -131,13 +108,6 @@ class _MobileNumberState extends State<MobileNumber> {
                         });
 
                         apiHelper.mobileLogin(context, _mobileController.text);
-                        //     .then((value) {
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) =>
-                        //               VerifyNumber(otp: value)));
-                        // });
                       }
                     },
                     child: Container(
