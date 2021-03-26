@@ -185,23 +185,57 @@ class _PrescriptionState extends State<Prescription> {
     }
   }
 
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   Medicines userSave = Medicines();
   String dropdownValue;
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: Drawer(
+          child: ListView(children: [
+        ListTile(
+          title: Text("Home", style: GoogleFonts.dosis()),
+          onTap: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(),
+                ));
+          },
+        ),
+        ListTile(
+          title: Text("Logout", style: GoogleFonts.dosis()),
+          onTap: () {
+            FirebaseAuth.instance.signOut();
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) {
+                return MyApp();
+              },
+            ));
+          },
+        ),
+      ])),
       body: SafeArea(
         child: Container(
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
-                Wrap(
-                  children: [
-                    Container(
-                      // height: 60,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.greenAccent,
-                      child: Center(
+                Container(
+                  color: Colors.greenAccent,
+                  child: Row(
+                    children: [
+                      IconButton(
+                          icon: Icon(Icons.menu, color: Colors.white),
+                          onPressed: () {
+                            if (scaffoldKey.currentState.isDrawerOpen) {
+                              scaffoldKey.currentState.openEndDrawer();
+                            } else {
+                              scaffoldKey.currentState.openDrawer();
+                            }
+                          }),
+                      Center(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -213,47 +247,8 @@ class _PrescriptionState extends State<Prescription> {
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      color: Colors.greenAccent,
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.s,
-                        children: [
-                          Spacer(),
-                          RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Text("Log Out", style: GoogleFonts.dosis()),
-                            onPressed: () {
-                              FirebaseAuth.instance.signOut();
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(
-                                builder: (context) {
-                                  return MyApp();
-                                },
-                              ));
-                            },
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Home(),
-                                  ));
-                            },
-                            child: Text("Home", style: GoogleFonts.dosis()),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
                 Column(
                   children: [
@@ -365,7 +360,7 @@ class _PrescriptionState extends State<Prescription> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(width: 20),
                               Text(widget.patient.Remarks,
                                   style: GoogleFonts.dosis(
                                     color: Colors.black,
@@ -820,7 +815,12 @@ class _PrescriptionState extends State<Prescription> {
                                         child: Icon(Icons.add,
                                             color: Colors.greenAccent),
                                       )
-                                    : Text(followupdate.toString(),
+                                    : Text(
+                                        followupdate.day.toString() +
+                                            '-' +
+                                            followupdate.month.toString() +
+                                            '-' +
+                                            followupdate.year.toString(),
                                         style: GoogleFonts.dosis(
                                             color: Colors.greenAccent,
                                             fontWeight: FontWeight.bold)),
