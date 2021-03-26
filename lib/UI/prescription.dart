@@ -193,1143 +193,1058 @@ class _PrescriptionState extends State<Prescription> {
       body: SafeArea(
         child: Container(
             height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Wrap(
-                    children: [
-                      Container(
-                        // height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.greenAccent,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
-                            child: Text(
-                              "Write Prescription",
-                              style: GoogleFonts.dosis(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700),
-                            ),
+            child: Column(
+              children: [
+                Wrap(
+                  children: [
+                    Container(
+                      // height: 60,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.greenAccent,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Write Prescription",
+                            style: GoogleFonts.dosis(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700),
                           ),
                         ),
                       ),
-                      Container(
-                        color: Colors.greenAccent,
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.s,
-                          children: [
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                child:
-                                    Text("Log Out", style: GoogleFonts.dosis()),
-                                onPressed: () {
-                                  FirebaseAuth.instance.signOut();
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(
-                                    builder: (context) {
-                                      return MyApp();
-                                    },
+                    ),
+                    Container(
+                      color: Colors.greenAccent,
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.s,
+                        children: [
+                          Spacer(),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Text("Log Out", style: GoogleFonts.dosis()),
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(
+                                builder: (context) {
+                                  return MyApp();
+                                },
+                              ));
+                            },
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Home(),
                                   ));
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Home(),
-                                      ));
-                                },
-                                child: Text("Home", style: GoogleFonts.dosis()),
-                              ),
-                            ),
-                            Spacer(),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          width: MediaQuery.of(context).size.width,
-                          // height: 100,
-                          color: Colors.greenAccent.withOpacity(0.2),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            },
+                            child: Text("Home", style: GoogleFonts.dosis()),
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      width: MediaQuery.of(context).size.width,
+                      // height: 100,
+                      color: Colors.greenAccent.withOpacity(0.2),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "Name :",
+                                  style: GoogleFonts.dosis(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(widget.name.toString() + ",  ",
+                                    style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                    )),
+                                Text(widget.gender.toString() + ",  ",
+                                    style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                    )),
+                                Text(widget.age.toString() + " years old ,  ",
+                                    style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                    )),
+                                Text(
+                                    "Ht : " +
+                                        widget.patient.height.toString() +
+                                        ",  ",
+                                    style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                    )),
+                                Text("Wt : " + widget.patient.weight.toString(),
+                                    style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                    )),
+                              ]),
+                          Column(
                             children: [
                               Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      "Name: " + widget.name.toString(),
-                                      style: GoogleFonts.dosis(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ]),
-                              SizedBox(height: 5),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                        "Gender: " +
-                                            widget.gender.toString() +
-                                            "           Age: " +
-                                            widget.age.toString() +
-                                            " years old",
-                                        style: GoogleFonts.dosis()),
-                                  ]),
-                              SizedBox(height: 5),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                        "Height: " +
-                                            widget.patient.height.toString() +
-                                            "           Weight: " +
-                                            widget.patient.weight,
-                                        style: GoogleFonts.dosis()),
-                                  ]),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Center(
-                                child: Text(
-                                  "Symptoms",
-                                  style: GoogleFonts.dosis(
+                                children: [
+                                  Text(
+                                    "Symptoms",
+                                    style: GoogleFonts.dosis(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: widget.patient.symptoms.length,
-                                itemBuilder: (context, index) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      widget.patient.symptoms[index],
-                                      style: GoogleFonts.dosis(
-                                        color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 20,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            widget.patient.symptoms.length,
+                                        itemBuilder: (context, index) => Text(
+                                          widget.patient.symptoms[index] + ",",
+                                          style: GoogleFonts.dosis(
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  // color: Colors.greenAccent,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    // color: Color.fromRGBO(
-                                    //     204, 224, 241, 0.3)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Services",
-                                          style: GoogleFonts.dosis(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(widget.patient.services,
-                                            style: GoogleFonts.dosis(
-                                              color: Colors.black,
-                                            )),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                      ],
+                              Row(
+                                children: [
+                                  Text(
+                                    "Services",
+                                    style: GoogleFonts.dosis(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  // color: Colors.greenAccent,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    // color: Color.fromRGBO(
-                                    //     204, 224, 241, 0.3)
+                                  SizedBox(
+                                    width: 20,
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Remarks",
-                                          style: GoogleFonts.dosis(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(widget.patient.Remarks,
-                                            style: GoogleFonts.dosis(
-                                              color: Colors.black,
-                                            )),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  // color: Colors.greenAccent,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    // color: Color.fromRGBO(
-                                    //     204, 224, 241, 0.3)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Health Issue",
-                                          style: GoogleFonts.dosis(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                            widget.patient.Primary_Health_Issue,
-                                            style: GoogleFonts.dosis(
-                                              color: Colors.black,
-                                            )),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                  Text(widget.patient.services,
+                                      style: GoogleFonts.dosis(
+                                        color: Colors.black,
+                                      )),
+                                ],
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 10),
-                      height: MediaQuery.of(context).size.height - 184,
-                      child: SingleChildScrollView(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              SizedBox(height: 8),
-                              //! ************  Findings *****************
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Findings",
-                                    style: GoogleFonts.dosis(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  GestureDetector(
-                                      // onTap: () {
-                                      //   Navigator.push(
-                                      //       context,
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) => Abc()));
-                                      // },
-                                      // onTap: () {
-                                      //   addMedicines(context);
-                                      // },
-                                      onTap: () async {
-                                        var response = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Findings(
-                                              findings: findings,
-                                            ),
-                                          ),
-                                        );
-                                        if (response != null) colors = response;
-                                        // print(response);
-                                        setState(() {});
-                                      },
-                                      child: Icon(Icons.add, size: 30))
-                                ],
+                              Text(
+                                "Remarks",
+                                style: GoogleFonts.dosis(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              colors.indexOf(true) == -1
-                                  ? Container(
-                                      color: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Not Selected",
-                                            style: GoogleFonts.dosis()),
-                                      ),
-                                    )
-                                  : Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      // width: double.infinity,
-                                      // constraints: BoxConstraints(
-                                      //     minHeight: 100, maxHeight: 200),
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: colors.length,
-                                        itemBuilder: (context, index) {
-                                          return colors[index] == true
-                                              ? Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                      findings[index].name,
-                                                      style: GoogleFonts.dosis(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                      )),
-                                                )
-                                              : Container();
-                                        },
-                                      ),
-                                    ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Suspected Disease",
-                                    style: GoogleFonts.dosis(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  GestureDetector(
-                                      onTap: () async {
-                                        var response = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SuspectedDiseases(
-                                              suspectedDisease:
-                                                  suspectedDisease,
-                                            ),
-                                          ),
-                                        );
-                                        print(response);
-                                        setState(() {});
-                                        if (response != null)
-                                          suspectedColors = response;
-                                        // print(response);
-                                        setState(() {});
-                                      },
-                                      child: Icon(Icons.add, size: 30))
-                                ],
-                              ),
-                              suspectedColors.indexOf(true) == -1
-                                  ? Container(
-                                      color: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Not Selected",
-                                            style: GoogleFonts.dosis()),
-                                      ),
-                                    )
-                                  : Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      // width: double.infinity,
-                                      // color: Colors.greenAccent,
-                                      // constraints: BoxConstraints(
-                                      // minHeight: 100, maxHeight: 200),
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: suspectedColors.length,
-                                        itemBuilder: (context, index) {
-                                          return suspectedColors[index] == true
-                                              ? Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                      suspectedDisease[index]
-                                                          .diagnosisName,
-                                                      style: GoogleFonts.dosis(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                      )),
-                                                )
-                                              : Container();
-                                        },
-                                      ),
-                                    ),
-
-                              SizedBox(height: 12),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Add Medicines",
-                                    style: GoogleFonts.dosis(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  GestureDetector(
-                                      // onTap: () {
-                                      //   Navigator.push(
-                                      //       context,
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) => Abc()));
-                                      // },
-                                      // onTap: () {
-                                      //   addMedicines(context);
-                                      // },
-                                      onTap: () async {
-                                        selectMedicineList =
-                                            await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Abc(
-                                                selectMedicineList:
-                                                    selectMedicineList),
-                                          ),
-                                        );
-
-                                        setState(() {});
-                                        print("send back data" +
-                                            selectMedicineList.length //
-                                                .toString());
-                                      },
-                                      child: Icon(Icons.add, size: 30))
-                                ],
-                              ),
-                              Container(
-                                  margin:
-                                      const EdgeInsets.only(top: 5, bottom: 10),
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Color(
-                                          0xFFDDDDDD), //                   <--- border color
-                                      width: 0.8,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                    // boxShadow: [
-                                    //   BoxShadow(
-                                    //     color: Color(0xFF0000000F),
-                                    //     blurRadius: 25.0, // soften the shadow
-                                    //     spreadRadius: 5.0, //extend the shadow
-                                    //     offset: Offset(
-                                    //       15.0, // Move to right 10  horizontally
-                                    //       15.0, // Move to bottom 10 Vertically
-                                    //     ),
-                                    //   )
-                                    // ],
-                                  ),
-                                  child: selectMedicineList.isEmpty
-                                      ? Row(
-                                          children: [
-                                            Expanded(
-                                                child: Text(
-                                              " Not Selected",
-                                              style: GoogleFonts.dosis(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16),
-                                            )),
-                                          ],
-                                        )
-                                      : ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: selectMedicineList.length,
-                                          itemBuilder: (context, index) {
-                                            print(
-                                                selectMedicineList.toString());
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                  child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            selectMedicineList[
-                                                                    index]
-                                                                .name
-                                                                .toString(),
-                                                            style: GoogleFonts
-                                                                .dosis(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize:
-                                                                        15)),
-                                                        Icon(Icons.delete,
-                                                            size: 15)
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: 8),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          selectMedicineList[
-                                                                      index]
-                                                                  .time
-                                                                  .toString() +
-                                                              "," +
-                                                              selectMedicineList[
-                                                                      index]
-                                                                  .qut
-                                                                  .toString() +
-                                                              " tablet with " +
-                                                              selectMedicineList[
-                                                                      index]
-                                                                  .withtake
-                                                                  .toString() +
-                                                              " for " +
-                                                              selectMedicineList[
-                                                                      index]
-                                                                  .days,
-                                                          style:
-                                                              GoogleFonts.dosis(
-                                                            fontSize: 12,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ])),
-                                            );
-                                          })),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Select Test",
-                                    style: GoogleFonts.dosis(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  GestureDetector(
-                                      onTap: () async {
-                                        selectTestList = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SelectTest()));
-
-                                        setState(() {});
-                                        print("send back data" +
-                                            selectTestList.length.toString());
-                                      },
-                                      child: Icon(Icons.add, size: 30))
-                                ],
-                              ),
-
-                              Container(
-                                  margin:
-                                      const EdgeInsets.only(top: 5, bottom: 10),
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Color(
-                                          0xFFDDDDDD), //                   <--- border color
-                                      width: 0.8,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Color(0xFF0000000F),
-                                        blurRadius: 25.0, // soften the shadow
-                                        spreadRadius: 5.0, //extend the shadow
-                                        offset: Offset(
-                                          15.0, // Move to right 10  horizontally
-                                          15.0, // Move to bottom 10 Vertically
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  child: selectTestList.isEmpty
-                                      ? Row(
-                                          children: [
-                                            Expanded(
-                                                child: Text(
-                                              " Not Selected",
-                                              style: GoogleFonts.dosis(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16),
-                                            )),
-                                          ],
-                                        )
-                                      : ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: selectTestList.length,
-                                          itemBuilder: (context, index) {
-                                            // print(selectTestList.toString());
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                  child: Column(children: [
-                                                Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(Icons.pages),
-                                                          Text(
-                                                              selectTestList[
-                                                                      index]
-                                                                  .name,
-                                                              style: GoogleFonts.dosis(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      15)),
-                                                        ],
-                                                      ),
-                                                      Icon(Icons.delete,
-                                                          size: 15)
-                                                    ]),
-                                                SizedBox(height: 8),
-                                              ])),
-                                            );
-                                          })),
-
-                              SizedBox(
-                                height: 30,
-                              ),
-
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Follow Up Date",
-                                      style: GoogleFonts.dosis(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    followupdate = await showDatePicker(
-                                      context: context,
-                                      firstDate: DateTime.now(),
-                                      initialDate: DateTime.now(),
-                                      lastDate: DateTime(2025),
-                                    );
-                                    setState(() {});
-                                  },
-                                  child: followupdate == null
-                                      ? Container(
-                                          child: Icon(Icons.add),
-                                        )
-                                      : Text(followupdate.toString(),
-                                          style: GoogleFonts.dosis(
-                                              color: Colors.greenAccent,
-                                              fontWeight: FontWeight.bold)),
+                              SizedBox(height: 20),
+                              Text(widget.patient.Remarks,
+                                  style: GoogleFonts.dosis(
+                                    color: Colors.black,
+                                  )),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Health Issue",
+                                style: GoogleFonts.dosis(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(
-                                height: 50,
+                                width: 20,
                               ),
-
-                              Text(
-                                "Hospitalization required ?",
-                                style: GoogleFonts.dosis(
-                                    fontSize: 18,
+                              Text(widget.patient.Primary_Health_Issue,
+                                  style: GoogleFonts.dosis(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-
-                              Container(
-                                  child: Row(
-                                children: [
-                                  SizedBox(width: 20),
-                                  Container(
-                                      child: Row(
-                                    children: [
-                                      Radio(
-                                        groupValue: hospitalise,
-                                        value: true,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            hospitalise = val;
-
-                                            print(hospitalise.toString());
-                                          });
-                                        },
-                                      ),
-                                      Text("Yes", style: GoogleFonts.dosis())
-                                    ],
                                   )),
-                                  SizedBox(width: 10),
-                                  Container(
-                                      child: Row(
-                                    children: [
-                                      Radio(
-                                        groupValue: hospitalise,
-                                        value: false,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            hospitalise = val;
-                                            print(hospitalise.toString());
-                                          });
-                                        },
-                                      ),
-                                      Text("No", style: GoogleFonts.dosis())
-                                    ],
-                                  )),
-                                ],
-                              )),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 8),
+                            //! ************  Findings *****************
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Findings",
+                                  style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                    onTap: () async {
+                                      var response = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Findings(
+                                            findings: findings,
+                                          ),
+                                        ),
+                                      );
+                                      if (response != null) colors = response;
+                                      // print(response);
+                                      setState(() {});
+                                    },
+                                    child: Icon(Icons.add,
+                                        size: 20, color: Colors.greenAccent))
+                              ],
+                            ),
+                            colors.indexOf(true) == -1
+                                ? Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Not Selected",
+                                          style: GoogleFonts.dosis()),
+                                    ),
+                                  )
+                                : Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    // width: double.infinity,
+                                    // constraints: BoxConstraints(
+                                    //     minHeight: 100, maxHeight: 200),
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: colors.length,
+                                      itemBuilder: (context, index) {
+                                        return colors[index] == true
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                    findings[index].name,
+                                                    style: GoogleFonts.dosis(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                    )),
+                                              )
+                                            : Container();
+                                      },
+                                    ),
+                                  ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Suspected Disease",
+                                  style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                    onTap: () async {
+                                      var response = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SuspectedDiseases(
+                                            suspectedDisease: suspectedDisease,
+                                          ),
+                                        ),
+                                      );
+                                      print(response);
+                                      setState(() {});
+                                      if (response != null)
+                                        suspectedColors = response;
+                                      // print(response);
+                                      setState(() {});
+                                    },
+                                    child: Icon(Icons.add,
+                                        size: 20, color: Colors.greenAccent))
+                              ],
+                            ),
+                            suspectedColors.indexOf(true) == -1
+                                ? Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Not Selected",
+                                          style: GoogleFonts.dosis()),
+                                    ),
+                                  )
+                                : Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    // width: double.infinity,
+                                    // color: Colors.greenAccent,
+                                    // constraints: BoxConstraints(
+                                    // minHeight: 100, maxHeight: 200),
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: suspectedColors.length,
+                                      itemBuilder: (context, index) {
+                                        return suspectedColors[index] == true
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                    suspectedDisease[index]
+                                                        .diagnosisName,
+                                                    style: GoogleFonts.dosis(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                    )),
+                                              )
+                                            : Container();
+                                      },
+                                    ),
+                                  ),
 
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.start,
-                              //   children: [
-                              //     GestureDetector(
-                              //       onTap: () {
-                              //         hospitalise = false;
-                              //       },
-                              //       child: Container(
-                              //         decoration: BoxDecoration(
-                              //             color: Colors.grey,
-                              //             borderRadius: BorderRadius.all(
-                              //                 Radius.circular(6))),
-                              //         alignment: Alignment.center,
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.fromLTRB(
-                              //               30, 10, 30, 10),
-                              //           child: Text(
-                              //             " No ",
-                              //             style: GoogleFonts.dosis(
-                              //                 fontSize: 20,
-                              //                 fontWeight: FontWeight.w600),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     SizedBox(width: 100),
-                              //     GestureDetector(
-                              //       onTap: () {
-                              //         hospitalise = true;
-                              //       },
-                              //       child: Container(
-                              //         decoration: BoxDecoration(
-                              //             color: Colors.greenAccent,
-                              //             borderRadius: BorderRadius.all(
-                              //                 Radius.circular(6))),
-                              //         alignment: Alignment.center,
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.fromLTRB(
-                              //               30, 10, 30, 10),
-                              //           child: Text(
-                              //             " Yes ",
-                              //             style: GoogleFonts.dosis(
-                              //                 fontSize: 20,
-                              //                 fontWeight: FontWeight.w600),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              SizedBox(height: 12),
-                              Text(
-                                "Specialist consultation",
-                                style: GoogleFonts.dosis(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 8),
-                              Container(
-                                height: 60,
+                            SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Add Medicines",
+                                  style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                    // onTap: () {
+                                    //   Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) => Abc()));
+                                    // },
+                                    // onTap: () {
+                                    //   addMedicines(context);
+                                    // },
+                                    onTap: () async {
+                                      selectMedicineList = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Abc(
+                                              selectMedicineList:
+                                                  selectMedicineList),
+                                        ),
+                                      );
+
+                                      setState(() {});
+                                      print("send back data" +
+                                          selectMedicineList.length //
+                                              .toString());
+                                    },
+                                    child: Icon(Icons.add,
+                                        size: 20, color: Colors.greenAccent))
+                              ],
+                            ),
+                            Container(
+                                margin:
+                                    const EdgeInsets.only(top: 5, bottom: 10),
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4)),
-                                child: DropdownButtonFormField(
-                                  autovalidateMode: AutovalidateMode.disabled,
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey, width: 1.0)),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.grey, width: 1.0),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey, width: 1.0)),
-                                    labelText: "Specialities",
-                                    hintText: "Specialist consultation",
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Color(
+                                        0xFFDDDDDD), //                   <--- border color
+                                    width: 0.8,
                                   ),
-                                  elevation: 2,
-                                  icon: Icon(Icons.arrow_drop_down),
-                                  value: specialitiesSelected,
-                                  onChanged: (value) {
-                                    setState(() {});
-                                    specialitiesSelected = value;
-                                  },
-                                  items: spe.map((type) {
-                                    return DropdownMenuItem(
-                                      value: type['name'],
-                                      child: Text(
-                                        type['name'],
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.black),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return "Select Country is required";
-                                    }
-                                    return null;
-                                  },
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     color: Color(0xFF0000000F),
+                                  //     blurRadius: 25.0, // soften the shadow
+                                  //     spreadRadius: 5.0, //extend the shadow
+                                  //     offset: Offset(
+                                  //       15.0, // Move to right 10  horizontally
+                                  //       15.0, // Move to bottom 10 Vertically
+                                  //     ),
+                                  //   )
+                                  // ],
                                 ),
-                              ),
-                              SizedBox(height: 15),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Wellness Tips",
-                                    style: GoogleFonts.dosis(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  GestureDetector(
-                                      onTap: () async {
-                                        selectwellnesslist =
-                                            await Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SelectWallness()));
-
-                                        setState(() {});
-                                        print("send back data" +
-                                            selectwellnesslist.length
-                                                .toString());
-                                      },
-                                      child: Icon(Icons.add, size: 30))
-                                ],
-                              ),
-                              SizedBox(height: 8),
-                              Container(
-                                  margin:
-                                      const EdgeInsets.only(top: 5, bottom: 10),
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Color(
-                                          0xFFDDDDDD), //                   <--- border color
-                                      width: 0.8,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Color(0xFF0000000F),
-                                        blurRadius: 25.0, // soften the shadow
-                                        spreadRadius: 5.0, //extend the shadow
-                                        offset: Offset(
-                                          15.0, // Move to right 10  horizontally
-                                          15.0, // Move to bottom 10 Vertically
-                                        ),
+                                child: selectMedicineList.isEmpty
+                                    ? Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                            " Not Selected",
+                                            style: GoogleFonts.dosis(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15),
+                                          )),
+                                        ],
                                       )
-                                    ],
-                                  ),
-                                  child: selectwellnesslist.isEmpty
-                                      ? Row(
-                                          children: [
-                                            Expanded(
-                                                child: Text(
-                                              " Not Selected",
-                                              style: GoogleFonts.dosis(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16),
-                                            )),
-                                          ],
-                                        )
-                                      : ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: selectwellnesslist.length,
-                                          itemBuilder: (context, index) {
-                                            print(selectTestList.toString());
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: selectMedicineList.length,
+                                        itemBuilder: (context, index) {
+                                          print(selectMedicineList.toString());
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
                                                 child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                Icon(Icons
-                                                                    .pages),
-                                                                Text(
-                                                                    selectwellnesslist[
-                                                                            index]
-                                                                        .wellnessname,
-                                                                    style: GoogleFonts.dosis(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontSize:
-                                                                            15)),
-                                                              ],
-                                                            ),
-                                                            Icon(Icons.delete,
-                                                                size: 15)
-                                                          ]),
-                                                      SizedBox(height: 8),
-                                                    ]),
-                                              ),
-                                            );
-                                          })),
-
-                              Text(
-                                "Ratings",
-                                style: GoogleFonts.dosis(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              RatingBar.builder(
-                                initialRating: 5,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 4.0),
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.greenAccent,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  rat = rating;
-                                  print(rating);
-                                },
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Special notes",
-                                style: GoogleFonts.dosis(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              TextFormField(
-                                  controller: remarkController,
-                                  keyboardType: TextInputType.name,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                          selectMedicineList[
+                                                                  index]
+                                                              .name
+                                                              .toString(),
+                                                          style:
+                                                              GoogleFonts.dosis(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  fontSize:
+                                                                      15)),
+                                                      Icon(Icons.delete,
+                                                          size: 15)
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 8),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        selectMedicineList[
+                                                                    index]
+                                                                .time
+                                                                .toString() +
+                                                            "," +
+                                                            selectMedicineList[
+                                                                    index]
+                                                                .qut
+                                                                .toString() +
+                                                            " tablet with " +
+                                                            selectMedicineList[
+                                                                    index]
+                                                                .withtake
+                                                                .toString() +
+                                                            " for " +
+                                                            selectMedicineList[
+                                                                    index]
+                                                                .days,
+                                                        style:
+                                                            GoogleFonts.dosis(
+                                                          fontSize: 12,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ])),
+                                          );
+                                        })),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Select Test",
                                   style: GoogleFonts.dosis(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
-                                  decoration: InputDecoration(
-                                    labelText: "Write Remark",
-                                    hintText: 'Type here...',
-                                    hintStyle: GoogleFonts.dosis(
-                                      letterSpacing: 0.4,
-                                      // fontFamily: "HelveticaNeueMedium",
                                       fontSize: 15,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey, width: 1.0)),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black, width: 1.0),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.black, width: 1.0)),
-                                  )),
-                              SizedBox(height: 20),
-                              GestureDetector(
-                                onTap: () async {
-                                  String url;
-                                  List<Finding> find = [];
-                                  List<SuspectedDisease> diagnosis = [];
-                                  int index = -1;
-                                  colors.forEach((element) {
-                                    if (element == true) {
-                                      find.add(findings[++index]);
-                                    } else
-                                      ++index;
-                                  });
-                                  index = -1;
-                                  suspectedColors.forEach((element) {
-                                    if (element == true) {
-                                      diagnosis.add(suspectedDisease[++index]);
-                                    } else {
-                                      ++index;
-                                    }
-                                  });
-                                  print("sp-----------------" +
-                                      specialitiesSelected.toString());
-                                  var response = await http.post(
-                                      "http://3.15.233.253:5000/checkdoctorexist",
-                                      body: {
-                                        "mobilenumber": mobileController.text
-                                      });
-                                  var data = jsonDecode(response.body);
-                                  print(data["data"]["_id"]);
-                                  print(json.encode(suspectedDisease));
-                                  print(json.encode(selectMedicineList));
-                                  var prescription = apiHelper
-                                      .sendPrescription(
-                                          data["data"]["_id"].toString(),
-                                          data["data"]["name"].toString(),
-                                          data["data"]["gender"].toString(),
-                                          widget.age.toString(),
-                                          814,
-                                          "abc123",
-                                          widget.pid.toString(),
-                                          widget.name.toString(),
-                                          selectMedicineList,
-                                          selectTestList,
-                                          hospitalise,
-                                          specialitiesSelected.toString(),
-                                          selectwellnesslist,
-                                          remarkController.text,
-                                          find,
-                                          followupdate,
-                                          diagnosis,
-                                          rat)
-                                      .then((value) {
-                                    print(value);
-                                    if (value != null) {
-                                      url = "http://3.15.233.253/" +
-                                          value.replaceAll(
-                                              "/var/www/html/", "");
-                                      print(url);
-
-                                      Navigator.push(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                    onTap: () async {
+                                      selectTestList = await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => PdfOpener(
-                                                url: url,
-                                                name: widget.name,
-                                                mobile: widget.mobile),
-                                          )); //     );
-                                    } else {
-                                      print("Error");
-                                    }
-                                  });
-                                },
-                                child: Center(
-                                  child: Container(
-                                    height: 60,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                        color: Colors.greenAccent,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6))),
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Text("Save",
-                                          style: GoogleFonts.dosis(
-                                              fontSize: 15,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
-                                    ),
+                                              builder: (context) =>
+                                                  SelectTest()));
+
+                                      setState(() {});
+                                      print("send back data" +
+                                          selectTestList.length.toString());
+                                    },
+                                    child: Icon(Icons.add,
+                                        size: 20, color: Colors.greenAccent))
+                              ],
+                            ),
+
+                            Container(
+                                margin:
+                                    const EdgeInsets.only(top: 5, bottom: 10),
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Color(
+                                        0xFFDDDDDD), //                   <--- border color
+                                    width: 0.8,
                                   ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0xFF0000000F),
+                                      blurRadius: 25.0, // soften the shadow
+                                      spreadRadius: 5.0, //extend the shadow
+                                      offset: Offset(
+                                        15.0, // Move to right 10  horizontally
+                                        15.0, // Move to bottom 10 Vertically
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                child: selectTestList.isEmpty
+                                    ? Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                            " Not Selected",
+                                            style: GoogleFonts.dosis(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15),
+                                          )),
+                                        ],
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: selectTestList.length,
+                                        itemBuilder: (context, index) {
+                                          // print(selectTestList.toString());
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                                child: Column(children: [
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(Icons.pages),
+                                                        Text(
+                                                            selectTestList[
+                                                                    index]
+                                                                .name,
+                                                            style: GoogleFonts
+                                                                .dosis(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        15)),
+                                                      ],
+                                                    ),
+                                                    Icon(Icons.delete, size: 15)
+                                                  ]),
+                                              SizedBox(height: 8),
+                                            ])),
+                                          );
+                                        })),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Follow Up Date",
+                                    style: GoogleFonts.dosis(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () async {
+                                  followupdate = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime.now(),
+                                    initialDate: DateTime.now(),
+                                    lastDate: DateTime(2025),
+                                  );
+                                  setState(() {});
+                                },
+                                child: followupdate == null
+                                    ? Container(
+                                        child: Icon(Icons.add,
+                                            color: Colors.greenAccent),
+                                      )
+                                    : Text(followupdate.toString(),
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.greenAccent,
+                                            fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            Text(
+                              "Hospitalization required ?",
+                              style: GoogleFonts.dosis(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            // SizedBox(height: 5),
+
+                            Container(
+                                child: Row(
+                              children: [
+                                SizedBox(width: 20),
+                                Container(
+                                    child: Row(
+                                  children: [
+                                    Radio(
+                                      groupValue: hospitalise,
+                                      value: true,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          hospitalise = val;
+
+                                          print(hospitalise.toString());
+                                        });
+                                      },
+                                    ),
+                                    Text("Yes", style: GoogleFonts.dosis())
+                                  ],
+                                )),
+                                SizedBox(width: 10),
+                                Container(
+                                    child: Row(
+                                  children: [
+                                    Radio(
+                                      groupValue: hospitalise,
+                                      value: false,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          hospitalise = val;
+                                          print(hospitalise.toString());
+                                        });
+                                      },
+                                    ),
+                                    Text("No", style: GoogleFonts.dosis())
+                                  ],
+                                )),
+                              ],
+                            )),
+
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.start,
+                            //   children: [
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         hospitalise = false;
+                            //       },
+                            //       child: Container(
+                            //         decoration: BoxDecoration(
+                            //             color: Colors.grey,
+                            //             borderRadius: BorderRadius.all(
+                            //                 Radius.circular(6))),
+                            //         alignment: Alignment.center,
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.fromLTRB(
+                            //               20, 10, 20, 10),
+                            //           child: Text(
+                            //             " No ",
+                            //             style: GoogleFonts.dosis(
+                            //                 fontSize: 20,
+                            //                 fontWeight: FontWeight.w600),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     SizedBox(width: 100),
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         hospitalise = true;
+                            //       },
+                            //       child: Container(
+                            //         decoration: BoxDecoration(
+                            //             color: Colors.greenAccent,
+                            //             borderRadius: BorderRadius.all(
+                            //                 Radius.circular(6))),
+                            //         alignment: Alignment.center,
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.fromLTRB(
+                            //               20, 10, 20, 10),
+                            //           child: Text(
+                            //             " Yes ",
+                            //             style: GoogleFonts.dosis(
+                            //                 fontSize: 20,
+                            //                 fontWeight: FontWeight.w600),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            SizedBox(height: 12),
+                            Text(
+                              "Specialist consultation",
+                              style: GoogleFonts.dosis(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: DropdownButtonFormField(
+                                autovalidateMode: AutovalidateMode.disabled,
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.grey, width: 1.0)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.grey, width: 1.0)),
+                                  labelText: "Specialities",
+                                  hintText: "Specialist consultation",
+                                ),
+                                elevation: 2,
+                                icon: Icon(Icons.arrow_drop_down),
+                                value: specialitiesSelected,
+                                onChanged: (value) {
+                                  setState(() {});
+                                  specialitiesSelected = value;
+                                },
+                                items: spe.map((type) {
+                                  return DropdownMenuItem(
+                                    value: type['name'],
+                                    child: Text(
+                                      type['name'],
+                                      style: GoogleFonts.dosis(
+                                          color: Colors.black),
+                                    ),
+                                  );
+                                }).toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Select Country is required";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Wellness Tips",
+                                  style: GoogleFonts.dosis(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                    onTap: () async {
+                                      selectwellnesslist = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SelectWallness()));
+
+                                      setState(() {});
+                                      print("send back data" +
+                                          selectwellnesslist.length.toString());
+                                    },
+                                    child: Icon(Icons.add,
+                                        size: 20, color: Colors.greenAccent))
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                                margin:
+                                    const EdgeInsets.only(top: 5, bottom: 10),
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Color(
+                                        0xFFDDDDDD), //                   <--- border color
+                                    width: 0.8,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0xFF0000000F),
+                                      blurRadius: 25.0, // soften the shadow
+                                      spreadRadius: 5.0, //extend the shadow
+                                      offset: Offset(
+                                        15.0, // Move to right 10  horizontally
+                                        15.0, // Move to bottom 10 Vertically
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                child: selectwellnesslist.isEmpty
+                                    ? Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                            " Not Selected",
+                                            style: GoogleFonts.dosis(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15),
+                                          )),
+                                        ],
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: selectwellnesslist.length,
+                                        itemBuilder: (context, index) {
+                                          print(selectTestList.toString());
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Icon(Icons.pages),
+                                                              Text(
+                                                                  selectwellnesslist[
+                                                                          index]
+                                                                      .wellnessname,
+                                                                  style: GoogleFonts.dosis(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          15)),
+                                                            ],
+                                                          ),
+                                                          Icon(Icons.delete,
+                                                              size: 15)
+                                                        ]),
+                                                    SizedBox(height: 8),
+                                                  ]),
+                                            ),
+                                          );
+                                        })),
+
+                            Text(
+                              "Ratings",
+                              style: GoogleFonts.dosis(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 5),
+                            RatingBar.builder(
+                              initialRating: 5,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.greenAccent,
+                              ),
+                              onRatingUpdate: (rating) {
+                                rat = rating;
+                                print(rating);
+                              },
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Special notes",
+                              style: GoogleFonts.dosis(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 5),
+                            TextFormField(
+                                controller: remarkController,
+                                keyboardType: TextInputType.name,
+                                style: GoogleFonts.dosis(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                                decoration: InputDecoration(
+                                  labelText: "Write Remark",
+                                  hintText: 'Type here...',
+                                  hintStyle: GoogleFonts.dosis(
+                                    // fontFamily: "HelveticaNeueMedium",
+                                    fontSize: 15,
+                                  ),
+                                  // focusedBorder: OutlineInputBorder(
+                                  //     borderSide: BorderSide(
+                                  //         color: Colors.grey, width: 1.0)),
+                                  // enabledBorder: OutlineInputBorder(
+                                  //   borderSide: BorderSide(
+                                  //       color: Colors.black, width: 1.0),
+                                  // ),
+                                  // border: OutlineInputBorder(
+                                  //     borderSide: BorderSide(
+                                  //         color: Colors.black, width: 1.0)),
+                                )),
+                            SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: () async {
+                                String url;
+                                List<Finding> find = [];
+                                List<SuspectedDisease> diagnosis = [];
+                                int index = -1;
+                                colors.forEach((element) {
+                                  if (element == true) {
+                                    find.add(findings[++index]);
+                                  } else
+                                    ++index;
+                                });
+                                index = -1;
+                                suspectedColors.forEach((element) {
+                                  if (element == true) {
+                                    diagnosis.add(suspectedDisease[++index]);
+                                  } else {
+                                    ++index;
+                                  }
+                                });
+                                print("sp-----------------" +
+                                    specialitiesSelected.toString());
+                                var response = await http.post(
+                                    "http://3.15.233.253:5000/checkdoctorexist",
+                                    body: {
+                                      "mobilenumber": mobileController.text
+                                    });
+                                var data = jsonDecode(response.body);
+                                print(data["data"]["_id"]);
+                                print(json.encode(suspectedDisease));
+                                print(json.encode(selectMedicineList));
+                                var prescription = apiHelper
+                                    .sendPrescription(
+                                        data["data"]["_id"].toString(),
+                                        data["data"]["name"].toString(),
+                                        data["data"]["gender"].toString(),
+                                        widget.age.toString(),
+                                        814,
+                                        "abc123",
+                                        widget.pid.toString(),
+                                        widget.name.toString(),
+                                        selectMedicineList,
+                                        selectTestList,
+                                        hospitalise,
+                                        specialitiesSelected.toString(),
+                                        selectwellnesslist,
+                                        remarkController.text,
+                                        find,
+                                        followupdate,
+                                        diagnosis,
+                                        rat)
+                                    .then((value) {
+                                  print(value);
+                                  if (value != null) {
+                                    url = "http://3.15.233.253/" +
+                                        value.replaceAll("/var/www/html/", "");
+                                    print(url);
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PdfOpener(
+                                              url: url,
+                                              name: widget.name,
+                                              mobile: widget.mobile),
+                                        )); //     );
+                                  } else {
+                                    print("Error");
+                                  }
+                                });
+                              },
+                              child: Center(
+                                child: Container(
+                                  height: 40,
+                                  width: 120,
+                                  decoration: BoxDecoration(
+                                      color: Colors.greenAccent,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6))),
+                                  alignment: Alignment.center,
+                                  child: Text("Save",
+                                      style: GoogleFonts.dosis(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
                                 ),
                               ),
-                              SizedBox(height: 20),
-                            ]),
-                      )),
-                ],
-              ),
+                            ),
+                            SizedBox(height: 20),
+                          ]),
+                    ),
+                  ),
+                ),
+              ],
             )),
       ),
     );
@@ -1354,7 +1269,7 @@ class _PrescriptionState extends State<Prescription> {
             Text(
               medicinelist.drugName,
               style: GoogleFonts.dosis(
-                  fontSize: 16.0, fontWeight: FontWeight.w700),
+                  fontSize: 15.0, fontWeight: FontWeight.w700),
             ),
             SizedBox(
               width: 10.0,
@@ -1381,8 +1296,8 @@ class _PrescriptionState extends State<Prescription> {
             decoration: new BoxDecoration(
               color: Colors.white,
               borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(16.0),
-                topRight: const Radius.circular(16.0),
+                topLeft: const Radius.circular(15.0),
+                topRight: const Radius.circular(15.0),
               ),
             ),
             child: Column(children: [
@@ -1478,7 +1393,7 @@ class _PrescriptionState extends State<Prescription> {
             Text(
               wellnesslist[index].wellnessname,
               style:
-                  GoogleFonts.dosis(fontSize: 18, fontWeight: FontWeight.w500),
+                  GoogleFonts.dosis(fontSize: 15, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -1496,8 +1411,8 @@ class _PrescriptionState extends State<Prescription> {
             decoration: new BoxDecoration(
               color: Colors.white,
               borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(16.0),
-                topRight: const Radius.circular(16.0),
+                topLeft: const Radius.circular(15.0),
+                topRight: const Radius.circular(15.0),
               ),
             ),
             child: Column(children: [
@@ -1643,7 +1558,7 @@ class _PrescriptionState extends State<Prescription> {
   //     children: [
   //       Text(
   //         diagnosislist[index].diagnosisName,
-  //         style: GoogleFonts.dosis(fontSize: 16, fontWeight: FontWeight.w500),
+  //         style: GoogleFonts.dosis(fontSize: 15, fontWeight: FontWeight.w500),
   //       ),
   //       SizedBox(height: 5),
   //     ],
@@ -1674,7 +1589,7 @@ class _PrescriptionState extends State<Prescription> {
   // title: Text(
   //   diagnosislist[index].diagnosisName,
   //   style: GoogleFonts.dosis(
-  //     fontSize: 18,
+  //     fontSize: 15,
   //   ),
   // ),
   // trailing: Column(
@@ -1702,8 +1617,8 @@ class _PrescriptionState extends State<Prescription> {
             decoration: new BoxDecoration(
               color: Colors.white,
               borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(16.0),
-                topRight: const Radius.circular(16.0),
+                topLeft: const Radius.circular(15.0),
+                topRight: const Radius.circular(15.0),
               ),
             ),
             child: Column(children: [
@@ -1799,7 +1714,7 @@ class _PrescriptionState extends State<Prescription> {
             Text(
               diagnosticslist[index].name,
               style:
-                  GoogleFonts.dosis(fontSize: 16, fontWeight: FontWeight.w500),
+                  GoogleFonts.dosis(fontSize: 15, fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 5),
             Text(diagnosticslist[index].bloodQuantityRequired,
@@ -1819,8 +1734,8 @@ class _PrescriptionState extends State<Prescription> {
             decoration: new BoxDecoration(
               color: Colors.white,
               borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(16.0),
-                topRight: const Radius.circular(16.0),
+                topLeft: const Radius.circular(15.0),
+                topRight: const Radius.circular(15.0),
               ),
             ),
             child: Column(
@@ -1848,7 +1763,7 @@ class _PrescriptionState extends State<Prescription> {
                 //   controller: medicineSerchController,
                 //   clearOnSubmit: false,
                 //   suggestions: medicinelist,
-                //   style: GoogleFonts.dosis(color: Colors.black, fontSize: 16.0),
+                //   style: GoogleFonts.dosis(color: Colors.black, fontSize: 15.0),
                 //   decoration: InputDecoration(
                 //     counterText: "",
                 //     focusedBorder: OutlineInputBorder(
