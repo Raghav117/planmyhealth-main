@@ -32,9 +32,10 @@ class DoctorRegistration extends StatefulWidget {
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
+  bool agree = false;
 
   checkDoctorExists() async {
-    mobileController.text = "4";
+    mobileController.text = "784";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -1112,12 +1113,15 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             selectedDate != null &&
             selectedStartTime != null &&
             selectedendTime != null) {
-          showDialog(
+          var result = await showDialog(
               context: context,
-              builder: (context) => Dialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
+              builder: (context) {
+                bool agr = false;
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: StatefulBuilder(
+                    builder: (context, setState) => Container(
                       height: 600,
                       width: 600,
                       child: Padding(
@@ -1180,104 +1184,122 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               SizedBox(
                                 height: 80,
                               ),
-                              Center(
-                                child: InkWell(
-                                  onTap: () async {
-                                    Navigator.pop(context);
-                                    List<String> mode = [];
-                                    if (check == true) mode.add("Call");
-                                    if (vedio == true) mode.add("Vedio Call");
-                                    if (chat == true) mode.add("Chat");
-                                    if (clinic == true) mode.add("At Clinic");
-                                    if (homevisit == true)
-                                      mode.add("Home Visit");
-                                    if (medical == true)
-                                      mode.add("Medical Camps");
-                                    if (wellness == true)
-                                      mode.add("Wellness Sessions");
-
-                                    loading = true;
-                                    setState(() {});
-                                    i = -1;
-                                    List furtherA = [];
-                                    accrediationColor.forEach((element) {
-                                      ++i;
-                                      if (element == true) {
-                                        furtherA
-                                            .add(jsonEncode(accrediation[i]));
-                                      }
-                                    });
-                                    i = -1;
-                                    List furtherS = [];
-                                    specialityColor.forEach((element) {
-                                      ++i;
-                                      if (element == true) {
-                                        furtherA.add(jsonEncode(speciality[i]));
-                                      }
-                                    });
-                                    String url =
-                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
-                                    var request = http.MultipartRequest(
-                                      'POST',
-                                      Uri.parse(url),
-                                    );
-                                    if (_imageFile != null) {
-                                      request.files.add(http.MultipartFile(
-                                        'profilepicture',
-                                        _imageFile.readAsBytes().asStream(),
-                                        _imageFile.lengthSync(),
-                                        filename: "profilepicture.jpg",
-                                      ));
-                                    }
-                                    if (_signatureimageFile != null) {
-                                      request.files.add(http.MultipartFile(
-                                        'imagesignature',
-                                        _signatureimageFile
-                                            .readAsBytes()
-                                            .asStream(),
-                                        _signatureimageFile.lengthSync(),
-                                        filename: "imagesignature.jpg",
-                                      ));
-                                    }
-                                    //! ********************************   This is function for sending multiple images  ********************************
-                                    multiimages.forEach((element) async {
-                                      String filePath =
-                                          await FlutterAbsolutePath
-                                              .getAbsolutePath(
-                                                  element.identifier);
-                                      request.files.add(http.MultipartFile(
-                                        'document',
-                                        File(filePath).readAsBytes().asStream(),
-                                        File(filePath).lengthSync(),
-                                        filename: "document.jpg",
-                                      ));
-                                    });
-                                    var res = await request.send();
-                                    print(res.statusCode);
-                                    print(res);
-
-                                    setState(() {});
-                                    //!        TO   DO
-                                    checkDoctorExists();
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: Text("Continue",
-                                        style: GoogleFonts.dosis(
-                                            fontSize: 20,
-                                            color: Colors.greenAccent,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                ),
-                              )
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: Checkbox(
+                                          value: agr,
+                                          activeColor: Colors.greenAccent,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              agr = value;
+                                            });
+                                          })),
+                                  Expanded(
+                                    child: Text("Agree",
+                                        style: GoogleFonts.dosis()),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              agr == false
+                                  ? Container()
+                                  : Center(
+                                      child: InkWell(
+                                        onTap: () async {
+                                          Navigator.pop(context, true);
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Text("Continue",
+                                              style: GoogleFonts.dosis(
+                                                  fontSize: 20,
+                                                  color: Colors.greenAccent,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                    )
                             ],
                           ),
                         ),
                       ),
                     ),
-                  ));
+                  ),
+                );
+              });
+          if (result == true) {
+            List<String> mode = [];
+            if (check == true) mode.add("Call");
+            if (vedio == true) mode.add("Vedio Call");
+            if (chat == true) mode.add("Chat");
+            if (clinic == true) mode.add("At Clinic");
+            if (homevisit == true) mode.add("Home Visit");
+            if (medical == true) mode.add("Medical Camps");
+            if (wellness == true) mode.add("Wellness Sessions");
+
+            loading = true;
+            setState(() {});
+            i = -1;
+            List furtherA = [];
+            accrediationColor.forEach((element) {
+              ++i;
+              if (element == true) {
+                furtherA.add(jsonEncode(accrediation[i]));
+              }
+            });
+            i = -1;
+            List furtherS = [];
+            specialityColor.forEach((element) {
+              ++i;
+              if (element == true) {
+                furtherA.add(jsonEncode(speciality[i]));
+              }
+            });
+            String url =
+                "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
+            var request = http.MultipartRequest(
+              'POST',
+              Uri.parse(url),
+            );
+            if (_imageFile != null) {
+              request.files.add(http.MultipartFile(
+                'profilepicture',
+                _imageFile.readAsBytes().asStream(),
+                _imageFile.lengthSync(),
+                filename: "profilepicture.jpg",
+              ));
+            }
+            if (_signatureimageFile != null) {
+              request.files.add(http.MultipartFile(
+                'imagesignature',
+                _signatureimageFile.readAsBytes().asStream(),
+                _signatureimageFile.lengthSync(),
+                filename: "imagesignature.jpg",
+              ));
+            }
+            //! ********************************   This is function for sending multiple images  ********************************
+            multiimages.forEach((element) async {
+              String filePath =
+                  await FlutterAbsolutePath.getAbsolutePath(element.identifier);
+              request.files.add(http.MultipartFile(
+                'document',
+                File(filePath).readAsBytes().asStream(),
+                File(filePath).lengthSync(),
+                filename: "document.jpg",
+              ));
+            });
+            var res = await request.send();
+            print(res.statusCode);
+            print(res);
+
+            setState(() {});
+            //!        TO   DO
+            checkDoctorExists();
+          }
         } else {
           showDialog(
               context: context,
