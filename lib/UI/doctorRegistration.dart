@@ -6,6 +6,7 @@ import 'package:plan_my_health/UI/accrediation.dart';
 import 'package:plan_my_health/UI/speciality.dart';
 import 'package:plan_my_health/model/Specialities.dart';
 import 'package:plan_my_health/model/accrediations.dart';
+import 'package:plan_my_health/model/facilityModel.dart';
 import 'package:plan_my_health/model/prates.dart';
 import 'package:plan_my_health/model/speciality.dart';
 
@@ -35,7 +36,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   bool agree = false;
 
   checkDoctorExists() async {
-    mobileController.text = "9";
+    mobileController.text = "455554";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -92,7 +93,25 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     provider["providerrate"].forEach((value) {
       pr.add(PRates.fromJson(value));
     });
+    getFacilityList();
   }
+
+  getFacilityList() async {
+    int ma = _DoctorCategory.indexOf(_selectedcategory);
+
+    var r = await http.get(
+        "http://3.15.233.253:5000/facilitylist?prov_type=${_doctorCategory[ma]}");
+    Map re = jsonDecode(r.body);
+    print(re);
+    facility.clear();
+    facilityColor.clear();
+    for (var data in re["facilitylist"]) {
+      facility.add(Facility.fromJson(data));
+      facilityColor.add(false);
+    }
+  }
+
+  bool page = false;
 
   List<PRates> pr = [];
 
@@ -163,6 +182,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   ];
 
   List _Qualification = [];
+  List<Facility> facility = [];
+  List<bool> facilityColor = [];
 
   List<bool> qualtification = [];
 
@@ -293,693 +314,917 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                     top: -MediaQuery.of(context).size.height * .15,
                     right: -MediaQuery.of(context).size.width * .4,
                     child: Container(child: BezierContainer())),
-                SingleChildScrollView(
-                    child: SafeArea(
-                        child: Column(children: [
-                  SizedBox(
-                    height: 90,
-                  ),
-                  Text("Register",
-                      style: GoogleFonts.dosis(
-                          color: Colors.greenAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  SizedBox(height: height * 0.04),
-                  _entryField("Name", false, _nameController),
-                  _entryField("Email", false, _emailController),
-                  // _entryField("Name", false),
-                  // doctorName(),
-                  // SizedBox(height: height * 0.04),
-                  // email(),
-                  // SizedBox(height: height * 0.04),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Date of Birth  ",
-                      style: GoogleFonts.dosis(
-                        color: Colors.greenAccent,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                  RaisedButton(
-                    color: Colors.white,
-                    onPressed: () {
-                      _selectDate(context);
-                    },
-                    child: Text(" " + selectedDate.toString().substring(0, 10),
-                        style: GoogleFonts.dosis()),
-                  ),
-                  SizedBox(height: height * 0.04),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 300,
-                        child: DropdownButton(
-                          items: _Gender.map((value) => DropdownMenuItem(
-                                child: Text(
-                                  value,
+                SafeArea(
+                    child: page == false
+                        ? SingleChildScrollView(
+                            child: Column(children: [
+                              SizedBox(
+                                height: 90,
+                              ),
+                              Text("Register",
                                   style: GoogleFonts.dosis(
+                                      color: Colors.greenAccent,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.greenAccent),
+                                      fontSize: 25)),
+                              SizedBox(
+                                height: 50,
+                              ),
+                              SizedBox(height: height * 0.04),
+                              _entryField("Name", false, _nameController),
+                              _entryField("Email", false, _emailController),
+                              // _entryField("Name", false),
+                              // doctorName(),
+                              // SizedBox(height: height * 0.04),
+                              // email(),
+                              // SizedBox(height: height * 0.04),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Date of Birth  ",
+                                  style: GoogleFonts.dosis(
+                                    color: Colors.greenAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
                                 ),
-                                value: value,
-                              )).toList(),
-                          onChanged: (selectedgen) {
-                            setState(() {
-                              _selectedgender = selectedgen;
-                              print(_selectedgender);
-                            });
-                          },
-                          value: _selectedgender,
-                          hint: Text(
-                            "Select Gender",
-                            style: GoogleFonts.dosis(color: Colors.greenAccent),
-                          ),
-                          elevation: 5,
-                          isExpanded: false,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: height * 0.04),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 300,
-                        child: DropdownButton(
-                          items:
-                              _DoctorCategory.map((value) => DropdownMenuItem(
-                                    child: Text(
-                                      value,
-                                      style: GoogleFonts.dosis(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                          color: Colors.greenAccent),
-                                    ),
-                                    value: value.toString(),
-                                  )).toList(),
-                          onChanged: (selectedCategory) {
-                            setState(() {
-                              // loading = true;
-                              _selectedcategory = selectedCategory;
-                            });
-                            getQualifications();
-                          },
-                          value: _selectedcategory == null
-                              ? null
-                              : _selectedcategory.toString(),
-                          hint: Text(
-                            "Select Category",
-                            style: GoogleFonts.dosis(color: Colors.greenAccent),
-                          ),
-                          elevation: 5,
-                          isExpanded: false,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Text("Qualifications",
-                      style: GoogleFonts.dosis(
-                          color: Colors.greenAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20)),
-                  Column(
-                    children: _Qualification.map((e) {
-                      int index = _Qualification.indexOf(e);
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Text(e["qualific_name"].toString(),
-                                    style: GoogleFonts.dosis())),
-                            Expanded(
-                              child: Checkbox(
-                                activeColor: Colors.greenAccent,
-                                value: qualtification[index],
-                                onChanged: (value) {
-                                  setState(() {
-                                    qualtification[index] =
-                                        !qualtification[index];
-                                  });
+                              ),
+                              RaisedButton(
+                                color: Colors.white,
+                                onPressed: () {
+                                  _selectDate(context);
                                 },
+                                child: Text(
+                                    " " +
+                                        selectedDate
+                                            .toString()
+                                            .substring(0, 10),
+                                    style: GoogleFonts.dosis()),
                               ),
-                            )
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(height: height * 0.04),
-                  Text(
-                    "Services",
-                    style: GoogleFonts.dosis(
-                      color: Colors.greenAccent,
-                      fontWeight: FontWeight.bold,
-                      // fontWeight: FontWeight.w600,
-                      fontSize: 17,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  Row(
-                    children: [
-                      Checkbox(
-                          activeColor: Colors.greenAccent,
-                          value: vedio,
-                          onChanged: (value) {
-                            setState(() {
-                              vedio = value;
-                            });
-                          }),
-                      Text(
-                        "Video Call",
-                        style: GoogleFonts.dosis(),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                          activeColor: Colors.greenAccent,
-                          value: check,
-                          onChanged: (value) {
-                            setState(() {
-                              check = value;
-                            });
-                          }),
-                      Text(
-                        "Call",
-                        style: GoogleFonts.dosis(),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                          activeColor: Colors.greenAccent,
-                          value: chat,
-                          onChanged: (value) {
-                            setState(() {
-                              chat = value;
-                            });
-                          }),
-                      Text(
-                        "Chat",
-                        style: GoogleFonts.dosis(),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                          activeColor: Colors.greenAccent,
-                          value: clinic,
-                          onChanged: (value) {
-                            setState(() {
-                              clinic = value;
-                            });
-                          }),
-                      Text(
-                        "At Clinic",
-                        style: GoogleFonts.dosis(),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                          activeColor: Colors.greenAccent,
-                          value: medical,
-                          onChanged: (value) {
-                            setState(() {
-                              medical = value;
-                            });
-                          }),
-                      Text(
-                        "Medical Camps",
-                        style: GoogleFonts.dosis(),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                          activeColor: Colors.greenAccent,
-                          value: wellness,
-                          onChanged: (value) {
-                            setState(() {
-                              wellness = value;
-                            });
-                          }),
-                      Text(
-                        "Wellness Sessions",
-                        style: GoogleFonts.dosis(),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                          activeColor: Colors.greenAccent,
-                          value: homevisit,
-                          onChanged: (value) {
-                            setState(() {
-                              homevisit = value;
-                            });
-                          }),
-                      Text(
-                        "Home Visit",
-                        style: GoogleFonts.dosis(),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      var response =
-                          await Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return Accrediations();
-                        },
-                      ));
-                      if (response != null) accrediationColor = response;
-                      setState(() {});
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Accrediations",
-                            style: GoogleFonts.dosis(
-                                color: Colors.greenAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                          Spacer(),
-                          Text(
-                            "+",
-                            style: GoogleFonts.dosis(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  accrediationColor.indexOf(true) == -1
-                      ? Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Not Selected",
-                              style: GoogleFonts.dosis(),
-                            ),
-                          ),
-                        )
-                      : Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: accrediationColor.length,
-                            itemBuilder: (context, index) {
-                              return accrediationColor[index] == true
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                          accrediation[index].accrediationCode,
-                                          style: GoogleFonts.dosis(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                              color: Colors.greenAccent)),
-                                    )
-                                  : Container();
-                            },
-                          ),
-                        ),
-                  SizedBox(
-                    height: 30,
-                  ),
-
-                  //!********************  Speciality  *********************
-
-                  GestureDetector(
-                    onTap: () async {
-                      var response =
-                          await Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return Specialityy(
-                            speciality: speciality,
-                          );
-                        },
-                      ));
-                      if (response != null) specialityColor = response;
-                      setState(() {});
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Specialities",
-                            style: GoogleFonts.dosis(
-                                color: Colors.greenAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                          Spacer(),
-                          Text(
-                            "+",
-                            style: GoogleFonts.dosis(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  specialityColor.indexOf(true) == -1
-                      ? Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Not Selected",
-                              style: GoogleFonts.dosis(),
-                            ),
-                          ),
-                        )
-                      : Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: specialityColor.length,
-                            itemBuilder: (context, index) {
-                              return specialityColor[index] == true
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(speciality[index].name,
-                                          style: GoogleFonts.dosis(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                              color: Colors.greenAccent)),
-                                    )
-                                  : Container();
-                            },
-                          ),
-                        ),
-                  SizedBox(
-                    height: 30,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Years of experience: ",
-                            style: GoogleFonts.dosis(
-                              color: Colors.greenAccent,
-                              fontWeight: FontWeight.bold,
-
-                              // fontWeight: FontWeight.w600,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(8.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                            ),
-                            controller: _experiencecontroller,
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: false,
-                              signed: true,
-                            ),
-                            inputFormatters: <TextInputFormatter>[
-                              WhitelistingTextInputFormatter.digitsOnly
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          height: 38.0,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 0.5,
+                              SizedBox(height: height * 0.04),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: 300,
+                                    child: DropdownButton(
+                                      items: _Gender.map((value) =>
+                                          DropdownMenuItem(
+                                            child: Text(
+                                              value,
+                                              style: GoogleFonts.dosis(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.greenAccent),
+                                            ),
+                                            value: value,
+                                          )).toList(),
+                                      onChanged: (selectedgen) {
+                                        setState(() {
+                                          _selectedgender = selectedgen;
+                                          print(_selectedgender);
+                                        });
+                                      },
+                                      value: _selectedgender,
+                                      hint: Text(
+                                        "Select Gender",
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.greenAccent),
+                                      ),
+                                      elevation: 5,
+                                      isExpanded: false,
                                     ),
                                   ),
-                                ),
-                                child: InkWell(
-                                  child: Icon(
-                                    Icons.arrow_drop_up,
-                                    size: 18.0,
+                                ],
+                              ),
+                              SizedBox(height: height * 0.04),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: 300,
+                                    child: DropdownButton(
+                                      items: _DoctorCategory.map((value) =>
+                                          DropdownMenuItem(
+                                            child: Text(
+                                              value,
+                                              style: GoogleFonts.dosis(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                  color: Colors.greenAccent),
+                                            ),
+                                            value: value.toString(),
+                                          )).toList(),
+                                      onChanged: (selectedCategory) {
+                                        setState(() {
+                                          // loading = true;
+                                          _selectedcategory = selectedCategory;
+                                        });
+                                        getQualifications();
+                                      },
+                                      value: _selectedcategory == null
+                                          ? null
+                                          : _selectedcategory.toString(),
+                                      hint: Text(
+                                        "Select Category",
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.greenAccent),
+                                      ),
+                                      elevation: 5,
+                                      isExpanded: false,
+                                    ),
                                   ),
-                                  onTap: () {
-                                    int currentValue =
-                                        int.parse(_experiencecontroller.text);
+                                ],
+                              ),
+                              SizedBox(
+                                height: 100,
+                              ),
+                              Text("Qualifications",
+                                  style: GoogleFonts.dosis(
+                                      color: Colors.greenAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              Column(
+                                children: _Qualification.map((e) {
+                                  int index = _Qualification.indexOf(e);
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                                e["qualific_name"].toString(),
+                                                style: GoogleFonts.dosis())),
+                                        Expanded(
+                                          child: Checkbox(
+                                            activeColor: Colors.greenAccent,
+                                            value: qualtification[index],
+                                            onChanged: (value) {
+                                              setState(() {
+                                                qualtification[index] =
+                                                    !qualtification[index];
+                                              });
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              SizedBox(height: height * 0.04),
+                              Text(
+                                "Services",
+                                style: GoogleFonts.dosis(
+                                  color: Colors.greenAccent,
+                                  fontWeight: FontWeight.bold,
+                                  // fontWeight: FontWeight.w600,
+                                  fontSize: 17,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: Colors.greenAccent,
+                                      value: vedio,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          vedio = value;
+                                        });
+                                      }),
+                                  Text(
+                                    "Video Call",
+                                    style: GoogleFonts.dosis(),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: Colors.greenAccent,
+                                      value: check,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          check = value;
+                                        });
+                                      }),
+                                  Text(
+                                    "Call",
+                                    style: GoogleFonts.dosis(),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: Colors.greenAccent,
+                                      value: chat,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          chat = value;
+                                        });
+                                      }),
+                                  Text(
+                                    "Chat",
+                                    style: GoogleFonts.dosis(),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: Colors.greenAccent,
+                                      value: clinic,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          clinic = value;
+                                        });
+                                      }),
+                                  Text(
+                                    "At Clinic",
+                                    style: GoogleFonts.dosis(),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: Colors.greenAccent,
+                                      value: medical,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          medical = value;
+                                        });
+                                      }),
+                                  Text(
+                                    "Medical Camps",
+                                    style: GoogleFonts.dosis(),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: Colors.greenAccent,
+                                      value: wellness,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          wellness = value;
+                                        });
+                                      }),
+                                  Text(
+                                    "Wellness Sessions",
+                                    style: GoogleFonts.dosis(),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: Colors.greenAccent,
+                                      value: homevisit,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          homevisit = value;
+                                        });
+                                      }),
+                                  Text(
+                                    "Home Visit",
+                                    style: GoogleFonts.dosis(),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  var response = await Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) {
+                                      return Accrediations();
+                                    },
+                                  ));
+                                  if (response != null)
+                                    accrediationColor = response;
+                                  setState(() {});
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Accrediations",
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.greenAccent,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "+",
+                                        style: GoogleFonts.dosis(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              accrediationColor.indexOf(true) == -1
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Not Selected",
+                                          style: GoogleFonts.dosis(),
+                                        ),
+                                      ),
+                                    )
+                                  : Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: accrediationColor.length,
+                                        itemBuilder: (context, index) {
+                                          return accrediationColor[index] ==
+                                                  true
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      accrediation[index]
+                                                          .accrediationCode,
+                                                      style: GoogleFonts.dosis(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15,
+                                                          color: Colors
+                                                              .greenAccent)),
+                                                )
+                                              : Container();
+                                        },
+                                      ),
+                                    ),
+                              SizedBox(
+                                height: 30,
+                              ),
+
+                              //!********************  Speciality  *********************
+
+                              GestureDetector(
+                                onTap: () async {
+                                  var response = await Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) {
+                                      return Specialityy(
+                                        speciality: speciality,
+                                      );
+                                    },
+                                  ));
+                                  if (response != null)
+                                    specialityColor = response;
+                                  setState(() {});
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Specialities",
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.greenAccent,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "+",
+                                        style: GoogleFonts.dosis(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              specialityColor.indexOf(true) == -1
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Not Selected",
+                                          style: GoogleFonts.dosis(),
+                                        ),
+                                      ),
+                                    )
+                                  : Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: specialityColor.length,
+                                        itemBuilder: (context, index) {
+                                          return specialityColor[index] == true
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      speciality[index].name,
+                                                      style: GoogleFonts.dosis(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15,
+                                                          color: Colors
+                                                              .greenAccent)),
+                                                )
+                                              : Container();
+                                        },
+                                      ),
+                                    ),
+                              SizedBox(
+                                height: 30,
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Years of experience: ",
+                                        style: GoogleFonts.dosis(
+                                          color: Colors.greenAccent,
+                                          fontWeight: FontWeight.bold,
+
+                                          // fontWeight: FontWeight.w600,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: TextFormField(
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.all(8.0),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                          ),
+                                        ),
+                                        controller: _experiencecontroller,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                          decimal: false,
+                                          signed: true,
+                                        ),
+                                        inputFormatters: <TextInputFormatter>[
+                                          WhitelistingTextInputFormatter
+                                              .digitsOnly
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      height: 38.0,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  width: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            child: InkWell(
+                                              child: Icon(
+                                                Icons.arrow_drop_up,
+                                                size: 18.0,
+                                              ),
+                                              onTap: () {
+                                                int currentValue = int.parse(
+                                                    _experiencecontroller.text);
+                                                setState(() {
+                                                  currentValue++;
+                                                  _experiencecontroller.text =
+                                                      (currentValue)
+                                                          .toString(); // incrementing value
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          InkWell(
+                                            child: Icon(
+                                              Icons.arrow_drop_down,
+                                              size: 18.0,
+                                            ),
+                                            onTap: () {
+                                              int currentValue = int.parse(
+                                                  _experiencecontroller.text);
+                                              setState(() {
+                                                print("Setting state");
+                                                currentValue--;
+                                                _experiencecontroller
+                                                    .text = (currentValue > 0
+                                                        ? currentValue
+                                                        : 0)
+                                                    .toString(); // decrementing value
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: height * 0.04),
+                              _entryField(
+                                  "Clinic Name", false, _clinicController),
+                              SizedBox(height: height * 0.04),
+                              Text(
+                                "Selecty City",
+                                style: GoogleFonts.dosis(
+                                    color: Colors.greenAccent,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: height * 0.04),
+                              DropdownButton(
+                                  value: selectCity,
+                                  onChanged: (value) {
                                     setState(() {
-                                      currentValue++;
-                                      _experiencecontroller.text =
-                                          (currentValue)
-                                              .toString(); // incrementing value
+                                      selectCity = value;
                                     });
                                   },
+                                  items: city.map((e) {
+                                    return DropdownMenuItem(
+                                      child:
+                                          Text(e, style: GoogleFonts.dosis()),
+                                      value: e,
+                                    );
+                                  }).toList()),
+                              SizedBox(height: height * 0.06),
+                              _entryField("Address", false, _addressController),
+                              SizedBox(height: height * 0.04),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Working Hours: ",
+                                  style: GoogleFonts.dosis(
+                                    color: Colors.greenAccent,
+                                    fontWeight: FontWeight.bold,
+
+                                    // fontWeight: FontWeight.w600,
+                                    fontSize: 17,
+                                  ),
                                 ),
                               ),
+                              SizedBox(height: height * 0.02),
+                              Row(children: [
+                                SizedBox(width: width * 0.2),
+                                RaisedButton(
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    _startTime(context);
+                                  },
+                                  child: Text(
+                                    "From: " +
+                                        selectedStartTime
+                                            .toString()
+                                            .substring(10, 15),
+                                    style: GoogleFonts.dosis(),
+                                  ),
+                                ),
+                                SizedBox(width: width * 0.1),
+                                RaisedButton(
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    _endTime(context);
+                                  },
+                                  child: Text(
+                                    "To: " +
+                                        selectedendTime
+                                            .toString()
+                                            .substring(10, 15),
+                                    style: GoogleFonts.dosis(),
+                                  ),
+                                ),
+                              ]),
+                              SizedBox(height: height * 0.04),
+                              _entryField("Registration Number", false,
+                                  _regNumController),
+                              SizedBox(height: height * 0.04),
+
                               InkWell(
-                                child: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 18.0,
-                                ),
                                 onTap: () {
-                                  int currentValue =
-                                      int.parse(_experiencecontroller.text);
-                                  setState(() {
-                                    print("Setting state");
-                                    currentValue--;
-                                    _experiencecontroller.text =
-                                        (currentValue > 0 ? currentValue : 0)
-                                            .toString(); // decrementing value
-                                  });
+                                  _onAddImageClick();
                                 },
+                                child: Container(
+                                  height: 50,
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  decoration: BoxDecoration(
+                                      color: Colors.greenAccent,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      "Upload Profile Picture",
+                                      style: GoogleFonts.dosis(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        // fontWeight: FontWeight.w600,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              _imageFile == null
+                                  ? Container()
+                                  : Container(
+                                      height: 200,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: Colors.greenAccent,
+                                              width: 2)),
+                                      child: Image.file(_imageFile),
+                                    ),
+                              SizedBox(height: height * 0.04),
+                              InkWell(
+                                onTap: () {
+                                  _onAddSignatureClick();
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  decoration: BoxDecoration(
+                                      color: Colors.greenAccent,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      "Upload Signature",
+                                      style: GoogleFonts.dosis(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        // fontWeight: FontWeight.w600,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              _signatureimageFile == null
+                                  ? Container()
+                                  : Container(
+                                      height: 200,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: Colors.greenAccent,
+                                              width: 2)),
+                                      child: Image.file(_signatureimageFile),
+                                    ),
+                              SizedBox(height: height * 0.04),
+                              InkWell(
+                                onTap: () {
+                                  loadAssets();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  decoration: BoxDecoration(
+                                      color: Colors.greenAccent,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      "Upload Documents",
+                                      style: GoogleFonts.dosis(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        // fontWeight: FontWeight.w600,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              buildGridView(),
+                              SizedBox(height: height * 0.02),
+                              saveButton(context),
+                              SizedBox(height: height * 0.07),
+                            ]),
+                          )
+                        : Column(
+                            children: [
+                              Container(
+                                height: 60,
+                                width: double.infinity,
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                        icon: Icon(Icons.arrow_back_ios,
+                                            color: Colors.greenAccent),
+                                        onPressed: () {
+                                          page = false;
+                                          setState(() {});
+                                        }),
+                                    Spacer(),
+                                    Text(
+                                      "Facilities",
+                                      style: GoogleFonts.dosis(fontSize: 20),
+                                    ),
+                                    Spacer(),
+                                    Spacer(),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView(
+                                  children: facility
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                int i = facility.indexOf(e);
+                                                facilityColor[i] =
+                                                    !facilityColor[i];
+                                                setState(() {});
+                                              },
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: facilityColor[facility
+                                                              .indexOf(e)] ==
+                                                          true
+                                                      ? Colors.greenAccent
+                                                      : Colors.transparent,
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    e.facility,
+                                                    style: GoogleFonts.dosis(
+                                                        fontSize: 18),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    List<String> mode = [];
+                                    if (check == true) mode.add("Call");
+                                    if (vedio == true) mode.add("Vedio Call");
+                                    if (chat == true) mode.add("Chat");
+                                    if (clinic == true) mode.add("At Clinic");
+                                    if (homevisit == true)
+                                      mode.add("Home Visit");
+                                    if (medical == true)
+                                      mode.add("Medical Camps");
+                                    if (wellness == true)
+                                      mode.add("Wellness Sessions");
+
+                                    loading = true;
+                                    setState(() {});
+                                    i = -1;
+                                    List furtherA = [];
+                                    accrediationColor.forEach((element) {
+                                      ++i;
+                                      if (element == true) {
+                                        furtherA
+                                            .add(jsonEncode(accrediation[i]));
+                                      }
+                                    });
+                                    i = -1;
+                                    List furtherS = [];
+                                    specialityColor.forEach((element) {
+                                      ++i;
+                                      if (element == true) {
+                                        furtherS.add(jsonEncode(speciality[i]));
+                                      }
+                                    });
+                                    print(furtherS);
+
+                                    i = -1;
+                                    List furtherF = [];
+                                    facilityColor.forEach((element) {
+                                      ++i;
+                                      if (element == true) {
+                                        furtherF.add(jsonEncode(facility[i]));
+                                      }
+                                    });
+                                    print(qualif);
+                                    print(furtherF);
+
+                                    String url =
+                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}";
+                                    var request = http.MultipartRequest(
+                                      'POST',
+                                      Uri.parse(url),
+                                    );
+                                    if (_imageFile != null) {
+                                      request.files.add(http.MultipartFile(
+                                        'profilepicture',
+                                        _imageFile.readAsBytes().asStream(),
+                                        _imageFile.lengthSync(),
+                                        filename: "profilepicture.jpg",
+                                      ));
+                                    }
+                                    if (_signatureimageFile != null) {
+                                      request.files.add(http.MultipartFile(
+                                        'imagesignature',
+                                        _signatureimageFile
+                                            .readAsBytes()
+                                            .asStream(),
+                                        _signatureimageFile.lengthSync(),
+                                        filename: "imagesignature.jpg",
+                                      ));
+                                    }
+                                    //! ********************************   This is function for sending multiple images  ********************************
+                                    multiimages.forEach((element) async {
+                                      String filePath =
+                                          await FlutterAbsolutePath
+                                              .getAbsolutePath(
+                                                  element.identifier);
+                                      request.files.add(http.MultipartFile(
+                                        'document',
+                                        File(filePath).readAsBytes().asStream(),
+                                        File(filePath).lengthSync(),
+                                        filename: "document.jpg",
+                                      ));
+                                    });
+                                    var res = await request.send();
+                                    print(res.statusCode);
+                                    print(res);
+
+                                    setState(() {});
+                                    //!        TO   DO
+                                    checkDoctorExists();
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        color: Colors.greenAccent,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Center(
+                                      child: Text(
+                                        "Register",
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
                             ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: height * 0.04),
-                  _entryField("Clinic Name", false, _clinicController),
-                  SizedBox(height: height * 0.04),
-                  Text(
-                    "Selecty City",
-                    style: GoogleFonts.dosis(
-                        color: Colors.greenAccent, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: height * 0.04),
-                  DropdownButton(
-                      value: selectCity,
-                      onChanged: (value) {
-                        setState(() {
-                          selectCity = value;
-                        });
-                      },
-                      items: city.map((e) {
-                        return DropdownMenuItem(
-                          child: Text(e, style: GoogleFonts.dosis()),
-                          value: e,
-                        );
-                      }).toList()),
-                  SizedBox(height: height * 0.06),
-                  _entryField("Address", false, _addressController),
-                  SizedBox(height: height * 0.04),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Working Hours: ",
-                      style: GoogleFonts.dosis(
-                        color: Colors.greenAccent,
-                        fontWeight: FontWeight.bold,
-
-                        // fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.02),
-                  Row(children: [
-                    SizedBox(width: width * 0.2),
-                    RaisedButton(
-                      color: Colors.white,
-                      onPressed: () {
-                        _startTime(context);
-                      },
-                      child: Text(
-                        "From: " +
-                            selectedStartTime.toString().substring(10, 15),
-                        style: GoogleFonts.dosis(),
-                      ),
-                    ),
-                    SizedBox(width: width * 0.1),
-                    RaisedButton(
-                      color: Colors.white,
-                      onPressed: () {
-                        _endTime(context);
-                      },
-                      child: Text(
-                        "To: " + selectedendTime.toString().substring(10, 15),
-                        style: GoogleFonts.dosis(),
-                      ),
-                    ),
-                  ]),
-                  SizedBox(height: height * 0.04),
-                  _entryField("Registration Number", false, _regNumController),
-                  SizedBox(height: height * 0.04),
-
-                  InkWell(
-                    onTap: () {
-                      _onAddImageClick();
-                    },
-                    child: Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width / 2,
-                      decoration: BoxDecoration(
-                          color: Colors.greenAccent,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          "Upload Profile Picture",
-                          style: GoogleFonts.dosis(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            // fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _imageFile == null
-                      ? Container()
-                      : Container(
-                          height: 200,
-                          width: 200,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: Colors.greenAccent, width: 2)),
-                          child: Image.file(_imageFile),
-                        ),
-                  SizedBox(height: height * 0.04),
-                  InkWell(
-                    onTap: () {
-                      _onAddSignatureClick();
-                    },
-                    child: Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width / 2.5,
-                      decoration: BoxDecoration(
-                          color: Colors.greenAccent,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          "Upload Signature",
-                          style: GoogleFonts.dosis(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            // fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _signatureimageFile == null
-                      ? Container()
-                      : Container(
-                          height: 200,
-                          width: 200,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: Colors.greenAccent, width: 2)),
-                          child: Image.file(_signatureimageFile),
-                        ),
-                  SizedBox(height: height * 0.04),
-                  InkWell(
-                    onTap: () {
-                      loadAssets();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width / 2.5,
-                      decoration: BoxDecoration(
-                          color: Colors.greenAccent,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          "Upload Documents",
-                          style: GoogleFonts.dosis(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            // fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  buildGridView(),
-                  SizedBox(height: height * 0.02),
-                  saveButton(context),
-                  SizedBox(height: height * 0.07),
-                ]))),
+                          )),
                 // Align(
                 //   alignment: Alignment.center,
                 //   child: FittedBox(
@@ -1088,12 +1333,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       });
   }
 
+  int i = -1;
+  String qualif = "";
 //!  ---------------  Save Button  *********************************
   Widget saveButton(context) {
     return OutlineButton(
       onPressed: () async {
-        int i = -1;
-        String qualif = "";
+        i = -1;
+        qualif = "";
         while (++i < qualtification.length) {
           if (qualtification[i] == true) {
             print(_Qualification[i]);
@@ -1233,74 +1480,158 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                 );
               });
           if (result == true) {
-            List<String> mode = [];
-            if (check == true) mode.add("Call");
-            if (vedio == true) mode.add("Vedio Call");
-            if (chat == true) mode.add("Chat");
-            if (clinic == true) mode.add("At Clinic");
-            if (homevisit == true) mode.add("Home Visit");
-            if (medical == true) mode.add("Medical Camps");
-            if (wellness == true) mode.add("Wellness Sessions");
+            if (facility.length > 0) {
+              page = true;
+              setState(() {});
+            } else {
+              List<String> mode = [];
+              if (check == true) mode.add("Call");
+              if (vedio == true) mode.add("Vedio Call");
+              if (chat == true) mode.add("Chat");
+              if (clinic == true) mode.add("At Clinic");
+              if (homevisit == true) mode.add("Home Visit");
+              if (medical == true) mode.add("Medical Camps");
+              if (wellness == true) mode.add("Wellness Sessions");
 
-            loading = true;
-            setState(() {});
-            i = -1;
-            List furtherA = [];
-            accrediationColor.forEach((element) {
-              ++i;
-              if (element == true) {
-                furtherA.add(jsonEncode(accrediation[i]));
-              }
-            });
-            i = -1;
-            List furtherS = [];
-            specialityColor.forEach((element) {
-              ++i;
-              if (element == true) {
-                furtherS.add(jsonEncode(speciality[i]));
-              }
-            });
-            print(furtherS);
-            String url =
-                "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
-            var request = http.MultipartRequest(
-              'POST',
-              Uri.parse(url),
-            );
-            if (_imageFile != null) {
-              request.files.add(http.MultipartFile(
-                'profilepicture',
-                _imageFile.readAsBytes().asStream(),
-                _imageFile.lengthSync(),
-                filename: "profilepicture.jpg",
-              ));
-            }
-            if (_signatureimageFile != null) {
-              request.files.add(http.MultipartFile(
-                'imagesignature',
-                _signatureimageFile.readAsBytes().asStream(),
-                _signatureimageFile.lengthSync(),
-                filename: "imagesignature.jpg",
-              ));
-            }
-            //! ********************************   This is function for sending multiple images  ********************************
-            multiimages.forEach((element) async {
-              String filePath =
-                  await FlutterAbsolutePath.getAbsolutePath(element.identifier);
-              request.files.add(http.MultipartFile(
-                'document',
-                File(filePath).readAsBytes().asStream(),
-                File(filePath).lengthSync(),
-                filename: "document.jpg",
-              ));
-            });
-            var res = await request.send();
-            print(res.statusCode);
-            print(res);
+              loading = true;
+              setState(() {});
+              i = -1;
+              List furtherA = [];
+              accrediationColor.forEach((element) {
+                ++i;
+                if (element == true) {
+                  furtherA.add(jsonEncode(accrediation[i]));
+                }
+              });
+              i = -1;
+              List furtherS = [];
+              specialityColor.forEach((element) {
+                ++i;
+                if (element == true) {
+                  furtherS.add(jsonEncode(speciality[i]));
+                }
+              });
+              print(furtherS);
 
-            setState(() {});
-            //!        TO   DO
-            checkDoctorExists();
+              i = -1;
+              List furtherF = [];
+              facilityColor.forEach((element) {
+                ++i;
+                if (element == true) {
+                  furtherF.add(jsonEncode(facility[i]));
+                }
+              });
+              print(qualif);
+              print(furtherF);
+              String url =
+                  "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}";
+              var request = http.MultipartRequest(
+                'POST',
+                Uri.parse(url),
+              );
+              if (_imageFile != null) {
+                request.files.add(http.MultipartFile(
+                  'profilepicture',
+                  _imageFile.readAsBytes().asStream(),
+                  _imageFile.lengthSync(),
+                  filename: "profilepicture.jpg",
+                ));
+              }
+              if (_signatureimageFile != null) {
+                request.files.add(http.MultipartFile(
+                  'imagesignature',
+                  _signatureimageFile.readAsBytes().asStream(),
+                  _signatureimageFile.lengthSync(),
+                  filename: "imagesignature.jpg",
+                ));
+              }
+              //! ********************************   This is function for sending multiple images  ********************************
+              multiimages.forEach((element) async {
+                String filePath = await FlutterAbsolutePath.getAbsolutePath(
+                    element.identifier);
+                request.files.add(http.MultipartFile(
+                  'document',
+                  File(filePath).readAsBytes().asStream(),
+                  File(filePath).lengthSync(),
+                  filename: "document.jpg",
+                ));
+              });
+              var res = await request.send();
+              print(res.statusCode);
+              print(res);
+
+              setState(() {});
+              //!        TO   DO
+              checkDoctorExists();
+            }
+            // List<String> mode = [];
+            // if (check == true) mode.add("Call");
+            // if (vedio == true) mode.add("Vedio Call");
+            // if (chat == true) mode.add("Chat");
+            // if (clinic == true) mode.add("At Clinic");
+            // if (homevisit == true) mode.add("Home Visit");
+            // if (medical == true) mode.add("Medical Camps");
+            // if (wellness == true) mode.add("Wellness Sessions");
+
+            // loading = true;
+            // setState(() {});
+            // i = -1;
+            // List furtherA = [];
+            // accrediationColor.forEach((element) {
+            //   ++i;
+            //   if (element == true) {
+            //     furtherA.add(jsonEncode(accrediation[i]));
+            //   }
+            // });
+            // i = -1;
+            // List furtherS = [];
+            // specialityColor.forEach((element) {
+            //   ++i;
+            //   if (element == true) {
+            //     furtherS.add(jsonEncode(speciality[i]));
+            //   }
+            // });
+            // print(furtherS);
+            // String url =
+            //     "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
+            // var request = http.MultipartRequest(
+            //   'POST',
+            //   Uri.parse(url),
+            // );
+            // if (_imageFile != null) {
+            //   request.files.add(http.MultipartFile(
+            //     'profilepicture',
+            //     _imageFile.readAsBytes().asStream(),
+            //     _imageFile.lengthSync(),
+            //     filename: "profilepicture.jpg",
+            //   ));
+            // }
+            // if (_signatureimageFile != null) {
+            //   request.files.add(http.MultipartFile(
+            //     'imagesignature',
+            //     _signatureimageFile.readAsBytes().asStream(),
+            //     _signatureimageFile.lengthSync(),
+            //     filename: "imagesignature.jpg",
+            //   ));
+            // }
+            // //! ********************************   This is function for sending multiple images  ********************************
+            // multiimages.forEach((element) async {
+            //   String filePath =
+            //       await FlutterAbsolutePath.getAbsolutePath(element.identifier);
+            //   request.files.add(http.MultipartFile(
+            //     'document',
+            //     File(filePath).readAsBytes().asStream(),
+            //     File(filePath).lengthSync(),
+            //     filename: "document.jpg",
+            //   ));
+            // });
+            // var res = await request.send();
+            // print(res.statusCode);
+            // print(res);
+
+            // setState(() {});
+            // //!        TO   DO
+            // checkDoctorExists();
           }
         } else {
           showDialog(
