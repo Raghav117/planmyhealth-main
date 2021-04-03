@@ -35,7 +35,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   bool agree = false;
 
   checkDoctorExists() async {
-    mobileController.text = "9012220988";
+    mobileController.text = "9";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -78,6 +78,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     for (var data in m["specialitieslist"]) {
       speciality.add(Speciality.fromJson(data));
     }
+    print(speciality);
     setState(() {
       loading = false;
     });
@@ -1256,9 +1257,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             specialityColor.forEach((element) {
               ++i;
               if (element == true) {
-                furtherA.add(jsonEncode(speciality[i]));
+                furtherS.add(jsonEncode(speciality[i]));
               }
             });
+            print(furtherS);
             String url =
                 "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
             var request = http.MultipartRequest(

@@ -81,10 +81,14 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
-    Future.delayed(Duration(seconds: 5), () {
-      page = 1;
+    Future.delayed(Duration(seconds: 3), () {
+      page = 4;
       setState(() {});
-      getUser();
+      Future.delayed(Duration(seconds: 3), () {
+        page = 1;
+        setState(() {});
+        getUser();
+      });
     });
   }
 
@@ -322,144 +326,169 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return DoctorRegistration();
+    // return DoctorRegistration();
     return Scaffold(
-        body: page == 0
-            ? Column(
-                children: [
-                  Spacer(),
-                  Center(
-                    child: Image.asset("assets/logo.jpeg"),
+        body: page == 4
+            ? Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/image-home.jpeg'),
+                    fit: BoxFit.cover,
                   ),
-                  Spacer(),
-                  Text(
-                    "Doctor and Health Professional Use only ",
-                    style: GoogleFonts.dosis(fontWeight: FontWeight.bold),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.greenAccent.withOpacity(0.8),
                   ),
-                  Spacer(),
-                ],
-              )
-            : loading == true
-                ? Container(
-                    child: Center(child: CircularProgressIndicator()),
-                  )
-                : Container(
-                    child: Stack(
-                    children: [
-                      Positioned(
-                          top: -MediaQuery.of(context).size.height * .15,
-                          right: -MediaQuery.of(context).size.width * .4,
-                          child: Container(child: BezierContainer())),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(height: 15),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(28, 35, 20, 10),
-                            child: Container(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "What is your \nphone number?",
-                                  style: GoogleFonts.dosis(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(height: 30),
-                                Text(
-                                  "To Continue to get an SMS confirmation to help you use Plan My Health. We would like your phone number.",
-                                  style: GoogleFonts.dosis(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                SizedBox(height: 50),
-                                Container(
-                                    child: Row(
-                                  children: [
-                                    // Container(
-                                    //   width: MediaQuery.of(context).size.width / 6,
-                                    //   child: Padding(
-                                    //     padding: const EdgeInsets.all(8.0),
-                                    //     child: TextFormField(
-                                    //       style: GoogleFonts.dosis(
-                                    //           color: Colors.black,
-                                    //           fontSize: 22,
-                                    //           fontWeight: FontWeight.w500),
-                                    //       decoration: InputDecoration(
-                                    //           hintText: '+91 ',
-                                    //           hintStyle: GoogleFonts.dosis(
-                                    //               fontSize: 22,
-                                    //               fontWeight: FontWeight.w500)),
-                                    //       validator: (value) {
-                                    //         if (value.isEmpty) {
-                                    //           return 'Please enter some text';
-                                    //         }
-                                    //         return null;
-                                    //       },
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          1.2,
-                                      child: TextFormField(
-                                        controller: mobileController,
-                                        keyboardType: TextInputType.number,
-                                        maxLength: 10,
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.black,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w500),
-                                        decoration: InputDecoration(
-                                            hintText: 'Phone Number',
-                                            hintStyle: GoogleFonts.dosis(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w500)),
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return 'Please enter some text';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ))
-                              ],
-                            )),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.all(12.0),
+                          child: Text(
+                            'Welcome To \n Plan My Health',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.dosis(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30.0,
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                            child: GestureDetector(
-                              onTap: () {
-                                signin();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.greenAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6))),
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Text(
-                                    "Continue",
-                                    style: GoogleFonts.dosis(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : page == 0
+                ? Container(
+                    child: Center(
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Spacer(),
+                          Container(
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              child: Image.asset('assets/splash.jpg')),
+                          Container(
+                            margin: EdgeInsets.all(12.0),
+                            child: Text(
+                              'Welcome To Plan My Health',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.dosis(
+                                fontWeight: FontWeight.bold,
+                                // fontSize: 30.0,
                               ),
                             ),
                           ),
+                          Spacer(),
                         ],
                       ),
-                    ],
-                  )));
+                    ),
+                  )
+                : loading == true
+                    ? Container(
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    : Container(
+                        child: Stack(
+                        children: [
+                          Positioned(
+                              top: -MediaQuery.of(context).size.height * .15,
+                              right: -MediaQuery.of(context).size.width * .4,
+                              child: Container(child: BezierContainer())),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SizedBox(height: 15),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(28, 35, 20, 10),
+                                child: Container(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "What is your \nphone number?",
+                                      style: GoogleFonts.dosis(
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    SizedBox(height: 30),
+                                    Text(
+                                      "To Continue to get an SMS confirmation to help you use Plan My Health. We would like your phone number.",
+                                      style: GoogleFonts.dosis(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    SizedBox(height: 50),
+                                    Container(
+                                        child: Row(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.2,
+                                          child: TextFormField(
+                                            controller: mobileController,
+                                            keyboardType: TextInputType.number,
+                                            maxLength: 10,
+                                            style: GoogleFonts.dosis(
+                                                color: Colors.black,
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w500),
+                                            decoration: InputDecoration(
+                                                hintText: 'Phone Number',
+                                                hintStyle: GoogleFonts.dosis(
+                                                    fontSize: 22,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                            validator: (value) {
+                                              if (value.isEmpty) {
+                                                return 'Please enter some text';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ))
+                                  ],
+                                )),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    signin();
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.greenAccent,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6))),
+                                    alignment: Alignment.center,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Text(
+                                        "Continue",
+                                        style: GoogleFonts.dosis(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )));
   }
 }

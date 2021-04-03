@@ -71,16 +71,7 @@ flutter:
     - assets/
     # - assets/logo.png
     # - assets/login.png
-    - assets/google.png
-    - assets/fb.png
-    - assets/img/nav_icon/message.png
-    - assets/img/nav_icon/message_feel.png
-    - assets/img/nav_icon/plus.png
-    - assets/img/nav_icon/plus_feel.png
-    - assets/img/nav_icon/search.png
-    - assets/img/nav_icon/search_feel.png
-    - assets/img/nav_icon/ticket.png
-    - assets/img/nav_icon/ticket_feel.png
+   
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
