@@ -36,7 +36,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   bool agree = false;
 
   checkDoctorExists() async {
-    mobileController.text = "455554";
+    // mobileController.text = "695";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -939,8 +939,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   _onAddImageClick();
                                 },
                                 child: Container(
-                                  height: 50,
-                                  width: MediaQuery.of(context).size.width / 2,
+                                  height: 40,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
                                   decoration: BoxDecoration(
                                       color: Colors.greenAccent,
                                       borderRadius: BorderRadius.circular(15)),
@@ -951,7 +952,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         // fontWeight: FontWeight.w600,
-                                        fontSize: 17,
+                                        // fontSize: 17,
                                       ),
                                     ),
                                   ),
@@ -979,7 +980,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   _onAddSignatureClick();
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: 40,
                                   width:
                                       MediaQuery.of(context).size.width / 2.5,
                                   decoration: BoxDecoration(
@@ -992,7 +993,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         // fontWeight: FontWeight.w600,
-                                        fontSize: 17,
+                                        // fontSize: 17,
                                       ),
                                     ),
                                   ),
@@ -1033,7 +1034,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         // fontWeight: FontWeight.w600,
-                                        fontSize: 17,
+                                        // fontSize: 17,
                                       ),
                                     ),
                                   ),
