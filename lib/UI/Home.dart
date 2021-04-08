@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
         bottomNavigationBar: BottomNavyBar(
           selectedIndex: _selectedItem,
-          showElevation: true, //00 use this to remove appBar's elevation
+          // showElevation: 00, //00 use this to remove appBar's elevation
           onItemSelected: (index) => setState(() {
             _selectedItem = index;
             print(index);
@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
           }),
           items: [
             BottomNavyBarItem(
+              inactiveColor: Colors.grey,
               activeColor: Colors.greenAccent,
               icon: Container(
                 height: 25,
@@ -71,11 +72,14 @@ class _HomeState extends State<Home> {
                   color: Colors.greenAccent,
                 ),
               ),
-              title: Text('Madical', style: GoogleFonts.dosis()),
+              title: Text('Madical',
+                  style: GoogleFonts.dosis(color: Colors.greenAccent)),
               // activeColor: firstColor,
             ),
             BottomNavyBarItem(
               activeColor: Colors.greenAccent,
+              inactiveColor: Colors.grey,
+
               icon: Container(
                 height: 25,
                 width: 25,
@@ -89,6 +93,7 @@ class _HomeState extends State<Home> {
               // activeColor: firstColor,
             ),
             BottomNavyBarItem(
+              inactiveColor: Colors.grey,
               activeColor: Colors.greenAccent,
               icon: Container(
                 height: 25,
@@ -103,6 +108,7 @@ class _HomeState extends State<Home> {
               //  activeColor: Colors.pink
             ),
             BottomNavyBarItem(
+              inactiveColor: Colors.grey,
               activeColor: Colors.greenAccent,
               icon: Container(
                 height: 25,
