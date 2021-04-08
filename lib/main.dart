@@ -53,20 +53,25 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
+  int _forceResendingToken;
   navigate() async {
     if (auth.currentUser != null) {
       print(auth.currentUser);
-      mobileController.text = auth.currentUser.phoneNumber;
-      if (mobileController.text.length == 13) {
-        mobileController.text = mobileController.text.substring(3);
-        print(mobileController.text);
-      }
-      getToken();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) {
-          return DoctorRegistration();
-        },
-      ));
+      await auth.currentUser().then((value) {
+        if (value != null && value.phoneNumber != null) {
+          mobileController.text = value.phoneNumber;
+          if (mobileController.text.length == 13) {
+            mobileController.text = mobileController.text.substring(3);
+            print(mobileController.text);
+          }
+          getToken();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) {
+              return DoctorRegistration();
+            },
+          ));
+        }
+      });
     }
   }
 
@@ -76,11 +81,11 @@ class _MyAppState extends State<MyApp> {
   //     print(otp.split(" ")[1]);
   //   }
   // }
-
+  String verId;
   @override
   void initState() {
     super.initState();
-    Firebase.initializeApp();
+    // Firebase.initializeApp();
     Future.delayed(Duration(seconds: 3), () {
       page = 4;
       setState(() {});
@@ -100,95 +105,102 @@ class _MyAppState extends State<MyApp> {
     loading = true;
     setState(() {});
     auth.verifyPhoneNumber(
-      phoneNumber: "+91" + mobileController.text,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await auth.signInWithCredential(credential);
-        showDialog(
-            context: context,
-            builder: (context) => Dialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Container(
-                    height: 200,
-                    width: 300,
-                    child: Center(child: Text("Authentication Successful")),
-                  ),
-                ));
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        if (e.code == 'invalid-phone-number') {
-          print('The provided phone number is not valid.');
-        }
-        loading = false;
-        setState(() {});
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return Dialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                child: Container(
-                  height: 200,
-                  width: 300,
-                  child: Center(child: Text("Authentication Failed")),
-                ),
-              );
-            });
-      },
-      codeSent: (String verificationId, int resendToken) async {
-        loading = true;
-        setState(() {});
-        // Update the UI - wait for the user to enter the SMS code
-        smsOTPDialog(context).whenComplete(() async {
-          String smsCode = smsOTP;
-          print(smsCode);
-          // Create a PhoneAuthCredential with the code
-          PhoneAuthCredential phoneAuthCredential =
-              PhoneAuthProvider.credential(
-                  verificationId: verificationId, smsCode: smsCode);
-
-          // Sign the user in (or link) with the credential
-          try {
-            await auth.signInWithCredential(phoneAuthCredential);
-            loading = false;
-            setState(() {});
-            showDialog(
-                context: context,
-                builder: (context) => Dialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Container(
-                        height: 200,
-                        width: 300,
-                        child: Center(child: Text("Authentication Successful")),
-                      ),
-                    ));
-            getToken();
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) {
-                return DoctorRegistration();
-              },
-            ));
-          } catch (e) {
-            showDialog(
-                context: context,
-                builder: (context) => Dialog(
+        phoneNumber: "+91" + mobileController.text,
+        timeout: new Duration(minutes: 2),
+        verificationCompleted: (credential) async {
+          await auth.signInWithCredential(credential);
+          showDialog(
+              context: context,
+              builder: (context) => Dialog(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     child: Container(
                       height: 200,
                       width: 300,
-                      child: Center(
-                        child: Text("Invalid Code"),
-                      ),
-                    )));
+                      child: Center(child: Text("Authentication Successful")),
+                    ),
+                  ));
+        },
+        verificationFailed: (e) {
+          if (e.code == 'invalid-phone-number') {
+            print('The provided phone number is not valid.');
           }
           loading = false;
           setState(() {});
-        });
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Container(
+                      height: 200,
+                      width: 300,
+                      child: Center(
+                        child: Text(e.code),
+                      )),
+                );
+              });
+        },
+        codeSent: (String verificationId, [int resendToken]) async {
+          this.verId = verificationId;
+          _forceResendingToken = resendToken;
+          loading = true;
+          setState(() {});
+          // Update the UI - wait for the user to enter the SMS code
+          smsOTPDialog(context).whenComplete(() async {
+            String smsCode = smsOTP;
+            print(smsCode);
+            // Create a PhoneAuthCredential with the code
+            AuthCredential phoneAuthCredential =
+                PhoneAuthProvider.getCredential(
+                    verificationId: verificationId, smsCode: smsCode);
+
+            // Sign the user in (or link) with the credential
+            try {
+              await auth.signInWithCredential(phoneAuthCredential);
+              loading = false;
+              setState(() {});
+              showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Container(
+                          height: 200,
+                          width: 300,
+                          child:
+                              Center(child: Text("Authentication Successful")),
+                        ),
+                      ));
+              getToken();
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return DoctorRegistration();
+                },
+              ));
+            } catch (e) {
+              showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Container(
+                        height: 200,
+                        width: 300,
+                        child: Center(
+                          child: Text(e),
+                        ),
+                      )));
+            }
+            loading = false;
+            setState(() {});
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          this.verId = verificationId;
+        },
+        forceResendingToken: _forceResendingToken);
   }
 
   //! ********************************************************  Login Method   ********************************************************
@@ -214,7 +226,9 @@ class _MyAppState extends State<MyApp> {
                 InkWell(
                   onTap: () {
                     page = 1;
+
                     setState(() {});
+                    Navigator.pop(context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(28, 35, 20, 10),
@@ -323,6 +337,40 @@ class _MyAppState extends State<MyApp> {
   }
 
   int page = 0;
+  // void requestOtp({
+  //   @required VoidCallback onLoginSuccess,
+  //   @required Function(String) onLoginFailure,
+  //   @required Function(String) onVerificationFailed,
+  //   @required VoidCallback onCodeAutoRetrievalTimeout,
+  // }) {
+  //   _inAsyncCallStreamController.add(true);
+  //   auth.verifyPhoneNumber(
+  //     phoneNumber: '+91${_phoneNumberTextController.text.trim()}',
+  //     timeout: new Duration(minutes: 2),
+  //     onVerificationCompleted: (authCredential) {
+  //       _signInWithAuthCredential(
+  //         authCredential: authCredential,
+  //         onLoginSuccess: onLoginSuccess,
+  //         onLoginFailure: onLoginFailure,
+  //       );
+  //     },
+  //     onVerificationFailed: (errMsg) {
+  //       _inAsyncCallStreamController.add(false);
+  //       onVerificationFailed(errMsg);
+  //     },
+  //     onCodeSent: (verId, [token]) {
+  //       this.verId = verId;
+  //       _forceResendingToken = token;
+  //       _inAsyncCallStreamController.add(false);
+  //       _currentPageStreamController.add(CurrentPage.VERIFICATION_PAGE);
+  //     },
+  //     onCodeAutoRetrievalTimeout: (verId) {
+  //       this.verId = verId;
+  //       onCodeAutoRetrievalTimeout();
+  //     },
+  //     forceResendingToken: _forceResendingToken,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
