@@ -57,21 +57,17 @@ class _MyAppState extends State<MyApp> {
   navigate() async {
     if (auth.currentUser != null) {
       print(auth.currentUser);
-      await auth.currentUser().then((value) {
-        if (value != null && value.phoneNumber != null) {
-          mobileController.text = value.phoneNumber;
-          if (mobileController.text.length == 13) {
-            mobileController.text = mobileController.text.substring(3);
-            print(mobileController.text);
-          }
-          getToken();
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) {
-              return DoctorRegistration();
-            },
-          ));
-        }
-      });
+      mobileController.text = auth.currentUser.phoneNumber;
+      if (mobileController.text.length == 13) {
+        mobileController.text = mobileController.text.substring(3);
+        print(mobileController.text);
+      }
+      getToken();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) {
+          return DoctorRegistration();
+        },
+      ));
     }
   }
 
@@ -85,7 +81,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Firebase.initializeApp();
+    Firebase.initializeApp();
     Future.delayed(Duration(seconds: 3), () {
       page = 4;
       setState(() {});
@@ -120,6 +116,12 @@ class _MyAppState extends State<MyApp> {
                       child: Center(child: Text("Authentication Successful")),
                     ),
                   ));
+          getToken();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) {
+              return DoctorRegistration();
+            },
+          ));
         },
         verificationFailed: (e) {
           if (e.code == 'invalid-phone-number') {
@@ -152,47 +154,49 @@ class _MyAppState extends State<MyApp> {
             String smsCode = smsOTP;
             print(smsCode);
             // Create a PhoneAuthCredential with the code
-            AuthCredential phoneAuthCredential =
-                PhoneAuthProvider.getCredential(
-                    verificationId: verificationId, smsCode: smsCode);
 
             // Sign the user in (or link) with the credential
-            try {
-              await auth.signInWithCredential(phoneAuthCredential);
-              loading = false;
-              setState(() {});
-              showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
+            if (smsCode.length > 0)
+              try {
+                AuthCredential phoneAuthCredential =
+                    PhoneAuthProvider.credential(
+                        verificationId: verificationId, smsCode: smsCode);
+
+                await auth.signInWithCredential(phoneAuthCredential);
+                loading = false;
+                setState(() {});
+                showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Container(
+                            height: 200,
+                            width: 300,
+                            child: Center(
+                                child: Text("Authentication Successful")),
+                          ),
+                        ));
+                getToken();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) {
+                    return DoctorRegistration();
+                  },
+                ));
+              } catch (e) {
+                showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: Container(
                           height: 200,
                           width: 300,
-                          child:
-                              Center(child: Text("Authentication Successful")),
-                        ),
-                      ));
-              getToken();
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) {
-                  return DoctorRegistration();
-                },
-              ));
-            } catch (e) {
-              showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Container(
-                        height: 200,
-                        width: 300,
-                        child: Center(
-                          child: Text(e),
-                        ),
-                      )));
-            }
+                          child: Center(
+                            child: Text("Invallid"),
+                          ),
+                        )));
+              }
             loading = false;
             setState(() {});
           });
@@ -225,9 +229,9 @@ class _MyAppState extends State<MyApp> {
               children: [
                 InkWell(
                   onTap: () {
-                    page = 1;
+                    // page = 1;
 
-                    setState(() {});
+                    // setState(() {});
                     Navigator.pop(context);
                   },
                   child: Padding(
