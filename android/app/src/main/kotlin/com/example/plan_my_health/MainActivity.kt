@@ -1,4 +1,4 @@
-package com.planmyhealth.doctor
+package planmyhealth.doctor
 
 import io.flutter.embedding.android.FlutterActivity
 

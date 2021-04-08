@@ -1,41 +1,57 @@
 {
   "project_info": {
-    "project_number": "411703470205",
-    "project_id": "plan-my-health",
-    "storage_bucket": "plan-my-health.appspot.com"
+    "project_number": "57342569372",
+    "project_id": "medicov2-007",
+    "storage_bucket": "medicov2-007.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:411703470205:android:dc23c46beb8bdefd93e914",
+        "mobilesdk_app_id": "1:57342569372:android:98eaf91ea7f90faf80b659",
         "android_client_info": {
-          "package_name": "com.example.plan_my_health"
+          "package_name": "com.example.medico"
         }
       },
       "oauth_client": [
         {
-          "client_id": "411703470205-rq6jc82gf82nfk2jnij599eeil7kn4g6.apps.googleusercontent.com",
+          "client_id": "57342569372-b2baq3s9dfb3hl3fkhctk8qbuct0ci3t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.plan_my_health",
+            "package_name": "com.example.medico",
             "certificate_hash": "67c03591347510ae8acce1e1beae621e03af1ed9"
           }
         },
         {
-          "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
+          "client_id": "57342569372-l2vgo2cjvp8ps3g85rfoofeanm7rgkfk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medico",
+            "certificate_hash": "3086183506c94bcd10e887975f261c9d67e95b5c"
+          }
+        },
+        {
+          "client_id": "57342569372-p5i99htq0cs7apbfhed7lis8kka6lr4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medico",
+            "certificate_hash": "e8938249c732651dd511d3641772c2c2842ac30e"
+          }
+        },
+        {
+          "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCj1HeXke4Rzfc0tOPpdSKFzbubSEbsQTo"
+          "current_key": "AIzaSyDxF92hdo4hgU3kkI5UFxlXGIy-AFOwxcE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
+              "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -44,27 +60,133 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:411703470205:android:ce5e66692b2820ca93e914",
+        "mobilesdk_app_id": "1:57342569372:android:aecb6e766684c79580b659",
         "android_client_info": {
-          "package_name": "com.planmyhealth.doctor"
+          "package_name": "com.planmyhealth.docto"
         }
       },
       "oauth_client": [
         {
-          "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
+          "client_id": "57342569372-lbn5i89m0uhgka5gqc5m2he0bgq0h0be.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.planmyhealth.docto",
+            "certificate_hash": "67c03591347510ae8acce1e1beae621e03af1ed9"
+          }
+        },
+        {
+          "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCj1HeXke4Rzfc0tOPpdSKFzbubSEbsQTo"
+          "current_key": "AIzaSyDxF92hdo4hgU3kkI5UFxlXGIy-AFOwxcE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "411703470205-5v2j9uppldr1n6af21dvqud95nnspqiu.apps.googleusercontent.com",
+              "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57342569372:android:51ccff4d9015f54b80b659",
+        "android_client_info": {
+          "package_name": "com.planmyhealth.doctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxF92hdo4hgU3kkI5UFxlXGIy-AFOwxcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57342569372:android:877d84abaac1996080b659",
+        "android_client_info": {
+          "package_name": "com.planmyhealth.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57342569372-acdc0o6kkoau6k1q39cvvevaa8i25ss9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.planmyhealth.user",
+            "certificate_hash": "a6174c6cc1771fda7a84aa99716a9745452ad029"
+          }
+        },
+        {
+          "client_id": "57342569372-aq8poqs1gq10h3leul50s8in6rfqmu2k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.planmyhealth.user",
+            "certificate_hash": "3086183506c94bcd10e887975f261c9d67e95b5c"
+          }
+        },
+        {
+          "client_id": "57342569372-irldia94c4cf9ob1ovn09hkuudntpr79.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.planmyhealth.user",
+            "certificate_hash": "67c03591347510ae8acce1e1beae621e03af1ed9"
+          }
+        },
+        {
+          "client_id": "57342569372-o5bmt7c9hjc20062gfqurro43cgojv5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.planmyhealth.user",
+            "certificate_hash": "3e6fad305ba00d86fc6e12a1dfc353b520886e7d"
+          }
+        },
+        {
+          "client_id": "57342569372-qg0gldnjv75vii41dk2gc8j5f2jimrm2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.planmyhealth.user",
+            "certificate_hash": "3869b020081206e730b922061515710687f36412"
+          }
+        },
+        {
+          "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxF92hdo4hgU3kkI5UFxlXGIy-AFOwxcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57342569372-cvhelul49chevbv2n701n149ac4ubuj6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
