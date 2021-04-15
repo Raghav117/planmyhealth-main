@@ -1,4 +1,4 @@
 storePassword=jainam123
 keyPassword=jainam123
-keyAlias=key
-storeFile=C:/Users/RaghavG1999/key.jks
+keyAlias=planmyhealth.jks
+storeFile=D:/26.01.2021/planmyhealth-main/planmyhealth.jks
