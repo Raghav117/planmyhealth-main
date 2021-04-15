@@ -34,6 +34,14 @@ class DoctorRegistration extends StatefulWidget {
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity = "Mumbai";
   bool agree = false;
+  getCity() async {
+    http.Response response =
+        await http.get("http://3.15.233.253:5000/citylist");
+    Map m = jsonDecode(response.body);
+    for (var x in m["citylist"]) {
+      city.add(x["city_name"]);
+    }
+  }
 
   checkDoctorExists() async {
     // mobileController.text = "9012220988";
@@ -149,37 +157,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   File _signatureimageFile;
   List<Asset> multiimages = List<Asset>();
   String _error = 'No Error Dectected';
-  List<String> city = <String>[
-    "Mumbai",
-    "thane",
-    "Navi Mumbai",
-    "Pune",
-    "Ahmedabad",
-    "Delhi",
-    "Bengluru",
-    "Kolkata",
-    "Indore",
-    "Chandigarh",
-    "Lucknow",
-    "Patna"
-  ];
+  List<String> city = <String>[];
   List _DoctorCategory = [];
   List _doctorCategory = [];
-
-  List<String> _City = <String>[
-    'Doctor',
-    'Clinic',
-    'Hospital',
-    'Poly Clinic',
-    'Nursing Home',
-    'Nurse',
-    'Physiotherapist',
-    'AYUSH',
-    'Psychologist',
-    'Dietitian',
-    'Caregiver',
-    'Specialist',
-  ];
 
   List _Qualification = [];
   List<Facility> facility = [];
@@ -239,6 +219,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     super.initState();
 
     loading = true;
+    getCity();
     getCategory();
     checkDoctorExists();
     getAccrediations();
