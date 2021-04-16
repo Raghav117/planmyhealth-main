@@ -117,6 +117,8 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ));
           getToken();
+          Navigator.pop(context);
+          Navigator.pop(context);
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) {
               return DoctorRegistration();
@@ -178,6 +180,8 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ));
                 getToken();
+                Navigator.pop(context);
+
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) {
                     return DoctorRegistration();
@@ -193,7 +197,7 @@ class _MyAppState extends State<MyApp> {
                           height: 200,
                           width: 300,
                           child: Center(
-                            child: Text("Invallid"),
+                            child: Text("Invallid Code"),
                           ),
                         )));
               }
