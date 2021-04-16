@@ -9,7 +9,7 @@ import 'package:plan_my_health/model/accrediations.dart';
 import 'package:plan_my_health/model/facilityModel.dart';
 import 'package:plan_my_health/model/prates.dart';
 import 'package:plan_my_health/model/speciality.dart';
-
+// import '../global/global.dart';
 import '../global/global.dart';
 import 'bezier.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
@@ -32,7 +32,7 @@ class DoctorRegistration extends StatefulWidget {
 }
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
-  String selectCity = "Mumbai";
+  String selectCity;
   bool agree = false;
   getCity() async {
     http.Response response =
@@ -41,6 +41,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     for (var x in m["citylist"]) {
       city.add(x["city_name"]);
     }
+    selectCity = city[0];
   }
 
   checkDoctorExists() async {
@@ -1352,8 +1353,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       borderRadius: BorderRadius.circular(20)),
                   child: StatefulBuilder(
                     builder: (context, setState) => Container(
-                      height: 600,
-                      width: 600,
+                      // height: 600,
+                      // width: 600,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SingleChildScrollView(
@@ -1372,22 +1373,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               SizedBox(
                                 height: 50,
                               ),
-                              Text("1. This is first Agreement",
-                                  style: GoogleFonts.dosis()),
-                              Text("2. This is second Agreement",
-                                  style: GoogleFonts.dosis()),
-                              Text("3. This is third Agreement",
-                                  style: GoogleFonts.dosis()),
-                              Text("4. This is forth Agreement",
-                                  style: GoogleFonts.dosis()),
-                              Text("5. This is fifth Agreement",
-                                  style: GoogleFonts.dosis()),
-                              Text("6. This is six Agreement",
-                                  style: GoogleFonts.dosis()),
-                              Text("7. This is seven Agreement",
-                                  style: GoogleFonts.dosis()),
-                              Text("8. This is Eight Agreement",
-                                  style: GoogleFonts.dosis()),
+                              Text(agreement, style: GoogleFonts.dosis()),
                               SizedBox(
                                 height: 30,
                               ),
@@ -1432,7 +1418,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 ],
                               ),
                               SizedBox(
-                                height: 30,
+                                height: 10,
                               ),
                               agr == false
                                   ? Container()
@@ -1452,7 +1438,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                                   fontWeight: FontWeight.bold)),
                                         ),
                                       ),
-                                    )
+                                    ),
+                              SizedBox(
+                                height: 30,
+                              ),
                             ],
                           ),
                         ),
