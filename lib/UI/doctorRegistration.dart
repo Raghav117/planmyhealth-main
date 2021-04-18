@@ -44,6 +44,20 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     selectCity = city[0];
   }
 
+  getLanguage() async {
+    http.Response response =
+        await http.get("http://3.15.233.253:5000/getlanguage");
+    Map m = jsonDecode(response.body);
+    for (var x in m["languagelist"]) {
+      language.add(x["name"]);
+      lang.add(false);
+    }
+    print(language);
+  }
+
+  List<String> language = [];
+  List<bool> lang = [];
+
   checkDoctorExists() async {
     // mobileController.text = "9012220988";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
@@ -220,6 +234,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     super.initState();
 
     loading = true;
+    getLanguage();
     getCity();
     getCategory();
     checkDoctorExists();
@@ -578,6 +593,41 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   )
                                 ],
                               ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text("Languages",
+                                  style: GoogleFonts.dosis(
+                                      color: Colors.greenAccent)),
+
+                              SizedBox(
+                                height: 20,
+                              ),
+
+                              Column(
+                                children: language
+                                    .map(
+                                      (e) => Row(
+                                        children: [
+                                          Checkbox(
+                                              activeColor: Colors.greenAccent,
+                                              value: lang[language.indexOf(e)],
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  lang[language.indexOf(e)] =
+                                                      value;
+                                                });
+                                              }),
+                                          Text(
+                                            e,
+                                            style: GoogleFonts.dosis(),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+
                               SizedBox(
                                 height: 20,
                               ),
@@ -1494,8 +1544,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               });
               print(qualif);
               print(furtherF);
+              i = -1;
+              List<String> langf = [];
+              while (++i < lang.length) {
+                if (lang[i] == true) langf.add(language[i]);
+              }
               String url =
-                  "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}";
+                  "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}&language=${langf}";
               var request = http.MultipartRequest(
                 'POST',
                 Uri.parse(url),
