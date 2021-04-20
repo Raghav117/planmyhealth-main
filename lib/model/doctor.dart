@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class Data {
@@ -32,6 +34,9 @@ class Data {
   String accountnumber;
   String ifsccode;
   String upipin;
+  String language;
+  List accrediation = [];
+  List speciality = [];
 
   Data(
       {this.sId,
@@ -92,6 +97,15 @@ class Data {
     accountnumber = json['accountnumber'];
     ifsccode = json['ifsccode'];
     upipin = json['upipin'];
+    if (json['language'].length > 0) language = json['language'][0];
+    if (json['accrediation'].length > 0)
+      for (var a in jsonDecode(json['accrediation'][0])) {
+        accrediation.add(a);
+      }
+    if (json['specialities'].length > 0)
+      for (var a in jsonDecode(json['specialities'][0])) {
+        speciality.add(a);
+      }
   }
 
   Map<String, dynamic> toJson() {

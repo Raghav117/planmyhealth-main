@@ -59,7 +59,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   List<bool> lang = [];
 
   checkDoctorExists() async {
-    // mobileController.text = "9012220988";
+    mobileController.text = "893";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
@@ -970,24 +970,34 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 onTap: () {
                                   _onAddImageClick();
                                 },
-                                child: Container(
-                                  height: 40,
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.5,
-                                  decoration: BoxDecoration(
-                                      color: Colors.greenAccent,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Center(
-                                    child: Text(
-                                      "Upload Profile Picture",
-                                      style: GoogleFonts.dosis(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        // fontWeight: FontWeight.w600,
-                                        // fontSize: 17,
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      decoration: BoxDecoration(
+                                          color: Colors.greenAccent,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: Center(
+                                        child: Text(
+                                          "Upload Profile Picture",
+                                          style: GoogleFonts.dosis(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            // fontWeight: FontWeight.w600,
+                                            // fontSize: 17,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Text("*",
+                                        style: GoogleFonts.dosis(
+                                            fontSize: 20, color: Colors.red)),
+                                    Spacer(),
+                                  ],
                                 ),
                               ),
                               SizedBox(
@@ -1052,24 +1062,34 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 onTap: () {
                                   loadAssets();
                                 },
-                                child: Container(
-                                  height: 40,
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.5,
-                                  decoration: BoxDecoration(
-                                      color: Colors.greenAccent,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Center(
-                                    child: Text(
-                                      "Upload Documents",
-                                      style: GoogleFonts.dosis(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        // fontWeight: FontWeight.w600,
-                                        // fontSize: 17,
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      decoration: BoxDecoration(
+                                          color: Colors.greenAccent,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: Center(
+                                        child: Text(
+                                          "Upload Documents",
+                                          style: GoogleFonts.dosis(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            // fontWeight: FontWeight.w600,
+                                            // fontSize: 17,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Text("*",
+                                        style: GoogleFonts.dosis(
+                                            fontSize: 20, color: Colors.red)),
+                                    Spacer(),
+                                  ],
                                 ),
                               ),
                               SizedBox(
@@ -1193,9 +1213,15 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     });
                                     print(qualif);
                                     print(furtherF);
-
+                                    i = -1;
+                                    List<String> langf = [];
+                                    while (++i < lang.length) {
+                                      if (lang[i] == true)
+                                        langf.add(language[i]);
+                                    }
+                                    print(langf);
                                     String url =
-                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}";
+                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}&language=${langf}";
                                     var request = http.MultipartRequest(
                                       'POST',
                                       Uri.parse(url),
@@ -1393,6 +1419,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             _selectedgender.length != 0 &&
             selectedDate != null &&
             selectedStartTime != null &&
+            _imageFile != null &&
+            multiimages.length > 0 &&
             selectedendTime != null) {
           var result = await showDialog(
               context: context,
@@ -1549,6 +1577,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               while (++i < lang.length) {
                 if (lang[i] == true) langf.add(language[i]);
               }
+              print(langf);
               String url =
                   "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}&language=${langf}";
               var request = http.MultipartRequest(
@@ -1590,74 +1619,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               //!        TO   DO
               checkDoctorExists();
             }
-            // List<String> mode = [];
-            // if (check == true) mode.add("Call");
-            // if (vedio == true) mode.add("Vedio Call");
-            // if (chat == true) mode.add("Chat");
-            // if (clinic == true) mode.add("At Clinic");
-            // if (homevisit == true) mode.add("Home Visit");
-            // if (medical == true) mode.add("Medical Camps");
-            // if (wellness == true) mode.add("Wellness Sessions");
-
-            // loading = true;
-            // setState(() {});
-            // i = -1;
-            // List furtherA = [];
-            // accrediationColor.forEach((element) {
-            //   ++i;
-            //   if (element == true) {
-            //     furtherA.add(jsonEncode(accrediation[i]));
-            //   }
-            // });
-            // i = -1;
-            // List furtherS = [];
-            // specialityColor.forEach((element) {
-            //   ++i;
-            //   if (element == true) {
-            //     furtherS.add(jsonEncode(speciality[i]));
-            //   }
-            // });
-            // print(furtherS);
-            // String url =
-            //     "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}";
-            // var request = http.MultipartRequest(
-            //   'POST',
-            //   Uri.parse(url),
-            // );
-            // if (_imageFile != null) {
-            //   request.files.add(http.MultipartFile(
-            //     'profilepicture',
-            //     _imageFile.readAsBytes().asStream(),
-            //     _imageFile.lengthSync(),
-            //     filename: "profilepicture.jpg",
-            //   ));
-            // }
-            // if (_signatureimageFile != null) {
-            //   request.files.add(http.MultipartFile(
-            //     'imagesignature',
-            //     _signatureimageFile.readAsBytes().asStream(),
-            //     _signatureimageFile.lengthSync(),
-            //     filename: "imagesignature.jpg",
-            //   ));
-            // }
-            // //! ********************************   This is function for sending multiple images  ********************************
-            // multiimages.forEach((element) async {
-            //   String filePath =
-            //       await FlutterAbsolutePath.getAbsolutePath(element.identifier);
-            //   request.files.add(http.MultipartFile(
-            //     'document',
-            //     File(filePath).readAsBytes().asStream(),
-            //     File(filePath).lengthSync(),
-            //     filename: "document.jpg",
-            //   ));
-            // });
-            // var res = await request.send();
-            // print(res.statusCode);
-            // print(res);
-
-            // setState(() {});
-            // //!        TO   DO
-            // checkDoctorExists();
           }
         } else {
           showDialog(

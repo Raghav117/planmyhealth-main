@@ -222,6 +222,83 @@ class _EditProfileState extends State<EditProfile> {
                             SizedBox(
                               height: 20,
                             ),
+                            SingleChildScrollView(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text("Languages",
+                                          style: GoogleFonts.dosis(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.greenAccent,
+                                          ))),
+                                  Expanded(
+                                    child: Text(global.data.language.toString(),
+                                        style: GoogleFonts.dosis()),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SingleChildScrollView(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text("Accrediation",
+                                          style: GoogleFonts.dosis(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.greenAccent,
+                                          ))),
+                                  Expanded(
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: global.data.accrediation
+                                              .map(
+                                                (e) => Text(
+                                                    e["accrediation_name"] +
+                                                        ",",
+                                                    textAlign: TextAlign.left,
+                                                    style: GoogleFonts.dosis()),
+                                              )
+                                              .toList()))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SingleChildScrollView(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text("Specialities",
+                                          style: GoogleFonts.dosis(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.greenAccent,
+                                          ))),
+                                  Expanded(
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: global.data.speciality
+                                              .map(
+                                                (e) => Text(e["name"] + ",",
+                                                    textAlign: TextAlign.left,
+                                                    style: GoogleFonts.dosis()),
+                                              )
+                                              .toList()))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                             Row(
                               children: [
                                 Expanded(
