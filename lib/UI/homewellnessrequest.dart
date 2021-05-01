@@ -13,6 +13,29 @@ class HomeWellnessRequest extends StatefulWidget {
 
 class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
   List<Wellness> list = [];
+  TextEditingController client = TextEditingController();
+  TextEditingController mobile = TextEditingController();
+  List<String> _doctorCategory = <String>[
+    'Doctor',
+    'Clinic',
+    'Hospital',
+    'Poly Clinic',
+    'Nursing Home',
+    'Nurse',
+    'Physiotherapist',
+    'AYUSH',
+    'Psychologist',
+    'Dietitian',
+    'Caregiver',
+    'Specialist',
+  ];
+
+  List<String> serviceMode = ["Call", "Chat", "Home Visit", "Video", "Clinic"];
+  int serviceModeIndex = 0;
+
+  int index = 0;
+  bool loading = true;
+
   getWellness() async {
     var response =
         await http.post("http://3.15.233.253:5000/homewellnesslist", body: {
@@ -30,35 +53,12 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
     setState(() {});
   }
 
-  TextEditingController client = TextEditingController();
-  TextEditingController mobile = TextEditingController();
-  List<String> _DoctorCategory = <String>[
-    'Doctor',
-    'Clinic',
-    'Hospital',
-    'Poly Clinic',
-    'Nursing Home',
-    'Nurse',
-    'Physiotherapist',
-    'AYUSH',
-    'Psychologist',
-    'Dietitian',
-    'Caregiver',
-    'Specialist',
-  ];
   @override
   void initState() {
     super.initState();
     getWellness();
   }
 
-  // bool loading = true;
-
-  List<String> serviceMode = ["Call", "Chat", "Home Visit", "Video", "Clinic"];
-  int serviceModeIndex = 0;
-
-  int index = 0;
-  bool loading = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,8 +99,8 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                             index = value;
                           });
                         },
-                        items: _DoctorCategory.map((type) {
-                          int i = _DoctorCategory.indexOf(type);
+                        items: _doctorCategory.map((type) {
+                          int i = _doctorCategory.indexOf(type);
                           return DropdownMenuItem(
                             value: i,
                             child: Text(
@@ -198,7 +198,7 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                               "http://3.15.233.253:5000/homewellness",
                               body: {
                                 "servicemode": serviceMode[serviceModeIndex],
-                                "category": _DoctorCategory[index],
+                                "category": _doctorCategory[index],
                                 "clientname": client.text,
                                 "mobilenumber": mobile.text,
                                 "doctorid": data.sId
@@ -347,13 +347,6 @@ class _HomeWellnessRequestState extends State<HomeWellnessRequest> {
                               ),
                             ),
                           );
-                          // return ListTile(
-                          //   title: Text(list[index].speciality.toString()),
-                          //   subtitle: Text(list[index].subject.toString() +
-                          //       "\n" +
-                          //       list[index].description),
-                          //   isThreeLine: true,
-                          // );
                         },
                       ),
                     )

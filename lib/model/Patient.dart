@@ -11,10 +11,14 @@ class Patient {
   int mobile;
   String password;
   String employeeTag,
+      // ignore: non_constant_identifier_names
       blood_group,
       occupation,
+      // ignore: non_constant_identifier_names
       exercise_flag,
+      // ignore: non_constant_identifier_names
       sick_frequently,
+      // ignore: non_constant_identifier_names
       meals_per_day,
       relation;
   int employeeId;
@@ -26,9 +30,11 @@ class Patient {
   String height;
   String weight,
       picture,
+      // ignore: non_constant_identifier_names
       Primary_Health_Issue,
+      // ignore: non_constant_identifier_names
       Treatment_Consultant,
-      Remarks,
+      remarks,
       preferredlanguage;
   List symptoms, diagnosis;
   String services;
@@ -101,7 +107,7 @@ class Patient {
     preferredlanguage = json3["preferredlanguage"];
     diagnosis = jsonDecode(json3["diagnosis"].toString());
     // Treatment_Consultant = json2["usercheckup"][2]["Treatment_Consultant"];
-    Remarks = json3["remarks"];
+    remarks = json3["remarks"];
   }
 
   Map<String, dynamic> toJson() {

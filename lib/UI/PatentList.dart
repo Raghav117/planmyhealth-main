@@ -1,17 +1,11 @@
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:plan_my_health/Helpers/ApiHelper.dart';
-import 'package:plan_my_health/UI/PatientDetails.dart';
-import 'package:plan_my_health/UI/form2.dart';
+import 'package:plan_my_health/UI/homeVistForm.dart';
 import 'package:plan_my_health/global/global.dart';
-import 'package:plan_my_health/model/Patient.dart';
-import 'package:plan_my_health/model/Specialities.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -36,6 +30,15 @@ class _ParientListState extends State<ParientList> {
 
   Set<Polyline> _polylines = {};
 
+// this will hold each polyline coordinate as Lat and Lng pairs
+  List<LatLng> polylineCoordinates = [];
+// this is the key object - the PolylinePoints
+// which generates every polyline between start and finish
+  PolylinePoints polylinePoints = PolylinePoints();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
+  //!  --------------  For getting Location  -------------------------
+
   getLocation() async {
     loading = true;
     _locationData = await location.getLocation();
@@ -45,12 +48,7 @@ class _ParientListState extends State<ParientList> {
     setPolylines();
   }
 
-// this will hold each polyline coordinate as Lat and Lng pairs
-  List<LatLng> polylineCoordinates = [];
-// this is the key object - the PolylinePoints
-// which generates every polyline between start and finish
-  PolylinePoints polylinePoints = PolylinePoints();
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+  //!  --------------  For Making Path  -------------------------
 
   setPolylines() async {
     PolylineResult result = await polylinePoints?.getRouteBetweenCoordinates(
@@ -80,6 +78,7 @@ class _ParientListState extends State<ParientList> {
       _polylines.add(polyline);
     });
   }
+  //!  --------------  Main Method  -------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -103,10 +102,9 @@ class _ParientListState extends State<ParientList> {
                 child: Container(
                     child: Column(children: [
                   Container(
-                      // width: MediaQuery.of(context).size.width,
-                      // color: Colors.greenAccent,
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
+                    // ignore: deprecated_member_use
                     child: RaisedButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
@@ -213,10 +211,10 @@ class _ParientListState extends State<ParientList> {
                                             )),
                                             Checkbox(
                                                 activeColor: Colors.green,
-                                                value: home_visit,
+                                                value: homeVisit,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    home_visit = value;
+                                                    homeVisit = value;
                                                   });
                                                 })
                                           ],
@@ -278,6 +276,7 @@ class _ParientListState extends State<ParientList> {
                                                 })
                                           ],
                                         ),
+                                        // ignore: deprecated_member_use
                                         RaisedButton(
                                           elevation: 20,
                                           color: Colors.green[400],
@@ -292,7 +291,7 @@ class _ParientListState extends State<ParientList> {
                                             options.clear();
                                             if (chat == true)
                                               options.add("chat");
-                                            if (home_visit == true)
+                                            if (homeVisit == true)
                                               options.add("Home Visit");
                                             if (video == true)
                                               options.add("Vedio Call");
@@ -451,32 +450,5 @@ class _ParientListState extends State<ParientList> {
         ),
       ),
     );
-  }
-
-  CameraPosition position;
-  @override
-  void initState() {
-    super.initState();
-    loading = true;
-
-    getLocation();
-    marker.add(Marker(
-        markerId: MarkerId("Location"),
-        position:
-            LatLng(double.parse(data.latitude), double.parse(data.longitude))));
-    position = CameraPosition(
-        zoom: 16,
-        target:
-            LatLng(double.parse(data.latitude), double.parse(data.longitude)));
-  }
-
-  String url(String phone) {
-    if (Platform.isAndroid) {
-      // add the [https]
-      return "https://wa.me/$phone/?text= "; // new line
-    } else {
-      // add the [https]
-      return "https://api.whatsapp.com/send?phone=$phone= "; // new line
-    }
   }
 }

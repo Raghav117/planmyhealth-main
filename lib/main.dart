@@ -2,20 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:plan_my_health/UI/Home.dart';
-import 'package:plan_my_health/UI/Splash.dart';
-import 'package:plan_my_health/UI/form2.dart';
-import 'package:plan_my_health/UI/prescription.dart';
-import 'package:sms_autofill/sms_autofill.dart';
-import 'UI/UsersListScreen.dart';
 import 'UI/bezier.dart';
 import 'UI/doctorRegistration.dart';
-import 'UI/signupverify.dart';
-import 'UI/healtharticle.dart' as form;
 import 'global/global.dart';
-import 'UI/homewellnessrequest.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +34,11 @@ class _MyAppState extends State<MyApp> {
   String error;
 
   bool loading = true;
+  String verId;
+
+  int _forceResendingToken;
+
+//! ------------------------------------------------ Check user is authenticate or not and then forward it towards  -----------------------------------------------
 
   getUser() {
     auth = FirebaseAuth.instance;
@@ -53,7 +47,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
-  int _forceResendingToken;
   navigate() async {
     if (auth.currentUser != null) {
       print(auth.currentUser);
@@ -71,17 +64,14 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // _startListeningSms() async {
-  //   String otp = await SmsRetrieved.startListeningSms();
-  //   if (otp.isNotEmpty || otp != null) {
-  //     print(otp.split(" ")[1]);
-  //   }
-  // }
-  String verId;
+//!-----------------  INITSTATE  ------------------------------------
+
   @override
   void initState() {
     super.initState();
     Firebase.initializeApp();
+
+    //! -----------------------    For Splash Screen -------------------------
     Future.delayed(Duration(seconds: 3), () {
       page = 4;
       setState(() {});
@@ -94,9 +84,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   FirebaseAuth auth;
-  // Stream s;
+
+//! -----------------------  For signing the user  -----------------------------------
+//
   signin() async {
-    // _startListeningSms();
     getUser();
     loading = true;
     setState(() {});
@@ -210,8 +201,6 @@ class _MyAppState extends State<MyApp> {
         },
         forceResendingToken: _forceResendingToken);
   }
-
-  //! ********************************************************  Login Method   ********************************************************
 
   //! ********************************************************  For Sms Diolog Box   ********************************************************
 
@@ -345,44 +334,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   int page = 0;
-  // void requestOtp({
-  //   @required VoidCallback onLoginSuccess,
-  //   @required Function(String) onLoginFailure,
-  //   @required Function(String) onVerificationFailed,
-  //   @required VoidCallback onCodeAutoRetrievalTimeout,
-  // }) {
-  //   _inAsyncCallStreamController.add(true);
-  //   auth.verifyPhoneNumber(
-  //     phoneNumber: '+91${_phoneNumberTextController.text.trim()}',
-  //     timeout: new Duration(minutes: 2),
-  //     onVerificationCompleted: (authCredential) {
-  //       _signInWithAuthCredential(
-  //         authCredential: authCredential,
-  //         onLoginSuccess: onLoginSuccess,
-  //         onLoginFailure: onLoginFailure,
-  //       );
-  //     },
-  //     onVerificationFailed: (errMsg) {
-  //       _inAsyncCallStreamController.add(false);
-  //       onVerificationFailed(errMsg);
-  //     },
-  //     onCodeSent: (verId, [token]) {
-  //       this.verId = verId;
-  //       _forceResendingToken = token;
-  //       _inAsyncCallStreamController.add(false);
-  //       _currentPageStreamController.add(CurrentPage.VERIFICATION_PAGE);
-  //     },
-  //     onCodeAutoRetrievalTimeout: (verId) {
-  //       this.verId = verId;
-  //       onCodeAutoRetrievalTimeout();
-  //     },
-  //     forceResendingToken: _forceResendingToken,
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // return DoctorRegistration();
     return Scaffold(
         body: page == 4
             ? Container(
@@ -420,7 +373,6 @@ class _MyAppState extends State<MyApp> {
                 ? Container(
                     child: Center(
                       child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Spacer(),
                           Container(

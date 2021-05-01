@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'package:plan_my_health/UI/pdfOpener.dart';
-import 'dart:convert';
-import 'dart:io';
 import '../model/doctorsCheckup.dart';
 import '../global/global.dart' as global;
 import '../model/Patient.dart' as p;
@@ -20,8 +16,8 @@ class _PatientState extends State<Patient> {
   final p.Patient patient;
   List<Map> m;
   bool loading = false;
-  List<DoctorsCheckUp> doctorcheckup = List();
-  List<UserData> userData = List();
+  List<DoctorsCheckUp> doctorcheckup = [];
+  List<UserData> userData = [];
   bool show = false;
   var data;
   List<String> documentsfiles = [];
@@ -32,7 +28,6 @@ class _PatientState extends State<Patient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: Icon(Icons.menu),
         centerTitle: true,
         title: Text('Profile', style: GoogleFonts.dosis()),
         backgroundColor: Colors.greenAccent,
@@ -64,11 +59,6 @@ class _PatientState extends State<Patient> {
                               subtitle: Text(patient.email.toString(),
                                   style: GoogleFonts.dosis()),
                               isThreeLine: true,
-                              // trailing: Text(
-                              //   global.data.experience.toString() +
-                              //       " Years Experience",
-                              //   style: GoogleFonts.dosis(fontSize: 15),
-                              // ),
                             ),
                             SizedBox(
                               height: 20,

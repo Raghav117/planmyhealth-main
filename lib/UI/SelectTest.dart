@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:plan_my_health/model/SelectedDisease.dart';
+import 'package:plan_my_health/model/Diagnostics.dart';
+import 'package:plan_my_health/model/SelectTestList.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
-import 'package:plan_my_health/model/Diagnosis.dart';
 
-class SelectDisese extends StatefulWidget {
-  SelectDisese({Key key}) : super(key: key);
+class SelectTest extends StatefulWidget {
+  SelectTest({Key key}) : super(key: key);
 
   @override
-  _SelectDiseseState createState() => _SelectDiseseState();
+  _SelectTestState createState() => _SelectTestState();
 }
 
-class _SelectDiseseState extends State<SelectDisese> {
+class _SelectTestState extends State<SelectTest> {
   ApiHelper apiHelper = ApiHelper();
-  List<SelectedDisease> selectedDiseaseList = [];
-  Color mycolor = Colors.white;
 
-  var diagnosislistStatus = List<bool>();
+  Color mycolor = Colors.white;
+  List<SelectTestList> selectTestList = [];
+  var diagnosticslisStatus = <bool>[];
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         if (Navigator.canPop(context)) {
-          Navigator.pop(context, selectedDiseaseList);
+          Navigator.pop(context, selectTestList);
         } else {
           SystemNavigator.pop();
         }
@@ -35,12 +36,12 @@ class _SelectDiseseState extends State<SelectDisese> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "   Select Disease",
+                "   Select Test",
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context, selectedDiseaseList);
+                  Navigator.pop(context, selectTestList);
                 },
                 child: Text("close    "),
               )
@@ -52,12 +53,12 @@ class _SelectDiseseState extends State<SelectDisese> {
             child: SingleChildScrollView(
                 child: Column(
               children: [
-                FutureBuilder<List<Diagnosislist>>(
-                  future: apiHelper.getDiagnosislist(),
+                FutureBuilder<List<Diagnosticslist>>(
+                  future: apiHelper.getDiagnosticslist(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      List<Diagnosislist> data = snapshot.data;
-                      return diagnosislistView(data);
+                      List<Diagnosticslist> data = snapshot.data;
+                      return diagnosticslistView(data);
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
@@ -75,9 +76,11 @@ class _SelectDiseseState extends State<SelectDisese> {
           Spacer(),
           GestureDetector(
             onTap: () {
-              Navigator.pop(context, selectedDiseaseList);
+              Navigator.pop(context, selectTestList);
             },
             child: Container(
+              height: 50,
+              width: 125,
               decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.all(Radius.circular(6))),
@@ -85,8 +88,8 @@ class _SelectDiseseState extends State<SelectDisese> {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
-                  "Save Diagnosis",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  "Save Test",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),
             ),
@@ -96,7 +99,7 @@ class _SelectDiseseState extends State<SelectDisese> {
     );
   }
 
-  ListView diagnosislistView(data) {
+  ListView diagnosticslistView(data) {
     print("---------------------");
     print(data.length);
     return ListView.builder(
@@ -106,52 +109,48 @@ class _SelectDiseseState extends State<SelectDisese> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: data.length,
         itemBuilder: (context, index) {
-          diagnosislistStatus.add(false);
-          return diagnosislistTtile(data, index);
+          diagnosticslisStatus.add(false);
+          return diagnosticslisTtile(data, index);
         });
   }
 
-  Card diagnosislistTtile(dynamic diagnosislist, int index) => Card(
+  Card diagnosticslisTtile(dynamic diagnosticslist, int index) => Card(
         color: mycolor,
         child: new Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           new ListTile(
-              selected: diagnosislistStatus[index],
+              selected: diagnosticslisStatus[index],
               leading: const Icon(Icons.info),
-              title: new Text(diagnosislist[index].diagnosisName),
-              subtitle: new Text(diagnosislistStatus[index].toString()),
+              title: new Text(diagnosticslist[index].name),
+              subtitle: new Text(diagnosticslist[index].bloodQuantityRequired),
               trailing: Checkbox(
                   checkColor: Colors.white, // color of tick Mark
 
-                  value: diagnosislistStatus[index],
-                  onChanged: (bool val) {
-                    //   diagnosislistStatus[index] = !diagnosislistStatus[index];
-                  }),
+                  value: diagnosticslisStatus[index],
+                  onChanged: (bool val) {}),
               onTap: () {
-                print(diagnosislistStatus[index].toString());
-                // setState(() {
-                //   diagnosislistStatus[index] = !diagnosislistStatus[index];
-                // });
+                print(diagnosticslisStatus[index].toString());
 
                 setState(() {
-                  if (!diagnosislistStatus[index]) {
+                  if (!diagnosticslisStatus[index]) {
                     setState(() {
                       print("change color");
-                      //  mycolor = Colors.pink;
-                      diagnosislistStatus[index] = !diagnosislistStatus[index];
+                      diagnosticslisStatus[index] =
+                          !diagnosticslisStatus[index];
 
-                      SelectedDisease selectedDisease = new SelectedDisease();
-                      selectedDisease.id = diagnosislist[index].sId.toString();
-                      selectedDisease.name =
-                          diagnosislist[index].diagnosisName.toString();
-                      selectedDiseaseList.add(selectedDisease);
+                      SelectTestList selectTes = new SelectTestList();
+                      selectTes.id = diagnosticslist[index].sId.toString();
+                      selectTes.name = diagnosticslist[index].name.toString();
+                      selectTestList.add(selectTes);
+                      setState(() {});
+                      print(selectTestList.length);
 
-                      print("change" + selectedDiseaseList.length.toString());
+                      print("change" + diagnosticslist.length.toString());
                       setState(() {});
                     });
                   } else {
                     setState(() {
-                      //  mycolor = Colors.red;
-                      diagnosislistStatus[index] = !diagnosislistStatus[index];
+                      diagnosticslisStatus[index] =
+                          !diagnosticslisStatus[index];
                     });
                   }
                 });

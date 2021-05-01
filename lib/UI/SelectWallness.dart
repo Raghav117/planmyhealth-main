@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:plan_my_health/model/Diagnostics.dart';
-import 'package:plan_my_health/model/SelectTestList.dart';
-import 'package:plan_my_health/model/SelectedDisease.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
-import 'package:plan_my_health/model/Diagnosis.dart';
 import 'package:plan_my_health/model/Wellness.dart';
 
 class SelectWallness extends StatefulWidget {
@@ -19,10 +15,11 @@ class _SelectWallnessState extends State<SelectWallness> {
 
   Color mycolor = Colors.white;
   List<Wellnesslist> selectwellnesslist = [];
-  var wellnessStatus = List<bool>();
+  var wellnessStatus = <bool>[];
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         if (Navigator.canPop(context)) {
           Navigator.pop(context, selectwellnesslist);
@@ -123,19 +120,13 @@ class _SelectWallnessState extends State<SelectWallness> {
               selected: wellnessStatus[index],
               leading: const Icon(Icons.info),
               title: new Text(wellnesslist[index].wellnessname),
-              //ssubtitle: new Text(wellnesslist[index].bloodQuantityRequired),
               trailing: Checkbox(
                   checkColor: Colors.white, // color of tick Mark
 
                   value: wellnessStatus[index],
-                  onChanged: (bool val) {
-                    //   wellnessStatus[index] = !wellnessStatus[index];
-                  }),
+                  onChanged: (bool val) {}),
               onTap: () {
                 print(wellnessStatus[index].toString());
-                // setState(() {
-                //   wellnessStatus[index] = !wellnessStatus[index];
-                // });
 
                 setState(() {
                   if (!wellnessStatus[index]) {
@@ -155,7 +146,6 @@ class _SelectWallnessState extends State<SelectWallness> {
                     });
                   } else {
                     setState(() {
-                      //  mycolor = Colors.red;
                       wellnessStatus[index] = !wellnessStatus[index];
                     });
                   }

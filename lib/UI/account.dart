@@ -18,6 +18,33 @@ class _AccountState extends State<Account> {
   TextEditingController pin = TextEditingController();
   TextEditingController an = TextEditingController();
   TextEditingController code = TextEditingController();
+  String special = "";
+  ApiHelper apiHelper = ApiHelper();
+
+  List<Map<String, String>> spe = [];
+  void getSpecialities() {
+    apiHelper.getSpecialitieslist().then((value) {
+      print("get Diagnosis");
+      print(value[0].name);
+      for (Specialitieslist specialitieslist in value) {
+        spe.add({
+          "name": specialitieslist.name.toString(),
+          "sId": specialitieslist.sId.toString()
+        });
+        print(specialitieslist.sId.toString());
+      }
+      loading = false;
+      setState(() {});
+    });
+  }
+
+  bool loading = true;
+  @override
+  void initState() {
+    getSpecialities();
+    super.initState();
+  }
+
   checkDoctorExists() async {
     mobileController.text = "8356928929";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
@@ -296,33 +323,5 @@ class _AccountState extends State<Account> {
                   ),
                 )),
     );
-  }
-
-  String special = "";
-  ApiHelper apiHelper = ApiHelper();
-
-  List<Map<String, String>> spe = [];
-  void getSpecialities() {
-    apiHelper.getSpecialitieslist().then((value) {
-      print("get Diagnosis");
-      print(value[0].name);
-      for (Specialitieslist specialitieslist in value) {
-        spe.add({
-          "name": specialitieslist.name.toString(),
-          "sId": specialitieslist.sId.toString()
-        });
-        print(specialitieslist.sId.toString());
-      }
-      loading = false;
-      setState(() {});
-    });
-  }
-
-  bool loading = true;
-  @override
-  void initState() {
-    getSpecialities();
-    // TODO: implement initState
-    super.initState();
   }
 }

@@ -5,7 +5,7 @@ class Medicines {
 
   Medicines.fromJson(Map<String, dynamic> json) {
     if (json['medicinelist'] != null) {
-      medicinelist = new List<Medicinelist>();
+      medicinelist = [];
       json['medicinelist'].forEach((v) {
         medicinelist.add(new Medicinelist.fromJson(v));
       });

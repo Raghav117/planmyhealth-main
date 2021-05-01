@@ -1,20 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/global/global.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as launch;
 
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
-import 'package:plan_my_health/UI/UsersListScreen.dart';
-import 'package:plan_my_health/UI/editProfile.dart';
 import 'package:plan_my_health/UI/prescription.dart';
 import 'package:plan_my_health/UI/search.dart';
 import 'package:plan_my_health/model/Patient.dart';
 
 import 'patient.dart' as p;
 
+// ignore: must_be_immutable
 class PatientDetails extends StatefulWidget {
   final Patient patient;
   PatientDetails({
@@ -40,26 +36,6 @@ class _PatientDetailsState extends State<PatientDetails>
 
   _PatientDetailsState(this.patient);
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    // getUserdetails();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (onCall) {
-      _showDialog();
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
   void _showDialog() {
     print("dialog box call");
     // flutter defined function
@@ -72,6 +48,7 @@ class _PatientDetailsState extends State<PatientDetails>
           content: new Text("Do you wish to make prescription for patient ?"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+            // ignore: deprecated_member_use
             new FlatButton(
               child: new Text("Yes"),
               onPressed: () {
@@ -92,15 +69,6 @@ class _PatientDetailsState extends State<PatientDetails>
       },
     );
   }
-
-  // void getUserdetails() {
-  //   apiHelper.getPatientDetails(widget.number).then((value) {
-  //     print("get Diagnosis");
-  //     print(value.name);
-  //     patient = value;
-  //     setState(() {});
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -308,7 +276,7 @@ class _PatientDetailsState extends State<PatientDetails>
                                             SizedBox(
                                               height: 20,
                                             ),
-                                            Text(patient.Remarks,
+                                            Text(patient.remarks,
                                                 style: GoogleFonts.dosis(
                                                   color: Colors.black,
                                                 )),
@@ -483,19 +451,5 @@ class _PatientDetailsState extends State<PatientDetails>
                   )),
       ),
     );
-  }
-
-  String url(String phone) {
-    print("Call url function");
-    if (Platform.isAndroid) {
-      // add the [https]
-
-      onCall = true;
-
-      return "https://wa.me/$phone/?text= "; // new line
-    } else {
-      // add the [https]
-      return "https://api.whatsapp.com/send?phone=$phone= "; // new line
-    }
   }
 }

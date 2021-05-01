@@ -5,7 +5,7 @@ class Wellness {
 
   Wellness.fromJson(Map<String, dynamic> json) {
     if (json['wellnesslist'] != null) {
-      wellnesslist = new List<Wellnesslist>();
+      wellnesslist = <Wellnesslist>[];
       json['wellnesslist'].forEach((v) {
         wellnesslist.add(new Wellnesslist.fromJson(v));
       });

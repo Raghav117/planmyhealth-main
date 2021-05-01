@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/UI/PatentList.dart';
-import 'package:plan_my_health/UI/PatientDetails.dart';
 import 'package:plan_my_health/UI/UsersListScreen.dart';
-import 'package:plan_my_health/UI/prescription.dart';
 import 'package:plan_my_health/UI/editProfile.dart';
-import 'package:plan_my_health/components/NavBarCustom.dart';
 import 'search.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 class Home extends StatefulWidget {
@@ -19,7 +15,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedItem = 0;
-  final Tab = [
+  final tab = [
     ParientList(),
     Search(
       previous: false,
@@ -28,37 +24,15 @@ class _HomeState extends State<Home> {
     EditProfile(),
   ];
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
-  }
-
+//!  -----------------  Main Method  --------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomNavyBar(
           selectedIndex: _selectedItem,
-          // showElevation: 00, //00 use this to remove appBar's elevation
           onItemSelected: (index) => setState(() {
             _selectedItem = index;
             print(index);
-
-            // _pageController.animateToPage(index,
-            //     duration: Duration(milliseconds: 300), curve: Curves.ease);
           }),
           items: [
             BottomNavyBarItem(
@@ -74,12 +48,10 @@ class _HomeState extends State<Home> {
               ),
               title: Text('Madical',
                   style: GoogleFonts.dosis(color: Colors.greenAccent)),
-              // activeColor: firstColor,
             ),
             BottomNavyBarItem(
               activeColor: Colors.greenAccent,
               inactiveColor: Colors.grey,
-
               icon: Container(
                 height: 25,
                 width: 25,
@@ -90,7 +62,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
               title: Text('Prescriptions', style: GoogleFonts.dosis()),
-              // activeColor: firstColor,
             ),
             BottomNavyBarItem(
               inactiveColor: Colors.grey,
@@ -104,8 +75,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
               title: Text('Booking', style: GoogleFonts.dosis()),
-              // activeColor: firstColor
-              //  activeColor: Colors.pink
             ),
             BottomNavyBarItem(
               inactiveColor: Colors.grey,
@@ -119,11 +88,9 @@ class _HomeState extends State<Home> {
                 ),
               ),
               title: Text('Profile', style: GoogleFonts.dosis()),
-              // activeColor: firstColor,
-              //  activeColor: Colors.purpleAccent
             ),
           ],
         ),
-        body: Tab[_selectedItem]);
+        body: tab[_selectedItem]);
   }
 }

@@ -5,7 +5,7 @@ class PatientList {
 
   PatientList.fromJson(Map<String, dynamic> json) {
     if (json['doctorlist'] != null) {
-      doctorlist = new List<Doctorlist>();
+      doctorlist = [];
       json['doctorlist'].forEach((v) {
         doctorlist.add(new Doctorlist.fromJson(v));
       });
@@ -30,7 +30,7 @@ class Doctorlist {
   Doctorlist.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     print(json['userdata'].length);
-    userdata = new List<Userdata>();
+    userdata = [];
     if (json['userdata'].length > 0) {
       json['userdata'].forEach((v) {
         userdata.add(new Userdata.fromJson(v, sId, json));

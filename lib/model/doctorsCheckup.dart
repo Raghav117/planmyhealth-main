@@ -39,8 +39,6 @@ class DoctorsCheckUp {
     remark = json['remark'];
     findings = json['findings'];
     followupdate = json['followupdate'];
-    final regExp = new RegExp(r'(?:\[)?(\[[^\]]*?\](?:,?))(?:\])?');
-    // var input = json['diagnosis'];
   }
 
   Map<String, dynamic> toJson() {

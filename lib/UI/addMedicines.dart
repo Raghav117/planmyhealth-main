@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
 import 'package:plan_my_health/model/Medicines.dart';
 import 'package:plan_my_health/model/SelectMedicineList.dart';
 
-class Abc extends StatefulWidget {
-  Abc({this.selectMedicineList}) : super();
+// ignore: must_be_immutable
+class AddMedicines extends StatefulWidget {
+  AddMedicines({this.selectMedicineList}) : super();
   List<SelectMedicineList> selectMedicineList = [];
   final String title = "Select Medicines";
 
   @override
-  _AbcState createState() => _AbcState();
+  _AddMedicinesState createState() => _AddMedicinesState();
 }
 
-class _AbcState extends State<Abc> {
+class _AddMedicinesState extends State<AddMedicines> {
   ApiHelper apiHelper = ApiHelper();
 
-  static List<Medicinelist> users = new List<Medicinelist>();
+  static List<Medicinelist> users = <Medicinelist>[];
   final TextEditingController serchController = TextEditingController();
   List<SelectMedicineList> selectMedicineList = [];
   String timeSelected, quntitySelected, withSelected, daysselected;
@@ -69,6 +68,7 @@ class _AbcState extends State<Abc> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         if (Navigator.canPop(context)) {
           Navigator.pop(context, selectMedicineList);
@@ -118,7 +118,6 @@ class _AbcState extends State<Abc> {
                   return ListTile(
                     leading: Icon(Icons.shopping_cart),
                     title: Text(suggestion.drugName),
-//                      subtitle: Text('\$${suggestion['id']}'),
                   );
                 },
                 onSuggestionSelected: (suggestion) {
@@ -136,12 +135,8 @@ class _AbcState extends State<Abc> {
                   Container(
                     height: 60,
                     width: MediaQuery.of(context).size.width / 2 - 30,
-                    decoration: BoxDecoration(
-                        // color: AppColors.EDITTEXT_BG_COLOR,
-                        // border: Border.all(
-                        //     color: AppColors.EDITTEXT_BORDER_COLOR,
-                        //     width: 1.0),
-                        borderRadius: BorderRadius.circular(4)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
                     child: DropdownButtonFormField(
                       autovalidateMode: AutovalidateMode.disabled,
                       decoration: InputDecoration(
@@ -348,7 +343,7 @@ class _AbcState extends State<Abc> {
                       });
 
                       if (showContainer == true) {
-                        Abc(
+                        AddMedicines(
                           selectMedicineList: selectMedicineList,
                         );
                       } else {}
@@ -363,40 +358,6 @@ class _AbcState extends State<Abc> {
                       selectMedicine.withtake = withSelected.toString();
                       selectMedicine.days = daysselected.toString();
                       selectMedicineList.add(selectMedicine);
-
-                      // Navigator.pop(context, selectMedicineList)
-
-                      print(" ---------------------- ");
-                      print("medicines Name: " + serchController.text);
-                      print("medicines Name: " + medid);
-                      print("time: " + timeSelected.toString());
-                      print("quant: " + quntitySelected.toString());
-                      print("with: " + withSelected.toString());
-//--------old
-                      // selectMedicineList.add({
-                      //   "id": medid.toString(),
-                      //   "name": medicineSerchController.text.toString(),
-                      //   "time": timeSelected.toString(),
-                      //   "qut": quntitySelected.toString(),
-                      //   "with": withSelected.toString()
-                      // });
-
-                      print("===================================");
-                      print(selectMedicineList[0]);
-                      print(
-                          'value is--> ' + json.encode(selectMedicineList[0]));
-
-                      // setState(() {
-                      //   Navigator.pushReplacement(
-                      //     context,
-                      //     PageRouteBuilder(
-                      //       transitionDuration: Duration.zero,
-                      //       pageBuilder: (_, __, ___) => Abc(
-                      //         selectMedicineList: selectMedicineList,
-                      //       ),
-                      //     ),
-                      //   );
-                      // });
                     },
                     child: Container(
                       height: 50,

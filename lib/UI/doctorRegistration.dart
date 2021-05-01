@@ -4,27 +4,20 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/UI/accrediation.dart';
 import 'package:plan_my_health/UI/speciality.dart';
-import 'package:plan_my_health/model/Specialities.dart';
 import 'package:plan_my_health/model/accrediations.dart';
 import 'package:plan_my_health/model/facilityModel.dart';
 import 'package:plan_my_health/model/prates.dart';
 import 'package:plan_my_health/model/speciality.dart';
-// import '../global/global.dart';
 import '../global/global.dart';
 import 'bezier.dart';
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:plan_my_health/UI/Home.dart';
-import 'package:plan_my_health/model/image-capture.dart';
-import 'package:plan_my_health/model/selectCityList.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_my_health/model/doctor.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DoctorRegistration extends StatefulWidget {
   @override
@@ -34,6 +27,71 @@ class DoctorRegistration extends StatefulWidget {
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   String selectCity;
   bool agree = false;
+  List<String> language = [];
+  List<bool> lang = [];
+  Map provider = Map();
+  bool page = false;
+
+  List<PRates> pr = [];
+
+  bool loading = true;
+  List<Accrediation> accrediation = [];
+  List<Speciality> speciality = [];
+  List<bool> accrediationColor = [], specialityColor = [];
+
+  final _nameController = TextEditingController();
+  final _clinicController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _regNumController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _experiencecontroller = TextEditingController();
+
+  var _selectedcategory;
+  String _selectedpractice = "Allopathy";
+
+  String _selectedgender = "Male";
+
+  TimeOfDay selectedStartTime = TimeOfDay.now();
+  TimeOfDay selectedendTime = TimeOfDay.now();
+  DateTime selectedDate = DateTime.now();
+  List images = [];
+  File _imageFile;
+  File _signatureimageFile;
+  List<Asset> multiimages = [];
+  List<String> city = <String>[];
+  List _doctorCategory1 = [];
+  List _doctorCategory = [];
+
+  List _qualification = [];
+  List<Facility> facility = [];
+  List<bool> facilityColor = [];
+
+  List<bool> qualtification = [];
+
+  List<String> _gender = <String>[
+    'Female',
+    'Male',
+    'Not Specified',
+  ];
+
+  Location location = Location();
+  LocationData locationData;
+  bool check = false;
+
+  bool vedio = false;
+  bool medical = false;
+  bool clinic = false;
+  bool wellness = false;
+  bool chat = false;
+  bool homevisit = false;
+
+  //! -------------------------------------------For Fetching Current Location ----------------------------------------
+
+  getLocation() async {
+    locationData = await location.getLocation();
+  }
+
+  //! -------------------------------------------For Fetching Cities ----------------------------------------
   getCity() async {
     http.Response response =
         await http.get("http://3.15.233.253:5000/citylist");
@@ -43,6 +101,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     }
     selectCity = city[0];
   }
+
+  //! -------------------------------------------For Fetching Languages ----------------------------------------
 
   getLanguage() async {
     http.Response response =
@@ -55,30 +115,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     print(language);
   }
 
-  List<String> language = [];
-  List<bool> lang = [];
-
-  checkDoctorExists() async {
-    // mobileController.text = "1234";
-    var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
-        body: {
-          "mobilenumber": mobileController.text
-        }); //!  **************  To Do
-    bool exists = jsonDecode(response.body)["status"];
-    print(exists);
-    if (exists == true) {
-      data = Data.fromJson(jsonDecode(response.body)["data"]);
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) {
-          return Home();
-        },
-      ));
-    } else
-      loading = false;
-    setState(() {});
-  }
-
-  Map provider = Map();
+  //! -------------------------------------------For Fetching Accrediation ----------------------------------------
 
   getAccrediations() async {
     var response = await http.get("http://3.15.233.253:5000/getaccrediation");
@@ -89,12 +126,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     }
   }
 
+  //! -------------------------------------------For Fetching Speciality ----------------------------------------
+
   getSpeciality() async {
-    int ma = _DoctorCategory.indexOf(_selectedcategory);
+    int ma = _doctorCategory1.indexOf(_selectedcategory);
 
     var response = await http.get(
         "http://3.15.233.253:5000/specialitieslist?prov_type=${_doctorCategory[ma]}");
-    // print(response.body);
     Map m = jsonDecode(response.body);
     print(m);
     speciality.clear();
@@ -119,8 +157,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     getFacilityList();
   }
 
+  //! -------------------------------------------For Fetching Facilities ----------------------------------------
+
   getFacilityList() async {
-    int ma = _DoctorCategory.indexOf(_selectedcategory);
+    int ma = _doctorCategory1.indexOf(_selectedcategory);
 
     var r = await http.get(
         "http://3.15.233.253:5000/facilitylist?prov_type=${_doctorCategory[ma]}");
@@ -134,138 +174,131 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     }
   }
 
-  bool page = false;
-
-  List<PRates> pr = [];
-
-  bool loading = true;
-  List<Accrediation> accrediation = [];
-  List<Speciality> speciality = [];
-  List<bool> accrediationColor = [], specialityColor = [];
-
-  final _nameformKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _clinicformKey = GlobalKey<FormState>();
-  final _clinicController = TextEditingController();
-  final _addressformKey = GlobalKey<FormState>();
-  final _addressController = TextEditingController();
-  final _regNumformKey = GlobalKey<FormState>();
-  final _regNumController = TextEditingController();
-  final _emailformKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  // final _cityController = TextEditingController();
-  final _experiencecontroller = TextEditingController();
-
-  var _selectedcategory;
-  String _selectedpractice = "Allopathy";
-  var _selectedexperience = "";
-  String _selectedqual = "BAMS";
-  // String _selectedcity = "";
-  String _selectedgender = "Male";
-  // String cityName = "";
-  TimeOfDay selectedStartTime = TimeOfDay.now();
-  TimeOfDay selectedendTime = TimeOfDay.now();
-  DateTime selectedDate = DateTime.now();
-  // List<City> selectCity = [];
-  List images = List();
-  File _imageFile;
-  File _signatureimageFile;
-  List<Asset> multiimages = List<Asset>();
-  String _error = 'No Error Dectected';
-  List<String> city = <String>[];
-  List _DoctorCategory = [];
-  List _doctorCategory = [];
-
-  List _Qualification = [];
-  List<Facility> facility = [];
-  List<bool> facilityColor = [];
-
-  List<bool> qualtification = [];
-
-  List<String> _PracticeType = <String>[
-    'Allopathy',
-    'Ayurveda',
-    'Homeopathy',
-    'Hallopathy',
-  ];
-
-  List<String> _Gender = <String>[
-    'Female',
-    'Male',
-    'Not Specified',
-  ];
+  //! -------------------------------------------For Fetching Categories ----------------------------------------
 
   getCategory() async {
     var r = await http.get("http://3.15.233.253:5000/providertypeslist");
     Map re = jsonDecode(r.body);
     re["providerlist"].forEach((element) {
-      _DoctorCategory.add(element["prov_type_name"]);
+      _doctorCategory1.add(element["prov_type_name"]);
       _doctorCategory.add(element["prov_type_code"]);
     });
   }
 
+  //! -------------------------------------------For Fetching Qualificaitons ----------------------------------------
+
   getQualifications() async {
-    var m = _DoctorCategory.indexOf(_selectedcategory);
+    var m = _doctorCategory1.indexOf(_selectedcategory);
 
     var r = await http.get(
         "http://3.15.233.253:5000/doctorqualificationslist?prov_type=${_doctorCategory[m]}");
     Map re = jsonDecode(r.body);
     print(re);
-    _Qualification = re["doctorqualificationslist"];
+    _qualification = re["doctorqualificationslist"];
     qualtification.clear();
-    _Qualification.forEach((element) {
+    _qualification.forEach((element) {
       qualtification.add(false);
     });
 
     getSpeciality();
   }
 
-  bool check = false;
+//! ------------ For Picking Image   ----------------------------------------------
 
-  bool vedio = false;
-  bool medical = false;
-  bool clinic = false;
-  bool wellness = false;
-  bool chat = false;
-  bool homevisit = false;
+  _onAddImageClick() async {
+    // ignore: deprecated_member_use
+    _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {});
+  }
 
+//! ------------ For Picking Signature Image   ----------------------------------------------
+
+  _onAddSignatureClick() async {
+    _signatureimageFile =
+        // ignore: deprecated_member_use
+        await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {});
+  }
+
+//! ------------ For taking Start Time   ----------------------------------------------
+
+  Future<Null> _startTime(BuildContext context) async {
+    final TimeOfDay pickedS = await showTimePicker(
+        context: context,
+        initialTime: selectedStartTime,
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child,
+          );
+        });
+
+    if (pickedS != null && pickedS != selectedStartTime)
+      setState(() {
+        selectedStartTime = pickedS;
+      });
+    print(pickedS.toString());
+  }
+
+//! ------------ For taking End Time   ----------------------------------------------
+
+  Future<Null> _endTime(BuildContext context) async {
+    final TimeOfDay pickedE = await showTimePicker(
+        context: context,
+        initialTime: selectedendTime,
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child,
+          );
+        });
+
+    if (pickedE != null && pickedE != selectedendTime)
+      setState(() {
+        selectedendTime = pickedE;
+      });
+    print(pickedE.toString());
+  }
+
+  //! ---------------  Check if user is already registerd or not and then navigate to desired screen ---------------------------------------
+
+  checkDoctorExists() async {
+    var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
+        body: {"mobilenumber": mobileController.text});
+    bool exists = jsonDecode(response.body)["status"];
+    print(exists);
+    if (exists == true) {
+      data = Data.fromJson(jsonDecode(response.body)["data"]);
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return Home();
+        },
+      ));
+    } else
+      loading = false;
+    setState(() {});
+  }
+
+//! - -------------------------  INIT Method ----------------------------------------------------------
   @override
   void initState() {
     super.initState();
-
     loading = true;
+
+    checkDoctorExists();
+
+    images.add("Add Image");
+    _experiencecontroller.text = "0";
+
+    getLocation();
     getLanguage();
     getCity();
     getCategory();
-    checkDoctorExists();
     getAccrediations();
     setState(() {});
-
-    images.add("Add Image");
-    getLocation();
-    _experiencecontroller.text =
-        "0"; // Setting the initial value for the field.
   }
 
-  Location location = Location();
-  LocationData locationData;
-  getLocation() async {
-    locationData = await location.getLocation();
-  }
-
-  Widget text() {
-    return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.lightBlueAccent.withOpacity(0.2)),
-        width: MediaQuery.of(context).size.width - 120,
-        child: TextField(
-          cursorColor: Colors.greenAccent,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-          ),
-        ));
-  }
+  //!  ---------------------------   It is Widget for making the the text box so that user input --------------------------------------
 
   Widget _entryField(String title, isPassword, TextEditingController text) {
     return Padding(
@@ -295,6 +328,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       ),
     );
   }
+
+  //! ----------------------   Main Widget Starts ------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -329,11 +364,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               SizedBox(height: height * 0.04),
                               _entryField("Name", false, _nameController),
                               _entryField("Email", false, _emailController),
-                              // _entryField("Name", false),
-                              // doctorName(),
-                              // SizedBox(height: height * 0.04),
-                              // email(),
-                              // SizedBox(height: height * 0.04),
+
                               Align(
                                 alignment: Alignment.center,
                                 child: Text(
@@ -345,6 +376,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   ),
                                 ),
                               ),
+                              // ignore: deprecated_member_use
                               RaisedButton(
                                 color: Colors.white,
                                 onPressed: () {
@@ -364,16 +396,19 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   Container(
                                     width: 300,
                                     child: DropdownButton(
-                                      items: _Gender.map((value) =>
-                                          DropdownMenuItem(
-                                            child: Text(
-                                              value,
-                                              style: GoogleFonts.dosis(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.greenAccent),
-                                            ),
-                                            value: value,
-                                          )).toList(),
+                                      items: _gender
+                                          .map((value) => DropdownMenuItem(
+                                                child: Text(
+                                                  value,
+                                                  style: GoogleFonts.dosis(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          Colors.greenAccent),
+                                                ),
+                                                value: value,
+                                              ))
+                                          .toList(),
                                       onChanged: (selectedgen) {
                                         setState(() {
                                           _selectedgender = selectedgen;
@@ -399,17 +434,20 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   Container(
                                     width: 300,
                                     child: DropdownButton(
-                                      items: _DoctorCategory.map((value) =>
-                                          DropdownMenuItem(
-                                            child: Text(
-                                              value,
-                                              style: GoogleFonts.dosis(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                  color: Colors.greenAccent),
-                                            ),
-                                            value: value.toString(),
-                                          )).toList(),
+                                      items: _doctorCategory1
+                                          .map((value) => DropdownMenuItem(
+                                                child: Text(
+                                                  value,
+                                                  style: GoogleFonts.dosis(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12,
+                                                      color:
+                                                          Colors.greenAccent),
+                                                ),
+                                                value: value.toString(),
+                                              ))
+                                          .toList(),
                                       onChanged: (selectedCategory) {
                                         setState(() {
                                           // loading = true;
@@ -440,8 +478,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
                               Column(
-                                children: _Qualification.map((e) {
-                                  int index = _Qualification.indexOf(e);
+                                children: _qualification.map((e) {
+                                  int index = _qualification.indexOf(e);
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
@@ -710,7 +748,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 height: 30,
                               ),
 
-                              //!********************  Speciality  *********************
+                              //!    ********************  Speciality  *********************
 
                               GestureDetector(
                                 onTap: () async {
@@ -824,10 +862,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           decimal: false,
                                           signed: true,
                                         ),
-                                        inputFormatters: <TextInputFormatter>[
-                                          WhitelistingTextInputFormatter
-                                              .digitsOnly
-                                        ],
+                                        // inputFormatters: <TextInputFormatter>[
+                                        //   WhitelistingTextInputFormatter
+                                        //       .digitsOnly
+                                        // ],
                                       ),
                                     ),
                                     Container(
@@ -933,6 +971,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               SizedBox(height: height * 0.02),
                               Row(children: [
                                 SizedBox(width: width * 0.2),
+                                // ignore: deprecated_member_use
                                 RaisedButton(
                                   color: Colors.white,
                                   onPressed: () {
@@ -947,6 +986,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   ),
                                 ),
                                 SizedBox(width: width * 0.1),
+                                // ignore: deprecated_member_use
                                 RaisedButton(
                                   color: Colors.white,
                                   onPressed: () {
@@ -1170,6 +1210,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 padding: const EdgeInsets.all(18.0),
                                 child: InkWell(
                                   onTap: () async {
+                                    //!  -----------------  This is function for Register User through api --------------------
                                     List<String> mode = [];
                                     if (check == true) mode.add("Call");
                                     if (vedio == true) mode.add("Vedio Call");
@@ -1221,7 +1262,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     }
                                     print(langf);
                                     String url =
-                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}&language=${langf}";
+                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=$selectedDate&gender=$_selectedgender&category=$_selectedcategory&practice=$_selectedpractice&qualification=$qualif&experience=$_experiencecontroller.text&clinicname=${_clinicController.text}&city=$selectCity&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=$furtherA&specialities=$furtherS&facility=$furtherF&language=$langf";
                                     var request = http.MultipartRequest(
                                       'POST',
                                       Uri.parse(url),
@@ -1262,7 +1303,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     print(res);
 
                                     setState(() {});
-                                    //!        TO   DO
                                     checkDoctorExists();
                                   },
                                   child: Container(
@@ -1284,20 +1324,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               )
                             ],
                           )),
-                // Align(
-                //   alignment: Alignment.center,
-                //   child: FittedBox(
-                //     child: Text(
-                //       "Registration for Healthcare Service Provider",
-                //       style: GoogleFonts.dosis(
-                //           color: Colors.greenAccent,
-                //           fontWeight: FontWeight.bold,
-                //           fontSize: 17
-                //           // fontSize: 18,
-                //           ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
     );
@@ -1335,8 +1361,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   }
 
   Future<void> loadAssets() async {
-    List<Asset> resultList = List<Asset>();
-    String error = 'No Error Dectected';
+    List<Asset> resultList = [];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -1353,7 +1378,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
         ),
       );
     } on Exception catch (e) {
-      error = e.toString();
+      print(e);
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -1363,7 +1388,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
 
     setState(() {
       multiimages = resultList;
-      _error = error;
     });
   }
 
@@ -1394,20 +1418,20 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
 
   int i = -1;
   String qualif = "";
-//!  ---------------  Save Button  *********************************
+//!  -----------------------------------------  When Save Button Pressed User is Register From HERE *********************************
   Widget saveButton(context) {
+    // ignore: deprecated_member_use
     return OutlineButton(
       onPressed: () async {
         i = -1;
         qualif = "";
         while (++i < qualtification.length) {
           if (qualtification[i] == true) {
-            print(_Qualification[i]);
-            qualif = qualif + _Qualification[i]["qualific_code"] + ",";
+            print(_qualification[i]);
+            qualif = qualif + _qualification[i]["qualific_code"] + ",";
           }
         }
         if (_experiencecontroller.text.length != 0 &&
-            // qualif.length > 0 &&
             _regNumController.text.length != 0 &&
             _clinicController.text.length != 0 &&
             _nameController.text.length != 0 &&
@@ -1415,7 +1439,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             _emailController.text.length != 0 &&
             _selectedcategory != null &&
             _selectedpractice.length != 0 &&
-            // _selectedqual.length != 0 &&
             _selectedgender.length != 0 &&
             selectedDate != null &&
             selectedStartTime != null &&
@@ -1431,8 +1454,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       borderRadius: BorderRadius.circular(20)),
                   child: StatefulBuilder(
                     builder: (context, setState) => Container(
-                      // height: 600,
-                      // width: 600,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SingleChildScrollView(
@@ -1579,7 +1600,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               }
               print(langf);
               String url =
-                  "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=${selectedDate}&gender=${_selectedgender}&category=${_selectedcategory}&practice=${_selectedpractice}&qualification=${qualif}&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=${selectCity}&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=${furtherA}&specialities=${furtherS}&facility=${furtherF}&language=${langf}";
+                  "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=$selectedDate&gender=$_selectedgender&category=$_selectedcategory&practice=$_selectedpractice&qualification=$qualif&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=$selectCity&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=$furtherA&specialities=$furtherS&facility=$furtherF&language=$langf";
               var request = http.MultipartRequest(
                 'POST',
                 Uri.parse(url),
@@ -1616,7 +1637,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
               print(res);
 
               setState(() {});
-              //!        TO   DO
               checkDoctorExists();
             }
           }
@@ -1646,218 +1666,6 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       child: Text("Save",
           style: GoogleFonts.dosis(
               color: Colors.greenAccent, fontWeight: FontWeight.bold)),
-    );
-  }
-
-  _onAddImageClick() async {
-    _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {});
-  }
-
-  _onAddSignatureClick() async {
-    _signatureimageFile =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {});
-  }
-
-  Future<Null> _startTime(BuildContext context) async {
-    final TimeOfDay picked_s = await showTimePicker(
-        context: context,
-        initialTime: selectedStartTime,
-        builder: (BuildContext context, Widget child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
-          );
-        });
-
-    if (picked_s != null && picked_s != selectedStartTime)
-      setState(() {
-        selectedStartTime = picked_s;
-      });
-    print(picked_s.toString());
-  }
-
-  Future<Null> _endTime(BuildContext context) async {
-    final TimeOfDay picked_e = await showTimePicker(
-        context: context,
-        initialTime: selectedendTime,
-        builder: (BuildContext context, Widget child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
-          );
-        });
-
-    if (picked_e != null && picked_e != selectedendTime)
-      setState(() {
-        selectedendTime = picked_e;
-      });
-    print(picked_e.toString());
-  }
-
-  Widget row(City name) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(
-          name.name,
-          style: GoogleFonts.dosis(color: Colors.greenAccent),
-        ),
-        SizedBox(
-          width: 5,
-        ),
-      ],
-    );
-  }
-
-  Widget doctorName() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(23.0, 0.0, 23.0, 0.0),
-      child: Form(
-        key: _nameformKey,
-        child: TextFormField(
-          maxLines: 1,
-          textInputAction: TextInputAction.next,
-          obscureText: false,
-          keyboardType: TextInputType.text,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "required";
-            } else {}
-          },
-          controller: _nameController,
-          decoration: InputDecoration(
-            // fillColor: Colors.grey[200],
-            // filled: true,
-            labelText: "Name",
-            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget email() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(23.0, 0.0, 23.0, 0.0),
-      child: Form(
-        key: _emailformKey,
-        child: TextFormField(
-          maxLines: 1,
-          textInputAction: TextInputAction.next,
-          obscureText: false,
-          keyboardType: TextInputType.text,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "required";
-            } else {}
-          },
-          controller: _emailController,
-          decoration: InputDecoration(
-            // fillColor: Colors.grey[200],
-            // filled: true,
-            labelText: "Email",
-            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget regNum() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(23.0, 0.0, 23.0, 0.0),
-      child: Form(
-        key: _regNumformKey,
-        child: TextFormField(
-          maxLines: 1,
-          textInputAction: TextInputAction.next,
-          obscureText: false,
-          keyboardType: TextInputType.text,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "required";
-            } else {}
-          },
-          controller: _regNumController,
-          decoration: InputDecoration(
-            // fillColor: Colors.grey[200],
-            // filled: true,
-            labelText: "registration Number",
-            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget address() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(23.0, 0.0, 23.0, 0.0),
-      child: Form(
-        key: _addressformKey,
-        child: TextFormField(
-          maxLines: 2,
-          textInputAction: TextInputAction.next,
-          obscureText: false,
-          keyboardType: TextInputType.text,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "required";
-            } else {}
-          },
-          controller: _addressController,
-          decoration: InputDecoration(
-            // fillColor: Colors.grey[200],
-            // filled: true,
-            labelText: "Address",
-            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget clinicName() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(23.0, 0.0, 23.0, 0.0),
-      child: Form(
-        key: _clinicformKey,
-        child: TextFormField(
-          maxLines: 1,
-          textInputAction: TextInputAction.next,
-          obscureText: false,
-          keyboardType: TextInputType.text,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "required";
-            } else {}
-          },
-          controller: _clinicController,
-          decoration: InputDecoration(
-            // fillColor: Colors.grey[200],
-            // filled: true,
-            labelText: "Clinic Name",
-            labelStyle: GoogleFonts.dosis(color: Colors.greenAccent),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -5,7 +5,7 @@ class Specialities {
 
   Specialities.fromJson(Map<String, dynamic> json) {
     if (json['specialitieslist'] != null) {
-      specialitieslist = new List<Specialitieslist>();
+      specialitieslist = <Specialitieslist>[];
       json['specialitieslist'].forEach((v) {
         specialitieslist.add(new Specialitieslist.fromJson(v));
       });

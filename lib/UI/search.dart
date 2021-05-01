@@ -34,48 +34,10 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
   List<Patient> patient = [];
   bool onCall = false;
   ApiHelper apiHelper = ApiHelper();
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (onCall) {
-      _showDialog();
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  void _showDialog() {
-    print("dialog box call");
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            "Call Conformation",
-            style: GoogleFonts.dosis(),
-          ),
-          content: new Text("Do you wish to make prescription for pationt ?",
-              style: GoogleFonts.dosis()),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Yes", style: GoogleFonts.dosis()),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Prescription()));
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  List<Map> m;
+  bool loading = true;
+  bool show = false;
+  var data;
 
   @override
   void initState() {
@@ -113,11 +75,6 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
     setState(() {});
   }
 
-  List<Map> m;
-  bool loading = true;
-  bool show = false;
-  var data;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +95,6 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
               : SingleChildScrollView(
                   child: Column(
                       children: patient.map((e) {
-                    int index = patient.indexOf(e);
                     if (e.pdffile == null)
                       return Container();
                     else

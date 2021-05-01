@@ -5,7 +5,7 @@ class Diagnosis {
 
   Diagnosis.fromJson(Map<String, dynamic> json) {
     if (json['diagnosislist'] != null) {
-      diagnosislist = new List<Diagnosislist>();
+      diagnosislist = [];
       json['diagnosislist'].forEach((v) {
         diagnosislist.add(new Diagnosislist.fromJson(v));
       });

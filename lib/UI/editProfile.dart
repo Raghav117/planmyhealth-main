@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:plan_my_health/UI/pdfOpener.dart';
-import 'dart:convert';
-import 'dart:io';
 import '../model/doctorsCheckup.dart';
 import '../global/global.dart' as global;
 
@@ -15,8 +12,8 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   List<Map> m;
   bool loading = false;
-  List<DoctorsCheckUp> doctorcheckup = List();
-  List<UserData> userData = List();
+  List<DoctorsCheckUp> doctorcheckup = [];
+  List<UserData> userData = [];
   bool show = false;
   var data;
   List<String> documentsfiles = [];
@@ -26,6 +23,8 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     getDocumentsFiles();
   }
+
+  //! --------------------   Get Documents Files ----------------------------------
 
   getDocumentsFiles() {
     if (global.data.documentfiles != null)
@@ -40,7 +39,6 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: Icon(Icons.menu),
         centerTitle: true,
         title: Text('Profile', style: GoogleFonts.dosis()),
         backgroundColor: Colors.greenAccent,

@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:plan_my_health/model/speciality.dart';
 
 class Specialityy extends StatefulWidget {

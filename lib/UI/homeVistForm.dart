@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:plan_my_health/UI/equipments.dart';
-import 'package:plan_my_health/UI/findings.dart';
 import 'package:plan_my_health/UI/issue.dart';
 import 'package:plan_my_health/UI/recomandation.dart';
 import 'package:plan_my_health/UI/treatments.dart';
@@ -24,7 +23,23 @@ class HomeVisitForm extends StatefulWidget {
 class _HomeVisitFormState extends State<HomeVisitForm> {
   TextEditingController charges = TextEditingController();
   TextEditingController remarks = TextEditingController();
+  List<HomeVisit> homeVisit = [];
+  bool loading = true;
+  List<Finding> findings = [];
+  List<Equip> equip = [];
+  List<Issue> issues = [];
+  List<Treatment> treat = [];
+  List<Recomandation> recom = [];
 
+  DateTime intime = DateTime.now();
+  DateTime outtime = DateTime.now();
+  List issue = [];
+  List treatment = [];
+  List equipments = [];
+  List recomandation = [];
+  List<Asset> multiimages = [];
+
+//! ------------------    INIT Method --------------------
   @override
   void initState() {
     super.initState();
@@ -36,7 +51,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
     getRecommandation();
   }
 
-  List<HomeVisit> homeVisit = [];
+//! ------------------ Fetching Get Home Visit ----------------------------------
 
   gethomevisit() async {
     var response = await http.post("http://3.15.233.253:5000/gethomevisit",
@@ -51,8 +66,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
     print(homeVisit);
   }
 
-  bool loading = true;
-  List<Finding> findings = [];
+//! ------------------ Fetching Get Findings ----------------------------------
 
   void getFindings() async {
     var response = await http.get("http://3.15.233.253:5000/findings");
@@ -63,6 +77,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
     });
   }
 
+//! ------------------ Fetching Equipments ----------------------------------
+
   getEquipments() async {
     var response = await http.get("http://3.15.233.253:5000/equipments");
     // print(response.body);
@@ -71,6 +87,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
       equip.add(Equip.fromJson(data));
     }
   }
+
+//! ------------------ Fetching Recommandaion ----------------------------------
 
   getRecommandation() async {
     var response =
@@ -85,6 +103,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
     });
   }
 
+//! ------------------ Fetching Issues ----------------------------------
+
   getIssue() async {
     var response = await http.get("http://3.15.233.253:5000/healthissues");
     // print(response.body);
@@ -93,6 +113,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
       issues.add(Issue.fromJson(data));
     }
   }
+
+//! ------------------ Fetching Procedures ----------------------------------
 
   getTreat() async {
     var response = await http.get("http://3.15.233.253:5000/procedures");
@@ -103,22 +125,10 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
     }
   }
 
-  List<Equip> equip = [];
-  List<Issue> issues = [];
-  List<Treatment> treat = [];
-  List<Recomandation> recom = [];
-
-  DateTime intime = DateTime.now();
-  DateTime outtime = DateTime.now();
-  List issue = [];
-  List treatment = [];
-  List equipments = [];
-  List recomandation = [];
-  List<Asset> multiimages = List<Asset>();
+  //!----------------------   Picking Multiple Images  --------------------
 
   Future<void> loadAssets() async {
-    List<Asset> resultList = List<Asset>();
-    String error = 'No Error Dectected';
+    List<Asset> resultList = [];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -135,7 +145,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
         ),
       );
     } on Exception catch (e) {
-      error = e.toString();
+      print(e);
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -147,6 +157,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
       multiimages = resultList;
     });
   }
+
+  //!  -------------------------------   For Displaying Multiple Images ----------------------------
 
   Widget buildGridView() {
     return multiimages.length == 0
@@ -170,6 +182,8 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
             ),
           );
   }
+
+  //! ---------------------------   For Main Widget  --------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -534,6 +548,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 28.0),
+                      // ignore: deprecated_member_use
                       child: FlatButton(
                         onPressed: () => loadAssets(),
                         child: Text(
@@ -549,6 +564,7 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                       height: 50,
                     ),
                     Center(
+                      // ignore: deprecated_member_use
                       child: RaisedButton(
                         onPressed: () async {
                           if (charges.text.length != 0 &&
@@ -595,8 +611,6 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                               }
                             });
 
-                            //! *****************   To Do  *************************
-
                             String url =
                                 "http://3.15.233.253:5000/savehomevisit?doctorid=${data.sId.toString()}&furtherrecommendation=${furtherrecommendation.toString()}&treatment=${furthertreatement.toString()}&issues=${furtherissues.toString()}&equipments=${furtherequipments.toString()}&intime=${intime.toString()}&outtime=${outtime.toString()}&date=${DateTime.now().toString()}&remark=${remarks.text.toString()}&charges=${charges.text.toString()}";
                             var response = http.MultipartRequest(
@@ -618,22 +632,6 @@ class _HomeVisitFormState extends State<HomeVisitForm> {
                               });
                             }
 
-                            //!  **********************  ToDo  **************************************
-                            // var response = await http.post(
-                            //     "http://3.15.233.253:5000/savehomevisit",
-                            //     body: {
-                            //       "furtherrecommendation":
-                            //           furtherrecommendation.toString(),
-                            //       "treatment": furthertreatement.toString(),
-                            //       "issues": furtherissues.toString(),
-                            //       "equipments": furtherequipments.toString(),
-                            //       "intime": intime.toString(),
-                            //       "outtime": outtime.toString(),
-                            //       "date": DateTime.now().toString(),
-                            //       "remark": remarks.text.toString(),
-                            //       "charges": charges.text.toString(),
-                            //       "doctorid": data.sId.toString()
-                            //     });
                             var res = await response.send();
                             print(res.statusCode);
                             print(res);
