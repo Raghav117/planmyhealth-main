@@ -37,6 +37,7 @@ class Data {
   String language;
   List accrediation = [];
   List speciality = [];
+  List facility = [];
 
   Data(
       {this.sId,
@@ -105,6 +106,10 @@ class Data {
     if (json['specialities'].length > 0)
       for (var a in jsonDecode(json['specialities'][0])) {
         speciality.add(a);
+      }
+    if (json['facility'].length > 0)
+      for (var a in jsonDecode(json['facility'][0])) {
+        facility.add(a);
       }
   }
 

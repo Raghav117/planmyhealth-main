@@ -408,6 +408,34 @@ class _EditProfileState extends State<EditProfile> {
                             SizedBox(
                               height: 20,
                             ),
+                            SingleChildScrollView(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text("Facilites",
+                                          style: GoogleFonts.dosis(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.greenAccent,
+                                          ))),
+                                  Expanded(
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: global.data.facility
+                                              .map(
+                                                (e) => Text(e["facility"] + ",",
+                                                    textAlign: TextAlign.left,
+                                                    style: GoogleFonts.dosis()),
+                                              )
+                                              .toList()))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                             SizedBox(
                               height: 30,
                             ),

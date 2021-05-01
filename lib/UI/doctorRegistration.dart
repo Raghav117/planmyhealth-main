@@ -59,7 +59,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   List<bool> lang = [];
 
   checkDoctorExists() async {
-    mobileController.text = "893";
+    // mobileController.text = "1234";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {
           "mobilenumber": mobileController.text
