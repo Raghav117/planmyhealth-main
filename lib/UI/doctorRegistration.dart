@@ -1242,7 +1242,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         furtherS.add(jsonEncode(speciality[i]));
                                       }
                                     });
-                                    print(furtherS);
+                                    // print(furtherS);
 
                                     i = -1;
                                     List furtherF = [];
@@ -1252,8 +1252,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         furtherF.add(jsonEncode(facility[i]));
                                       }
                                     });
-                                    print(qualif);
-                                    print(furtherF);
+                                    // print(qualif);
+                                    // print(furtherF);
                                     i = -1;
                                     List<String> langf = [];
                                     while (++i < lang.length) {
@@ -1262,7 +1262,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     }
                                     print(langf);
                                     String url =
-                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=$selectedDate&gender=$_selectedgender&category=$_selectedcategory&practice=$_selectedpractice&qualification=$qualif&experience=$_experiencecontroller.text&clinicname=${_clinicController.text}&city=$selectCity&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=$furtherA&specialities=$furtherS&facility=$furtherF&language=$langf";
+                                        "http://3.15.233.253:5000/doctorregister?name=${_nameController.text}&email=${_emailController.text}&dob=$selectedDate&gender=$_selectedgender&category=$_selectedcategory&practice=$_selectedpractice&qualification=$qualif&experience=${_experiencecontroller.text}&clinicname=${_clinicController.text}&city=$selectCity&address=${_addressController.text}&workingto=${selectedendTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&workingfrom=${selectedStartTime.toString().replaceAll(RegExp(r'TimeOfDay'), "")}&regno=${_regNumController.text}&mobilenumber=${mobileController.text}&modeofservices=$mode&latitude=${locationData.latitude}&longitude=${locationData.longitude}&accrediation=$furtherA&specialities=$furtherS&facility=$furtherF&language=$langf";
+                                    print("url is " + url);
                                     var request = http.MultipartRequest(
                                       'POST',
                                       Uri.parse(url),
@@ -1298,9 +1299,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         filename: "document.jpg",
                                       ));
                                     });
-                                    var res = await request.send();
-                                    print(res.statusCode);
-                                    print(res);
+                                    // var res = await request.send();
+                                    // print(res.statusCode);
+                                    // print(res.stream.);
+                                    http.Response response =
+                                        await http.Response.fromStream(
+                                            await request.send());
+                                    print("Result: ${response.statusCode}");
+                                    print(response.body);
 
                                     setState(() {});
                                     checkDoctorExists();
