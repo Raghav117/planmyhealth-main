@@ -50,7 +50,7 @@ class ApiHelper {
     }
   }
 
-  Future getDiagnosticslist() async {
+  Future<List<Diagnosticslist>> getDiagnosticslist() async {
     Response response = await dio.get("http://3.15.233.253:5000/diagnostics");
 
     if (response.statusCode == 200) {
@@ -64,10 +64,13 @@ class ApiHelper {
     }
   }
 
-  Future getWellnesslist() async {
+  Future<List<Wellnesslist>> getWellnesslist() async {
     Response response = await dio.get("http://3.15.233.253:5000/wellness");
 
     if (response.statusCode == 200) {
+      print(response.data);
+      // var data = jsonDecode(response.data);
+      // print(data);
       Wellness wellness = Wellness.fromJson(response.data);
       return wellness.wellnesslist;
     } else {
