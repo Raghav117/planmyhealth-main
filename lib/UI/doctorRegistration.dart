@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/UI/accrediation.dart';
 import 'package:plan_my_health/UI/speciality.dart';
@@ -84,6 +85,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   bool wellness = false;
   bool chat = false;
   bool homevisit = false;
+
+  TextEditingController searchController = TextEditingController();
 
   //! -------------------------------------------For Fetching Current Location ----------------------------------------
 
@@ -263,7 +266,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   //! ---------------  Check if user is already registerd or not and then navigate to desired screen ---------------------------------------
 
   checkDoctorExists() async {
-    mobileController.text = "8356928929";
+    mobileController.text = "8356559";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {"mobilenumber": mobileController.text});
     bool exists = jsonDecode(response.body)["status"];
@@ -939,6 +942,47 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: height * 0.04),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: TypeAheadField(
+                                    textFieldConfiguration:
+                                        TextFieldConfiguration(
+                                      controller: searchController,
+                                      autofocus: false,
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic),
+                                      decoration: new InputDecoration.collapsed(
+                                          hintText: 'Search',
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey)),
+                                    ),
+                                    suggestionsCallback: (pattern) async {
+                                      // return searchController.text.length >= 3
+                                      //     ? await commeonMethod4(
+                                      //         BASE_URL +
+                                      //             "algolia/search?keyword=" +
+                                      //             pattern,
+                                      //         accessToken)
+                                      //     : null;
+                                      return city;
+                                    },
+                                    itemBuilder: (context, suggestion) {
+                                      // return Container(),
+                                      return (searchController.text.length < 3)
+                                          ? Container()
+                                          : ListTile(
+                                              title: Text(suggestion),
+//                                        subtitle: Text('\$${suggestion['price']}'),
+                                            );
+                                    },
+                                    onSuggestionSelected: (suggestion) {
+                                      searchController.text = suggestion;
+                                    },
+                                  ),
+                                ),
+                              ),
+                              //!  ----------------------  City Drop Down  --------------------------
                               DropdownButton(
                                   value: selectCity,
                                   onChanged: (value) {
