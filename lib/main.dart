@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:plan_my_health/src/pages/index.dart';
 import 'UI/bezier.dart';
 import 'UI/doctorRegistration.dart';
 import 'global/global.dart';
@@ -11,6 +12,7 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Plan My Health',
+    // home: MyApp(),
     home: DoctorRegistration(),
   ));
 }

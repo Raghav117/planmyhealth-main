@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:plan_my_health/UI/Home.dart';
+import 'package:plan_my_health/global/design.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_my_health/model/doctor.dart';
@@ -26,7 +27,7 @@ class DoctorRegistration extends StatefulWidget {
 }
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
-  String selectCity;
+  String selectCity = "";
   bool agree = false;
   List<String> language = [];
   List<bool> lang = [];
@@ -266,7 +267,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   //! ---------------  Check if user is already registerd or not and then navigate to desired screen ---------------------------------------
 
   checkDoctorExists() async {
-    mobileController.text = "8356559";
+    mobileController.text = "8356928929";
+    // mobileController.text = "8357729";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {"mobilenumber": mobileController.text});
     bool exists = jsonDecode(response.body)["status"];
@@ -313,10 +315,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(title,
-                style: GoogleFonts.dosis(
-                    color: Colors.greenAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17)),
+                style: GoogleFonts.roboto(
+                    color: primary, fontWeight: FontWeight.bold, fontSize: 17)),
             SizedBox(
               height: 10,
             ),
@@ -358,8 +358,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 height: 90,
                               ),
                               Text("Register",
-                                  style: GoogleFonts.dosis(
-                                      color: Colors.greenAccent,
+                                  style: GoogleFonts.roboto(
+                                      color: primary,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25)),
                               SizedBox(
@@ -373,8 +373,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   "Date of Birth  ",
-                                  style: GoogleFonts.dosis(
-                                    color: Colors.greenAccent,
+                                  style: GoogleFonts.roboto(
+                                    color: primary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 17,
                                   ),
@@ -391,7 +391,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         selectedDate
                                             .toString()
                                             .substring(0, 10),
-                                    style: GoogleFonts.dosis()),
+                                    style: GoogleFonts.roboto()),
                               ),
                               SizedBox(height: height * 0.04),
                               Row(
@@ -404,11 +404,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(
                                                   value,
-                                                  style: GoogleFonts.dosis(
+                                                  style: GoogleFonts.roboto(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color:
-                                                          Colors.greenAccent),
+                                                      color: primary),
                                                 ),
                                                 value: value,
                                               ))
@@ -422,8 +421,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       value: _selectedgender,
                                       hint: Text(
                                         "Select Gender",
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.greenAccent),
+                                        style:
+                                            GoogleFonts.roboto(color: primary),
                                       ),
                                       elevation: 5,
                                       isExpanded: false,
@@ -442,12 +441,11 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(
                                                   value,
-                                                  style: GoogleFonts.dosis(
+                                                  style: GoogleFonts.roboto(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 12,
-                                                      color:
-                                                          Colors.greenAccent),
+                                                      color: primary),
                                                 ),
                                                 value: value.toString(),
                                               ))
@@ -464,8 +462,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           : _selectedcategory.toString(),
                                       hint: Text(
                                         "Select Category",
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.greenAccent),
+                                        style:
+                                            GoogleFonts.roboto(color: primary),
                                       ),
                                       elevation: 5,
                                       isExpanded: false,
@@ -477,8 +475,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 height: 100,
                               ),
                               Text("Qualifications",
-                                  style: GoogleFonts.dosis(
-                                      color: Colors.greenAccent,
+                                  style: GoogleFonts.roboto(
+                                      color: primary,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
                               Column(
@@ -491,10 +489,10 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         Expanded(
                                             child: Text(
                                                 e["qualific_name"].toString(),
-                                                style: GoogleFonts.dosis())),
+                                                style: GoogleFonts.roboto())),
                                         Expanded(
                                           child: Checkbox(
-                                            activeColor: Colors.greenAccent,
+                                            activeColor: primary,
                                             value: qualtification[index],
                                             onChanged: (value) {
                                               setState(() {
@@ -512,8 +510,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               SizedBox(height: height * 0.04),
                               Text(
                                 "Services",
-                                style: GoogleFonts.dosis(
-                                  color: Colors.greenAccent,
+                                style: GoogleFonts.roboto(
+                                  color: primary,
                                   fontWeight: FontWeight.bold,
                                   // fontWeight: FontWeight.w600,
                                   fontSize: 17,
@@ -526,7 +524,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               Row(
                                 children: [
                                   Checkbox(
-                                      activeColor: Colors.greenAccent,
+                                      activeColor: primary,
                                       value: vedio,
                                       onChanged: (value) {
                                         setState(() {
@@ -535,14 +533,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       }),
                                   Text(
                                     "Video Call",
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   )
                                 ],
                               ),
                               Row(
                                 children: [
                                   Checkbox(
-                                      activeColor: Colors.greenAccent,
+                                      activeColor: primary,
                                       value: check,
                                       onChanged: (value) {
                                         setState(() {
@@ -551,14 +549,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       }),
                                   Text(
                                     "Call",
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   )
                                 ],
                               ),
                               Row(
                                 children: [
                                   Checkbox(
-                                      activeColor: Colors.greenAccent,
+                                      activeColor: primary,
                                       value: chat,
                                       onChanged: (value) {
                                         setState(() {
@@ -567,14 +565,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       }),
                                   Text(
                                     "Chat",
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   )
                                 ],
                               ),
                               Row(
                                 children: [
                                   Checkbox(
-                                      activeColor: Colors.greenAccent,
+                                      activeColor: primary,
                                       value: clinic,
                                       onChanged: (value) {
                                         setState(() {
@@ -583,14 +581,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       }),
                                   Text(
                                     "At Clinic",
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   )
                                 ],
                               ),
                               Row(
                                 children: [
                                   Checkbox(
-                                      activeColor: Colors.greenAccent,
+                                      activeColor: primary,
                                       value: medical,
                                       onChanged: (value) {
                                         setState(() {
@@ -599,14 +597,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       }),
                                   Text(
                                     "Medical Camps",
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   )
                                 ],
                               ),
                               Row(
                                 children: [
                                   Checkbox(
-                                      activeColor: Colors.greenAccent,
+                                      activeColor: primary,
                                       value: wellness,
                                       onChanged: (value) {
                                         setState(() {
@@ -615,14 +613,14 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       }),
                                   Text(
                                     "Wellness Sessions",
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   )
                                 ],
                               ),
                               Row(
                                 children: [
                                   Checkbox(
-                                      activeColor: Colors.greenAccent,
+                                      activeColor: primary,
                                       value: homevisit,
                                       onChanged: (value) {
                                         setState(() {
@@ -631,7 +629,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       }),
                                   Text(
                                     "Home Visit",
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   )
                                 ],
                               ),
@@ -639,8 +637,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 height: 20,
                               ),
                               Text("Languages",
-                                  style: GoogleFonts.dosis(
-                                      color: Colors.greenAccent)),
+                                  style: GoogleFonts.roboto(color: primary)),
 
                               SizedBox(
                                 height: 20,
@@ -652,7 +649,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       (e) => Row(
                                         children: [
                                           Checkbox(
-                                              activeColor: Colors.greenAccent,
+                                              activeColor: primary,
                                               value: lang[language.indexOf(e)],
                                               onChanged: (value) {
                                                 setState(() {
@@ -662,7 +659,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                               }),
                                           Text(
                                             e,
-                                            style: GoogleFonts.dosis(),
+                                            style: GoogleFonts.roboto(),
                                           )
                                         ],
                                       ),
@@ -691,16 +688,16 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     children: [
                                       Text(
                                         "Accrediations",
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                            color: primary,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
                                       ),
                                       Spacer(),
                                       Text(
                                         "+",
-                                        style: GoogleFonts.dosis(
-                                            fontSize: 18,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 24,
                                             fontWeight: FontWeight.bold),
                                       )
                                     ],
@@ -717,7 +714,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           "Not Selected",
-                                          style: GoogleFonts.dosis(),
+                                          style: GoogleFonts.roboto(),
                                         ),
                                       ),
                                     )
@@ -737,7 +734,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                                   child: Text(
                                                       accrediation[index]
                                                           .accrediationCode,
-                                                      style: GoogleFonts.dosis(
+                                                      style: GoogleFonts.roboto(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 15,
@@ -774,16 +771,16 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     children: [
                                       Text(
                                         "Specialities",
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                            color: primary,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
                                       ),
                                       Spacer(),
                                       Text(
                                         "+",
-                                        style: GoogleFonts.dosis(
-                                            fontSize: 18,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 24,
                                             fontWeight: FontWeight.bold),
                                       )
                                     ],
@@ -800,7 +797,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           "Not Selected",
-                                          style: GoogleFonts.dosis(),
+                                          style: GoogleFonts.roboto(),
                                         ),
                                       ),
                                     )
@@ -818,7 +815,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
                                                       speciality[index].name,
-                                                      style: GoogleFonts.dosis(
+                                                      style: GoogleFonts.roboto(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 15,
@@ -841,8 +838,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       alignment: Alignment.center,
                                       child: Text(
                                         "Years of experience: ",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
 
                                           // fontWeight: FontWeight.w600,
@@ -937,66 +934,91 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               SizedBox(height: height * 0.04),
                               Text(
                                 "Selecty City",
-                                style: GoogleFonts.dosis(
-                                    color: Colors.greenAccent,
+                                style: GoogleFonts.roboto(
+                                    color: primary,
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: height * 0.04),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: TypeAheadField(
-                                    textFieldConfiguration:
-                                        TextFieldConfiguration(
-                                      controller: searchController,
-                                      autofocus: false,
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
-                                      decoration: new InputDecoration.collapsed(
-                                          hintText: 'Search',
-                                          hintStyle:
-                                              TextStyle(color: Colors.grey)),
-                                    ),
-                                    suggestionsCallback: (pattern) async {
-                                      // return searchController.text.length >= 3
-                                      //     ? await commeonMethod4(
-                                      //         BASE_URL +
-                                      //             "algolia/search?keyword=" +
-                                      //             pattern,
-                                      //         accessToken)
-                                      //     : null;
-                                      return city;
-                                    },
-                                    itemBuilder: (context, suggestion) {
-                                      // return Container(),
-                                      return (searchController.text.length < 3)
-                                          ? Container()
-                                          : ListTile(
-                                              title: Text(suggestion),
+                              Column(
+                                children: [
+                                  Center(
+                                    child: Container(
+                                      width: width / 2,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          border: Border.all(color: primary)),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Center(
+                                          child: TypeAheadField(
+                                            textFieldConfiguration:
+                                                TextFieldConfiguration(
+                                              controller: searchController,
+                                              autofocus: false,
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic),
+                                              decoration:
+                                                  new InputDecoration.collapsed(
+                                                      hintText: 'Search City',
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey)),
+                                            ),
+                                            suggestionsCallback: (pattern) {
+                                              List<String> c = [];
+                                              city.forEach((element) {
+                                                if (element
+                                                    .toLowerCase()
+                                                    .contains(pattern
+                                                        .toLowerCase())) {
+                                                  c.add(element);
+                                                }
+                                              });
+                                              return c;
+                                              // return searchController.text.length >= 3
+                                              //     ? await commeonMethod4(
+                                              //         BASE_URL +
+                                              //             "algolia/search?keyword=" +
+                                              //             pattern,
+                                              //         accessToken)
+                                              //     : null;
+                                            },
+                                            itemBuilder: (context, suggestion) {
+                                              // return Container(),
+                                              return ListTile(
+                                                title: Text(suggestion),
 //                                        subtitle: Text('\$${suggestion['price']}'),
-                                            );
-                                    },
-                                    onSuggestionSelected: (suggestion) {
-                                      searchController.text = suggestion;
-                                    },
+                                              );
+                                            },
+                                            onSuggestionSelected: (suggestion) {
+                                              searchController.text =
+                                                  suggestion;
+                                              selectCity = suggestion;
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Text(selectCity)
+                                ],
                               ),
                               //!  ----------------------  City Drop Down  --------------------------
-                              DropdownButton(
-                                  value: selectCity,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectCity = value;
-                                    });
-                                  },
-                                  items: city.map((e) {
-                                    return DropdownMenuItem(
-                                      child:
-                                          Text(e, style: GoogleFonts.dosis()),
-                                      value: e,
-                                    );
-                                  }).toList()),
+                              // DropdownButton(
+                              //     value: selectCity,
+                              //     onChanged: (value) {
+                              //       setState(() {
+                              //         selectCity = value;
+                              //       });
+                              //     },
+                              //     items: city.map((e) {
+                              //       return DropdownMenuItem(
+                              //         child:
+                              //             Text(e, style: GoogleFonts.roboto()),
+                              //         value: e,
+                              //       );
+                              //     }).toList()),
                               SizedBox(height: height * 0.06),
                               _entryField("Address", false, _addressController),
                               SizedBox(height: height * 0.04),
@@ -1004,8 +1026,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   "Working Hours: ",
-                                  style: GoogleFonts.dosis(
-                                    color: Colors.greenAccent,
+                                  style: GoogleFonts.roboto(
+                                    color: primary,
                                     fontWeight: FontWeight.bold,
 
                                     // fontWeight: FontWeight.w600,
@@ -1027,7 +1049,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         selectedStartTime
                                             .toString()
                                             .substring(10, 15),
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   ),
                                 ),
                                 SizedBox(width: width * 0.1),
@@ -1042,7 +1064,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                         selectedendTime
                                             .toString()
                                             .substring(10, 15),
-                                    style: GoogleFonts.dosis(),
+                                    style: GoogleFonts.roboto(),
                                   ),
                                 ),
                               ]),
@@ -1063,13 +1085,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       width: MediaQuery.of(context).size.width /
                                           2.5,
                                       decoration: BoxDecoration(
-                                          color: Colors.greenAccent,
+                                          color: primary,
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       child: Center(
                                         child: Text(
                                           "Upload Profile Picture",
-                                          style: GoogleFonts.dosis(
+                                          style: GoogleFonts.roboto(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             // fontWeight: FontWeight.w600,
@@ -1079,7 +1101,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       ),
                                     ),
                                     Text("*",
-                                        style: GoogleFonts.dosis(
+                                        style: GoogleFonts.roboto(
                                             fontSize: 20, color: Colors.red)),
                                     Spacer(),
                                   ],
@@ -1097,8 +1119,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           border: Border.all(
-                                              color: Colors.greenAccent,
-                                              width: 2)),
+                                              color: primary, width: 2)),
                                       child: Image.file(_imageFile),
                                     ),
                               SizedBox(height: height * 0.04),
@@ -1111,12 +1132,12 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   width:
                                       MediaQuery.of(context).size.width / 2.5,
                                   decoration: BoxDecoration(
-                                      color: Colors.greenAccent,
+                                      color: primary,
                                       borderRadius: BorderRadius.circular(15)),
                                   child: Center(
                                     child: Text(
                                       "Upload Signature",
-                                      style: GoogleFonts.dosis(
+                                      style: GoogleFonts.roboto(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         // fontWeight: FontWeight.w600,
@@ -1138,8 +1159,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           border: Border.all(
-                                              color: Colors.greenAccent,
-                                              width: 2)),
+                                              color: primary, width: 2)),
                                       child: Image.file(_signatureimageFile),
                                     ),
                               SizedBox(height: height * 0.04),
@@ -1155,13 +1175,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       width: MediaQuery.of(context).size.width /
                                           2.5,
                                       decoration: BoxDecoration(
-                                          color: Colors.greenAccent,
+                                          color: primary,
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       child: Center(
                                         child: Text(
                                           "Upload Documents",
-                                          style: GoogleFonts.dosis(
+                                          style: GoogleFonts.roboto(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             // fontWeight: FontWeight.w600,
@@ -1171,7 +1191,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                       ),
                                     ),
                                     Text("*",
-                                        style: GoogleFonts.dosis(
+                                        style: GoogleFonts.roboto(
                                             fontSize: 20, color: Colors.red)),
                                     Spacer(),
                                   ],
@@ -1195,7 +1215,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   children: [
                                     IconButton(
                                         icon: Icon(Icons.arrow_back_ios,
-                                            color: Colors.greenAccent),
+                                            color: primary),
                                         onPressed: () {
                                           page = false;
                                           setState(() {});
@@ -1203,7 +1223,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     Spacer(),
                                     Text(
                                       "Facilities",
-                                      style: GoogleFonts.dosis(fontSize: 20),
+                                      style: GoogleFonts.roboto(fontSize: 20),
                                     ),
                                     Spacer(),
                                     Spacer(),
@@ -1233,7 +1253,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                                   color: facilityColor[facility
                                                               .indexOf(e)] ==
                                                           true
-                                                      ? Colors.greenAccent
+                                                      ? primary
                                                       : Colors.transparent,
                                                 ),
                                                 child: Padding(
@@ -1241,7 +1261,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
                                                     e.facility,
-                                                    style: GoogleFonts.dosis(
+                                                    style: GoogleFonts.roboto(
                                                         fontSize: 18),
                                                   ),
                                                 ),
@@ -1360,13 +1380,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     height: 40,
                                     width: 150,
                                     decoration: BoxDecoration(
-                                        color: Colors.greenAccent,
+                                        color: primary,
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     child: Center(
                                       child: Text(
                                         "Register",
-                                        style: GoogleFonts.dosis(
+                                        style: GoogleFonts.roboto(
                                             color: Colors.white, fontSize: 20),
                                       ),
                                     ),
@@ -1394,8 +1414,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        border:
-                            Border.all(color: Colors.greenAccent, width: 2)),
+                        border: Border.all(color: primary, width: 2)),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: AssetThumb(
@@ -1452,9 +1471,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
         return Theme(
           child: child,
           data: ThemeData.light().copyWith(
-            primaryColor: Colors.greenAccent,
-            accentColor: Colors.greenAccent,
-            colorScheme: ColorScheme.light(primary: Colors.greenAccent),
+            primaryColor: primary,
+            accentColor: primary,
+            colorScheme: ColorScheme.light(primary: primary),
             buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
         );
@@ -1493,6 +1512,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
             _selectedgender.length != 0 &&
             selectedDate != null &&
             selectedStartTime != null &&
+            selectCity.length > 0 &&
             _imageFile != null &&
             multiimages.length > 0 &&
             selectedendTime != null) {
@@ -1514,8 +1534,8 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               Center(
                                 child: Text(
                                   "Agreements",
-                                  style: GoogleFonts.dosis(
-                                      color: Colors.greenAccent,
+                                  style: GoogleFonts.roboto(
+                                      color: primary,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -1523,11 +1543,11 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                               SizedBox(
                                 height: 50,
                               ),
-                              Text(agreement, style: GoogleFonts.dosis()),
+                              Text(agreement, style: GoogleFonts.roboto()),
                               SizedBox(
                                 height: 30,
                               ),
-                              Text("Charges", style: GoogleFonts.dosis()),
+                              Text("Charges", style: GoogleFonts.roboto()),
                               SizedBox(
                                 height: 15,
                               ),
@@ -1537,11 +1557,11 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                     children: [
                                       Expanded(
                                         child: Text(e.serviceType + ":",
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto()),
                                       ),
                                       Expanded(
                                         child: Text('₹' + e.finalPrice,
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto()),
                                       )
                                     ],
                                   );
@@ -1555,7 +1575,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                   Expanded(
                                       child: Checkbox(
                                           value: agr,
-                                          activeColor: Colors.greenAccent,
+                                          activeColor: primary,
                                           onChanged: (value) {
                                             setState(() {
                                               agr = value;
@@ -1563,7 +1583,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                           })),
                                   Expanded(
                                     child: Text("Agree",
-                                        style: GoogleFonts.dosis()),
+                                        style: GoogleFonts.roboto()),
                                   )
                                 ],
                               ),
@@ -1582,9 +1602,9 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                                               borderRadius:
                                                   BorderRadius.circular(20)),
                                           child: Text("Continue",
-                                              style: GoogleFonts.dosis(
+                                              style: GoogleFonts.roboto(
                                                   fontSize: 20,
-                                                  color: Colors.greenAccent,
+                                                  color: primary,
                                                   fontWeight: FontWeight.bold)),
                                         ),
                                       ),
@@ -1703,20 +1723,20 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                       child: Center(
                         child: Text(
                           "All Fields are Cumpulsory",
-                          style: GoogleFonts.dosis(),
+                          style: GoogleFonts.roboto(),
                         ),
                       ),
                     ),
                   ));
         }
       },
-      borderSide: BorderSide(color: Colors.greenAccent),
+      borderSide: BorderSide(color: primary),
       shape: new RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(30.0),
       ),
       child: Text("Save",
-          style: GoogleFonts.dosis(
-              color: Colors.greenAccent, fontWeight: FontWeight.bold)),
+          style:
+              GoogleFonts.roboto(color: primary, fontWeight: FontWeight.bold)),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:plan_my_health/UI/homeVistForm.dart';
+import 'package:plan_my_health/global/design.dart';
 import 'package:plan_my_health/global/global.dart';
 import '../main.dart';
 import 'dart:async';
@@ -68,7 +69,7 @@ class _ParientListState extends State<ParientList> {
       // with an id, an RGB color and the list of LatLng pairs
       Polyline polyline = Polyline(
           polylineId: PolylineId("poly"),
-          color: Colors.greenAccent,
+          color: primary,
           width: 5,
           points: polylineCoordinates);
 
@@ -78,16 +79,23 @@ class _ParientListState extends State<ParientList> {
       _polylines.add(polyline);
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+    setPolylines();
+  }
   //!  --------------  Main Method  -------------------------
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: primary,
         title: Text(
           "Welcome to My Plan Health, " + data.name.toString(),
-          style: GoogleFonts.dosis(
+          style: GoogleFonts.roboto(
               fontSize: 15, color: Colors.white, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
@@ -108,7 +116,7 @@ class _ParientListState extends State<ParientList> {
                     child: RaisedButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      child: Text("Log Out", style: GoogleFonts.dosis()),
+                      child: Text("Log Out", style: GoogleFonts.roboto()),
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
                         Navigator.pushReplacement(context, MaterialPageRoute(
@@ -131,14 +139,14 @@ class _ParientListState extends State<ParientList> {
                             Spacer(),
                             Text(
                               "Offline",
-                              style: GoogleFonts.dosis(
+                              style: GoogleFonts.roboto(
                                   fontWeight: FontWeight.bold),
                             ),
                             Align(
                               alignment: Alignment.topLeft,
                               child: Switch(
                                 value: online,
-                                activeColor: Colors.greenAccent,
+                                activeColor: primary,
                                 onChanged: (value) async {
                                   if (value == false) {
                                     var response = await http.post(
@@ -161,7 +169,7 @@ class _ParientListState extends State<ParientList> {
                             ),
                             Text(
                               "Online",
-                              style: GoogleFonts.dosis(
+                              style: GoogleFonts.roboto(
                                   fontWeight: FontWeight.bold),
                             ),
                             Spacer(),
@@ -170,11 +178,11 @@ class _ParientListState extends State<ParientList> {
                         online == false
                             ? Container()
                             : Material(
-                                elevation: 20,
+                                elevation: 2,
                                 color: Colors.transparent,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.greenAccent,
+                                      color: primary.withOpacity(0.5),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -185,7 +193,7 @@ class _ParientListState extends State<ParientList> {
                                             Expanded(
                                               child: Text(
                                                 "Chat",
-                                                style: GoogleFonts.dosis(
+                                                style: GoogleFonts.roboto(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.white),
                                               ),
@@ -205,7 +213,7 @@ class _ParientListState extends State<ParientList> {
                                             Expanded(
                                                 child: Text(
                                               "Home Visit",
-                                              style: GoogleFonts.dosis(
+                                              style: GoogleFonts.roboto(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             )),
@@ -224,7 +232,7 @@ class _ParientListState extends State<ParientList> {
                                             Expanded(
                                                 child: Text(
                                               "Video Call",
-                                              style: GoogleFonts.dosis(
+                                              style: GoogleFonts.roboto(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             )),
@@ -243,7 +251,7 @@ class _ParientListState extends State<ParientList> {
                                             Expanded(
                                                 child: Text(
                                               "At Center",
-                                              style: GoogleFonts.dosis(
+                                              style: GoogleFonts.roboto(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             )),
@@ -262,7 +270,7 @@ class _ParientListState extends State<ParientList> {
                                             Expanded(
                                                 child: Text(
                                               "Call",
-                                              style: GoogleFonts.dosis(
+                                              style: GoogleFonts.roboto(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             )),
@@ -278,7 +286,7 @@ class _ParientListState extends State<ParientList> {
                                         ),
                                         // ignore: deprecated_member_use
                                         RaisedButton(
-                                          elevation: 20,
+                                          elevation: 5,
                                           color: Colors.green[400],
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -317,7 +325,7 @@ class _ParientListState extends State<ParientList> {
                                           },
                                           child: Text(
                                             "Save",
-                                            style: GoogleFonts.dosis(
+                                            style: GoogleFonts.roboto(
                                                 color: Colors.white),
                                           ),
                                         )
@@ -336,9 +344,8 @@ class _ParientListState extends State<ParientList> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                    color: Colors.greenAccent, width: 2)),
-                            // color: Colors.greenAccent,
+                                border: Border.all(color: primary, width: 2)),
+                            // color: primary,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: GoogleMap(
@@ -392,7 +399,7 @@ class _ParientListState extends State<ParientList> {
                     height: 10,
                   ),
                   Text(data.name,
-                      style: GoogleFonts.dosis(
+                      style: GoogleFonts.roboto(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         // color: Colors.white,
@@ -400,16 +407,19 @@ class _ParientListState extends State<ParientList> {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(data.email, style: GoogleFonts.dosis()),
+                  Text(
+                    data.email,
+                    style: GoogleFonts.roboto(),
+                  ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 30,
-            ),
             ListTile(
-              title: Text("Health Article", style: GoogleFonts.dosis()),
-              leading: Icon(Icons.healing_outlined),
+              title: Text("Health Article", style: GoogleFonts.roboto()),
+              leading: Icon(
+                Icons.healing_outlined,
+                color: primary,
+              ),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -417,18 +427,36 @@ class _ParientListState extends State<ParientList> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Divider(
+                color: primary,
+              ),
+            ),
             ListTile(
-                title: Text("Home Wellness", style: GoogleFonts.dosis()),
-                leading: Icon(Icons.wallet_travel_outlined),
+                title: Text("Home Wellness", style: GoogleFonts.roboto()),
+                leading: Icon(
+                  Icons.wallet_travel_outlined,
+                  color: primary,
+                ),
                 onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => HomeWellnessRequest(),
                       ),
                     )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Divider(
+                color: primary,
+              ),
+            ),
             ListTile(
-              title: Text("Account", style: GoogleFonts.dosis()),
-              leading: Icon(Icons.account_balance),
+              title: Text("Account", style: GoogleFonts.roboto()),
+              leading: Icon(
+                Icons.account_balance,
+                color: primary,
+              ),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -436,14 +464,49 @@ class _ParientListState extends State<ParientList> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Divider(
+                color: primary,
+              ),
+            ),
             ListTile(
-              title: Text("Home Visit", style: GoogleFonts.dosis()),
-              leading: Icon(Icons.home),
+              title: Text("Home Visit", style: GoogleFonts.roboto()),
+              leading: Icon(
+                Icons.home,
+                color: primary,
+              ),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => HomeVisitForm(),
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Divider(
+                color: primary,
+              ),
+            ),
+            ListTile(
+                title: Text("Logout", style: GoogleFonts.roboto()),
+                leading: Icon(
+                  Icons.logout,
+                  color: primary,
+                ),
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return MyApp();
+                    },
+                  ));
+                }),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Divider(
+                color: primary,
               ),
             ),
           ],

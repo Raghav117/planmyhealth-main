@@ -3,6 +3,15 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <!-- The Agora SDK requires Bluetooth permissions in case users are using Bluetooth devices.-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <permission android:name="com.example.barcodelibrary.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -14,10 +23,10 @@
         android:usesCleartextTraffic="true"
         android:label="Plan My Health Doctor"
         android:icon="@mipmap/ic_launcher">
-    <!-- <application
+        <!-- <application
         android:name=".Application"> -->
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChfbb57VsD7N7LQK_L4Upl6Yma47jzIps"/>
-    <uses-library android:name="com.google.android.maps"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyChfbb57VsD7N7LQK_L4Upl6Yma47jzIps"/>
+        <uses-library android:name="com.google.android.maps"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -29,7 +38,6 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
-           
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
