@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:plan_my_health/global/design.dart';
 import 'package:url_launcher/url_launcher.dart' as launch;
 import '../global/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,7 +71,7 @@ class _PdfOpenerState extends State<PdfOpener> {
                 : Column(
                     children: [
                       Container(
-                        color: Colors.green,
+                        // color: primary,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -82,13 +84,16 @@ class _PdfOpenerState extends State<PdfOpener> {
                                       builder: (context) => Home(),
                                     ));
                               },
+                              color: primary,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15)),
-                              child: Text("Home"),
+                              child: Icon(Icons.home, color: Colors.white),
                             ),
                             // ignore: deprecated_member_use
                             RaisedButton(
-                              child: Text("Log Out"),
+                              child: Icon(Icons.logout, color: Colors.white),
+                              // child: Text("Log Out"),
+                              color: primary,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15)),
                               onPressed: () {
@@ -104,18 +109,25 @@ class _PdfOpenerState extends State<PdfOpener> {
                           ],
                         ),
                       ),
-                      Expanded(child: PDFViewer(document: doc)),
+                      Expanded(
+                          child: PDFViewer(
+                        document: doc,
+                        pickerIconColor: Colors.white,
+                        pickerButtonColor: primary,
+                      )),
                       // ignore: deprecated_member_use
                       RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        onPressed: () async {
-                          await launch.launch(
-                              "https://wa.me/+91${widget.mobile}?text=Dear ${widget.name},\nPlease Download your Prescription Copy from here made by ${data.name.toUpperCase()} ${widget.url}");
-                        },
-                        color: Colors.green,
-                        child: Text("Share it"),
-                      )
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          onPressed: () async {
+                            await launch.launch(
+                                "https://wa.me/+91${widget.mobile}?text=Dear ${widget.name},\nPlease Download your Prescription Copy from here made by ${data.name.toUpperCase()} ${widget.url}");
+                          },
+                          color: primary,
+                          child: Text("Share",
+                              style: GoogleFonts.roboto(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)))
                     ],
                   )),
       ),

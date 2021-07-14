@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:plan_my_health/global/design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:plan_my_health/Helpers/ApiHelper.dart';
@@ -83,9 +84,9 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
         centerTitle: true,
         title: Text(
           'Prescription List',
-          style: GoogleFonts.dosis(),
+          style: GoogleFonts.roboto(),
         ),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: primary,
       ),
       body: SafeArea(
           child: loading == true
@@ -112,8 +113,7 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                    color: Colors.greenAccent, width: 3)),
+                                border: Border.all(color: primary, width: 2)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -122,11 +122,12 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                     children: [
                                       Expanded(
                                         child: Text("Name",
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto(
+                                                color: primary)),
                                       ),
                                       Expanded(
                                         child: Text(e.name.toString(),
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto()),
                                       ),
                                     ],
                                   ),
@@ -137,11 +138,12 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                     children: [
                                       Expanded(
                                         child: Text("Mobile Number",
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto(
+                                                color: primary)),
                                       ),
                                       Expanded(
                                         child: Text(e.mobile.toString(),
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto()),
                                       ),
                                     ],
                                   ),
@@ -152,11 +154,12 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                     children: [
                                       Expanded(
                                         child: Text("Date",
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto(
+                                                color: primary)),
                                       ),
                                       Expanded(
                                         child: Text(e.dateOfJoining.toString(),
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto()),
                                       ),
                                     ],
                                   ),
@@ -167,7 +170,8 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                     children: [
                                       Expanded(
                                         child: Text("Diagnosis",
-                                            style: GoogleFonts.dosis()),
+                                            style: GoogleFonts.roboto(
+                                                color: primary)),
                                       ),
                                       Expanded(
                                         child: Container(
@@ -177,7 +181,7 @@ class _SearchState extends State<Search> with WidgetsBindingObserver {
                                           children: e.diagnosis
                                               .map((e) => Text(
                                                   e["diagnosis_name"],
-                                                  style: GoogleFonts.dosis()))
+                                                  style: GoogleFonts.roboto()))
                                               .toList(),
                                         )),
                                       ),

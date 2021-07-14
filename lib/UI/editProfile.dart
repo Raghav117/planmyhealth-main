@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plan_my_health/UI/pdfOpener.dart';
+import 'package:plan_my_health/global/design.dart';
 import '../model/doctorsCheckup.dart';
 import '../global/global.dart' as global;
 
@@ -40,8 +41,8 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Profile', style: GoogleFonts.dosis()),
-        backgroundColor: Colors.greenAccent,
+        title: Text('Profile', style: GoogleFonts.roboto()),
+        backgroundColor: primary,
       ),
       body: loading == true
           ? Center(
@@ -53,41 +54,51 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            width: 80,
-                            height: 80,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                  "http://3.15.233.253/" + global.data.picture),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: primary, width: 3)),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 30,
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(global.data.name,
-                              style: GoogleFonts.dosis(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                // color: Colors.white,
-                              )),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(global.data.email, style: GoogleFonts.dosis()),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                              global.data.experience.toString() +
-                                  " Years Experience",
-                              style: GoogleFonts.dosis()),
-                        ],
+                            Container(
+                              width: 80,
+                              height: 80,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network("http://3.15.233.253/" +
+                                    global.data.picture),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(global.data.name,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  // color: Colors.white,
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(global.data.email,
+                                style: GoogleFonts.roboto()),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                                global.data.experience.toString() +
+                                    " Years Experience",
+                                style: GoogleFonts.roboto()),
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -102,13 +113,13 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Mobile Number",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
                                   child: Text(global.data.mobile.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -119,13 +130,13 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Date of Birth",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
                                   child: Text(global.data.dob.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -136,13 +147,13 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Gender",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
                                   child: Text(global.data.gender.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -153,14 +164,14 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Specialization",
-                                        style: GoogleFonts.dosis(
+                                        style: GoogleFonts.roboto(
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.greenAccent,
+                                          color: primary,
                                         ))),
                                 Expanded(
                                   child: Text(
                                       global.data.specialization.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -171,12 +182,12 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Practice",
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                            color: primary,
                                             fontWeight: FontWeight.bold))),
                                 Expanded(
                                   child: Text(global.data.practice.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -187,13 +198,13 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Qualification",
-                                        style: GoogleFonts.dosis(
-                                            color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                            color: primary,
                                             fontWeight: FontWeight.bold))),
                                 Expanded(
                                   child: Text(
                                       global.data.qualification.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -205,14 +216,14 @@ class _EditProfileState extends State<EditProfile> {
                                 children: [
                                   Expanded(
                                       child: Text("Mode of Services",
-                                          style: GoogleFonts.dosis(
+                                          style: GoogleFonts.roboto(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.greenAccent,
+                                            color: primary,
                                           ))),
                                   Expanded(
                                     child: Text(
                                         global.data.modeofservices.toString(),
-                                        style: GoogleFonts.dosis()),
+                                        style: GoogleFonts.roboto()),
                                   )
                                 ],
                               ),
@@ -225,13 +236,13 @@ class _EditProfileState extends State<EditProfile> {
                                 children: [
                                   Expanded(
                                       child: Text("Languages",
-                                          style: GoogleFonts.dosis(
+                                          style: GoogleFonts.roboto(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.greenAccent,
+                                            color: primary,
                                           ))),
                                   Expanded(
                                     child: Text(global.data.language.toString(),
-                                        style: GoogleFonts.dosis()),
+                                        style: GoogleFonts.roboto()),
                                   )
                                 ],
                               ),
@@ -244,9 +255,9 @@ class _EditProfileState extends State<EditProfile> {
                                 children: [
                                   Expanded(
                                       child: Text("Accrediation",
-                                          style: GoogleFonts.dosis(
+                                          style: GoogleFonts.roboto(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.greenAccent,
+                                            color: primary,
                                           ))),
                                   Expanded(
                                       child: Column(
@@ -260,7 +271,8 @@ class _EditProfileState extends State<EditProfile> {
                                                     e["accrediation_name"] +
                                                         ",",
                                                     textAlign: TextAlign.left,
-                                                    style: GoogleFonts.dosis()),
+                                                    style:
+                                                        GoogleFonts.roboto()),
                                               )
                                               .toList()))
                                 ],
@@ -274,9 +286,9 @@ class _EditProfileState extends State<EditProfile> {
                                 children: [
                                   Expanded(
                                       child: Text("Specialities",
-                                          style: GoogleFonts.dosis(
+                                          style: GoogleFonts.roboto(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.greenAccent,
+                                            color: primary,
                                           ))),
                                   Expanded(
                                       child: Column(
@@ -288,7 +300,8 @@ class _EditProfileState extends State<EditProfile> {
                                               .map(
                                                 (e) => Text(e["name"] + ",",
                                                     textAlign: TextAlign.left,
-                                                    style: GoogleFonts.dosis()),
+                                                    style:
+                                                        GoogleFonts.roboto()),
                                               )
                                               .toList()))
                                 ],
@@ -301,13 +314,13 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Clinic Name",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
                                   child: Text(global.data.clinicname.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -318,13 +331,13 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("City",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
                                   child: Text(global.data.cityId.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -335,13 +348,13 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Address",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
                                   child: Text(global.data.address.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -352,8 +365,8 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Working From",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
@@ -362,7 +375,7 @@ class _EditProfileState extends State<EditProfile> {
                                             .toString()
                                             .replaceAll(
                                                 RegExp(r'TimeOfDay'), ""),
-                                        style: GoogleFonts.dosis()))
+                                        style: GoogleFonts.roboto()))
                               ],
                             ),
                             SizedBox(
@@ -372,8 +385,8 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Working To",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
@@ -381,7 +394,7 @@ class _EditProfileState extends State<EditProfile> {
                                       global.data.workingto
                                           .toString()
                                           .replaceAll(RegExp(r'TimeOfDay'), ""),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -392,14 +405,14 @@ class _EditProfileState extends State<EditProfile> {
                               children: [
                                 Expanded(
                                     child: Text("Registration Number",
-                                        style: GoogleFonts.dosis(
-                                          color: Colors.greenAccent,
+                                        style: GoogleFonts.roboto(
+                                          color: primary,
                                           fontWeight: FontWeight.bold,
                                         ))),
                                 Expanded(
                                   child: Text(
                                       global.data.registrationno.toString(),
-                                      style: GoogleFonts.dosis()),
+                                      style: GoogleFonts.roboto()),
                                 )
                               ],
                             ),
@@ -411,9 +424,9 @@ class _EditProfileState extends State<EditProfile> {
                                 children: [
                                   Expanded(
                                       child: Text("Facilites",
-                                          style: GoogleFonts.dosis(
+                                          style: GoogleFonts.roboto(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.greenAccent,
+                                            color: primary,
                                           ))),
                                   Expanded(
                                       child: Column(
@@ -425,7 +438,8 @@ class _EditProfileState extends State<EditProfile> {
                                               .map(
                                                 (e) => Text(e["facility"] + ",",
                                                     textAlign: TextAlign.left,
-                                                    style: GoogleFonts.dosis()),
+                                                    style:
+                                                        GoogleFonts.roboto()),
                                               )
                                               .toList()))
                                 ],
@@ -462,8 +476,7 @@ class _EditProfileState extends State<EditProfile> {
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                               border: Border.all(
-                                                  color: Colors.greenAccent,
-                                                  width: 3)),
+                                                  color: primary, width: 3)),
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Column(
@@ -473,13 +486,13 @@ class _EditProfileState extends State<EditProfile> {
                                                     Expanded(
                                                       child: Text("Name",
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                     Expanded(
                                                       child: Text(
                                                           userData[index].name,
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                   ],
                                                 ),
@@ -492,7 +505,7 @@ class _EditProfileState extends State<EditProfile> {
                                                       child: Text(
                                                           "Mobile Number",
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                     Expanded(
                                                       child: Text(
@@ -500,7 +513,7 @@ class _EditProfileState extends State<EditProfile> {
                                                               .mobile
                                                               .toString(),
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                   ],
                                                 ),
@@ -512,7 +525,7 @@ class _EditProfileState extends State<EditProfile> {
                                                     Expanded(
                                                       child: Text("Date",
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                     Expanded(
                                                       child: Text(
@@ -520,7 +533,7 @@ class _EditProfileState extends State<EditProfile> {
                                                               .dateOfJoining
                                                               .toString(),
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                   ],
                                                 ),
@@ -532,7 +545,7 @@ class _EditProfileState extends State<EditProfile> {
                                                     Expanded(
                                                       child: Text("Diagnosis",
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                     Expanded(
                                                       child: Text(
@@ -540,7 +553,7 @@ class _EditProfileState extends State<EditProfile> {
                                                               .diagnosis
                                                               .toString(),
                                                           style: GoogleFonts
-                                                              .dosis()),
+                                                              .roboto()),
                                                     ),
                                                   ],
                                                 ),
@@ -552,24 +565,25 @@ class _EditProfileState extends State<EditProfile> {
                                     );
                                   }).toList()),
                             Text("Signature",
-                                style: GoogleFonts.dosis(
-                                  color: Colors.greenAccent,
+                                style: GoogleFonts.roboto(
+                                  color: primary,
                                   fontWeight: FontWeight.bold,
                                 )),
                             SizedBox(
                               height: 50,
                             ),
                             Container(
-                              height: 300,
-                              width: 300,
+                              height: 200,
+                              width: 200,
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.greenAccent),
+                                  border: Border.all(color: primary),
                                   borderRadius: BorderRadius.circular(20)),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.network(
                                   "http://3.15.233.253/" +
                                       global.data.signature.toString(),
+                                  fit: BoxFit.fill,
                                   errorBuilder: (context, error, stackTrace) =>
                                       Icon(Icons.account_box_outlined),
                                 ),
@@ -583,38 +597,42 @@ class _EditProfileState extends State<EditProfile> {
                       height: 50,
                     ),
                     Text("Document File",
-                        style: GoogleFonts.dosis(
-                          color: Colors.greenAccent,
+                        style: GoogleFonts.roboto(
+                          color: primary,
                           fontWeight: FontWeight.bold,
                         )),
                     SizedBox(
                       height: 50,
                     ),
                     Container(
-                      height: 400,
-                      width: double.infinity,
-                      child: ListView.builder(
-                        itemCount: documentsfiles.length > 0
-                            ? documentsfiles.length - 1
-                            : 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                              height: 300,
-                              width: 300,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.greenAccent),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  "http://3.15.233.253/" +
-                                      documentsfiles[index + 1],
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(Icons.account_box_outlined),
-                                ),
-                              ));
-                        },
-                      ),
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: documentsfiles.map((e) {
+                            if (e == "") return Container();
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: primary),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      "http://3.15.233.253/" + e,
+                                      fit: BoxFit.fill,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Icon(Icons.account_box_outlined),
+                                    ),
+                                  )),
+                            );
+                          }).toList(),
+                        )),
+                    SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),
