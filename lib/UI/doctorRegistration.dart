@@ -267,7 +267,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
   //! ---------------  Check if user is already registerd or not and then navigate to desired screen ---------------------------------------
 
   checkDoctorExists() async {
-    mobileController.text = "8356928929";
+    // mobileController.text = "8356928929";
     // mobileController.text = "8357729";
     var response = await http.post("http://3.15.233.253:5000/checkdoctorexist",
         body: {"mobilenumber": mobileController.text});

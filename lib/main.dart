@@ -12,8 +12,8 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Plan My Health',
-    // home: MyApp(),
-    home: DoctorRegistration(),
+    home: MyApp(),
+    // home: DoctorRegistration(),
   ));
 }
 
